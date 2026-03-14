@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useFlyoutStore } from '../../stores/flyout';
 import CardImage from '../CardImage.vue';
+import Button from '../Button.vue';
 import type { Card } from '../../data/mockCards';
 
 const props = defineProps<{
@@ -43,12 +44,23 @@ const handleAddFoil = (e: Event) => {
     </div>
     
     <div class="card-tile-actions">
-      <button class="action-btn" title="Add Non-Foil" @click="handleAddNonFoil">
-        <font-awesome-icon icon="plus" />
-      </button>
-      <button class="action-btn foil" title="Add Foil" @click="handleAddFoil">
-        <font-awesome-icon icon="gem" />
-      </button>
+      <Button 
+        variant="secondary" 
+        size="small" 
+        icon="plus" 
+        icon-only 
+        sr-text="Add Non-Foil"
+        @click="handleAddNonFoil"
+      />
+      <Button 
+        variant="secondary" 
+        size="small" 
+        icon="gem" 
+        icon-only 
+        sr-text="Add Foil"
+        class="foil-button"
+        @click="handleAddFoil"
+      />
     </div>
 
     <div class="card-tile-info">
@@ -115,29 +127,13 @@ const handleAddFoil = (e: Event) => {
   opacity: 1;
 }
 
-.action-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm);
+.card-tile-actions :deep(.btn) {
   background: rgba(0, 0, 0, 0.8);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  transition: all 0.2s ease;
 }
 
-.action-btn:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
-.action-btn.foil:hover {
+.card-tile-actions :deep(.foil-button:hover) {
   background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
 }
 
 .card-tile-info {

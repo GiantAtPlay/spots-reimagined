@@ -2,8 +2,8 @@
 import { computed } from 'vue';
 
 interface Props {
-  variant?: 'primary' | 'secondary' | 'danger' | 'icon';
-  size?: 'default' | 'small';
+  variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'tiny' | 'small' | 'default' | 'large';
   disabled?: boolean;
   icon?: string;
   iconOnly?: boolean;
@@ -20,18 +20,10 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const buttonClasses = computed(() => {
-  const classes = ['btn'];
+  const classes = ['btn', `btn-${props.variant}`, `btn-${props.size}`];
   
-  if (props.variant === 'icon') {
-    classes.push('btn-icon');
-  } else if (props.iconOnly) {
+  if (props.iconOnly) {
     classes.push('btn-icon-only');
-  } else {
-    classes.push(`btn-${props.variant}`);
-  }
-  
-  if (props.size === 'small') {
-    classes.push('btn-small');
   }
   
   return classes.join(' ');
@@ -57,13 +49,11 @@ const showSrText = computed(() => props.iconOnly && props.srText);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   border-radius: var(--radius-sm);
-  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: none;
+  border: 1px solid;
 }
 
 .btn:focus-visible {
@@ -71,27 +61,65 @@ const showSrText = computed(() => props.iconOnly && props.srText);
   outline-offset: 2px;
 }
 
-/* Size variants */
-.btn-small {
-  padding: 6px 12px;
-  font-size: 12px;
+/* Size variants - Fixed heights for consistency */
+.btn-tiny {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 11px;
   gap: 4px;
 }
 
-.btn-small .btn-primary,
-.btn-small .btn-secondary,
-.btn-small .btn-danger {
-  padding: 6px 12px;
+.btn-tiny.btn-icon-only {
+  width: 24px;
+  padding: 0;
+}
+
+.btn-small {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 12px;
+  gap: 6px;
+}
+
+.btn-small.btn-icon-only {
+  width: 30px;
+  padding: 0;
+}
+
+.btn-default {
+  height: 45px;
+  padding: 0 16px;
+  font-size: 14px;
+  gap: 8px;
+}
+
+.btn-default.btn-icon-only {
+  width: 45px;
+  padding: 0;
+}
+
+.btn-large {
+  height: 60px;
+  padding: 0 24px;
+  font-size: 16px;
+  gap: 10px;
+}
+
+.btn-large.btn-icon-only {
+  width: 60px;
+  padding: 0;
 }
 
 /* Primary variant */
 .btn-primary {
-  padding: 12px 16px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  background: var(--accent);
+  border-color: var(--accent);
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
+  background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(155, 77, 202, 0.3);
 }
@@ -103,9 +131,8 @@ const showSrText = computed(() => props.iconOnly && props.srText);
 
 /* Secondary variant */
 .btn-secondary {
-  padding: 12px 16px;
   background: var(--tile-bg);
-  border: 1px solid var(--border);
+  border-color: var(--border);
   color: var(--text-primary);
 }
 
@@ -121,12 +148,14 @@ const showSrText = computed(() => props.iconOnly && props.srText);
 
 /* Danger variant */
 .btn-danger {
-  padding: 12px 16px;
   background: var(--danger);
+  border-color: var(--danger);
   color: white;
 }
 
 .btn-danger:hover:not(:disabled) {
+  background: #dc2626;
+  border-color: #dc2626;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
@@ -136,52 +165,17 @@ const showSrText = computed(() => props.iconOnly && props.srText);
   cursor: not-allowed;
 }
 
-/* Icon variant (small icon buttons for actions) */
-.btn-icon {
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  font-size: 12px;
-}
-
-.btn-icon:hover:not(:disabled) {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.btn-icon.btn-danger:hover:not(:disabled) {
-  border-color: var(--danger);
-  color: var(--danger);
-  background: var(--tile-bg);
-}
-
-.btn-icon:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Icon-only variant (for buttons with text but styled as icon buttons) */
+/* Icon-only variant removes text slot */
 .btn-icon-only {
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
   font-size: 12px;
 }
 
-.btn-icon-only:hover:not(:disabled) {
-  border-color: var(--accent);
-  color: var(--accent);
+.btn-tiny.btn-icon-only {
+  font-size: 10px;
 }
 
-.btn-icon-only:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.btn-large.btn-icon-only {
+  font-size: 14px;
 }
 
 /* Screen reader only text */
