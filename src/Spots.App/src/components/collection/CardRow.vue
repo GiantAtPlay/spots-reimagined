@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useFlyoutStore } from '../../stores/flyout';
+import { useCardHelpers } from '../../composables/useCardHelpers';
 import type { Card } from '../../data/mockCards';
 
 const props = defineProps<{
@@ -8,19 +8,9 @@ const props = defineProps<{
 }>();
 
 const flyoutStore = useFlyoutStore();
+const { useColourIcon } = useCardHelpers();
 
-const colourIconMap: Record<string, string> = {
-  white: 'sun',
-  blue: 'tint',
-  black: 'skull',
-  red: 'fire',
-  green: 'leaf',
-  colourless: 'gavel',
-  gold: 'bolt',
-  land: 'turn-down',
-};
-
-const colourIcon = computed(() => colourIconMap[props.card.colour] || 'question');
+const colourIcon = useColourIcon(() => props.card.colour);
 
 const handleCardClick = () => {
   flyoutStore.open({
