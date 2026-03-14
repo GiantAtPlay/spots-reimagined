@@ -8,48 +8,29 @@
       </div>
     </div>
 
-    <div class="table-container">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Created</th>
-            <th>Last Login</th>
-            <th class="actions-col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in users" :key="user.id">
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-              <Badge 
-                :variant="user.role === 'admin' ? 'primary' : 'secondary'" 
-                :icon="user.role === 'admin' ? 'user-shield' : 'user'"
-              >
-                {{ user.role === 'admin' ? 'Admin' : 'User' }}
-              </Badge>
-            </td>
-            <td>{{ user.createdAt }}</td>
-            <td>{{ user.lastLogin }}</td>
-            <td class="actions-col">
-              <div class="action-buttons">
-                <Button variant="icon" icon="edit" :sr-text="`Edit ${user.username}`" icon-only @click="openEditFlyout(user)" />
-                <Button 
-                  variant="icon" 
-                  icon="trash"
-                  :sr-text="`Delete ${user.username}`"
-                  icon-only
-                  :disabled="user.role === 'admin'"
-                />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <DataTable :data="users" :columns="columns">
+      <template #cell(role)="{ row }">
+        <Badge 
+          :variant="row.role === 'admin' ? 'primary' : 'secondary'" 
+          :icon="row.role === 'admin' ? 'user-shield' : 'user'"
+        >
+          {{ row.role === 'admin' ? 'Admin' : 'User' }}
+        </Badge>
+      </template>
+      
+      <template #cell(actions)="{ row }">
+        <div class="action-buttons">
+          <Button variant="icon" icon="edit" :sr-text="`Edit ${row.username}`" icon-only @click="openEditFlyout(row)" />
+          <Button 
+            variant="icon" 
+            icon="trash"
+            :sr-text="`Delete ${row.username}`"
+            icon-only
+            :disabled="row.role === 'admin'"
+          />
+        </div>
+      </template>
+    </DataTable>
 
     <div class="dev-nav">
       <span>Dev: </span>
@@ -65,10 +46,20 @@ import { ref } from 'vue';
 import { useFlyoutStore } from '../../stores/flyout';
 import Badge from '../../components/Badge.vue';
 import Button from '../../components/Button.vue';
+import DataTable from '../../components/DataTable.vue';
 import { mockUsers, type User } from '../../data/mockUsers';
 
 const flyoutStore = useFlyoutStore();
 const users = ref<User[]>(mockUsers);
+
+const columns = [
+  { key: 'username', label: 'Username' },
+  { key: 'email', label: 'Email' },
+  { key: 'role', label: 'Role' },
+  { key: 'createdAt', label: 'Created' },
+  { key: 'lastLogin', label: 'Last Login' },
+  { key: 'actions', label: 'Actions', align: 'right' as const }
+];
 
 const openAddFlyout = () => {
   flyoutStore.open({
@@ -99,37 +90,6 @@ const openEditFlyout = (user: User) => {
 
 .header-actions {
   @apply flex gap-3;
-}
-
-.table-container {
-  @apply overflow-x-auto;
-}
-
-.data-table {
-  @apply w-full;
-}
-
-.data-table th,
-.data-table td {
-  @apply px-4 py-3 text-left;
-}
-
-.data-table th {
-  @apply text-xs uppercase tracking-wider text-text-secondary font-medium;
-  border-bottom: 1px solid var(--border);
-}
-
-.data-table td {
-  @apply border-b border-border;
-}
-
-.data-table th.actions-col,
-.data-table td.actions-col {
-  @apply text-right w-24;
-}
-
-.data-table tr:hover td {
-  background: var(--tile-bg);
 }
 
 .action-buttons {
