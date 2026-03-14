@@ -11,12 +11,18 @@ interface Props {
   data: T[];
   keyField?: string;
   hoverable?: boolean;
+  rowClickable?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   keyField: 'id',
-  hoverable: true
+  hoverable: true,
+  rowClickable: false
 });
+
+const emit = defineEmits<{
+  rowClick: [row: T];
+}>();
 
 const getColumnAlign = (column: Column) => {
   return column.align || 'left';
@@ -28,6 +34,12 @@ const getColumnClass = (column: Column) => {
   if (column.align === 'right') classes.push('text-right');
   if (column.align === 'center') classes.push('text-center');
   return classes.join(' ');
+};
+
+const handleRowClick = (row: T) => {
+  if (props.rowClickable) {
+    emit('rowClick', row);
+  }
 };
 </script>
 
@@ -49,7 +61,8 @@ const getColumnClass = (column: Column) => {
         <tr
           v-for="(row, index) in data"
           :key="(row as any)[keyField] || index"
-          :class="{ 'row-hoverable': hoverable }"
+          :class="{ 'row-hoverable': hoverable, 'row-clickable': rowClickable }"
+          @click="handleRowClick(row)"
         >
           <td
             v-for="column in columns"
@@ -106,6 +119,10 @@ const getColumnClass = (column: Column) => {
 
 .data-table tr.row-hoverable:hover td {
   background: var(--tile-bg);
+}
+
+.data-table tr.row-clickable {
+  cursor: pointer;
 }
 
 .text-right {

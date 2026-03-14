@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { mockCards } from '../data/mockCards';
+import { useFlyoutStore } from '../stores/flyout';
+import { mockCards, type Card } from '../data/mockCards';
 import CollectionToolbar from '../components/collection/CollectionToolbar.vue';
 import CardTile from '../components/collection/CardTile.vue';
-import CardRow from '../components/collection/CardRow.vue';
 import Pagination from '../components/collection/Pagination.vue';
+import DataTable from '../components/DataTable.vue';
+import CardImage from '../components/CardImage.vue';
+import Button from '../components/Button.vue';
 
+const flyoutStore = useFlyoutStore();
 const viewMode = ref<'grid' | 'list'>('grid');
 const gridSize = ref(5);
 const currentPage = ref(1);
 const itemsPerPage = 12;
+
+const columns = [
+  { key: 'card', label: 'Card' },
+  { key: 'setCode', label: 'Set' },
+  { key: 'nonFoilCount', label: 'Non-Foil' },
+  { key: 'foilCount', label: 'Foil' },
+  { key: 'actions', label: 'Actions', align: 'right' as const }
+];
 
 const filteredCards = computed(() => {
   return mockCards;
@@ -28,6 +40,16 @@ const totalPages = computed(() => {
 const handleSearch = (query: string) => {
   console.log('Search:', query);
   currentPage.value = 1;
+};
+
+const handleCardClick = (card: Card) => {
+  flyoutStore.open({
+    title: card.name,
+    component: 'CardDetail',
+    props: {
+      card: card
+    }
+  });
 };
 </script>
 
@@ -53,25 +75,53 @@ const handleSearch = (query: string) => {
       />
     </div>
 
-    <div v-else class="table-container">
-      <table class="card-table">
-        <thead>
-          <tr>
-            <th>Card</th>
-            <th>Set</th>
-            <th>Non-Foil</th>
-            <th>Foil</th>
-            <th class="actions-col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <CardRow
-            v-for="card in paginatedCards"
-            :key="card.id"
-            :card="card"
-          />
-        </tbody>
-      </table>
+    <div v-else>
+      <DataTable 
+        :data="paginatedCards" 
+        :columns="columns"
+        :row-clickable="true"
+        @row-click="handleCardClick"
+      >
+        <template #cell(card)="{ row }">
+          <div class="table-card-info">
+            <CardImage
+              :image-url="row.imageUrl"
+              :card-name="row.name"
+              :colour="row.colour"
+              size="small"
+            />
+            <div class="table-card-details">
+              <span class="table-card-name">{{ row.name }}</span>
+              <span class="table-card-type">{{ row.type }}</span>
+            </div>
+          </div>
+        </template>
+
+        <template #cell(nonFoilCount)="{ value }">
+          <span class="count-cell">
+            <font-awesome-icon icon="box" class="count-icon" />
+            {{ value }}
+          </span>
+        </template>
+
+        <template #cell(foilCount)="{ value }">
+          <span class="count-cell" :class="{ 'has-foil': value > 0 }">
+            <font-awesome-icon icon="gem" class="count-icon" />
+            {{ value }}
+          </span>
+        </template>
+
+        <template #cell(actions)>
+          <div class="table-actions">
+            <Button variant="secondary" icon="plus" @click.stop>
+              Add
+            </Button>
+            <Button variant="secondary" icon="gem" @click.stop>
+              Foil
+            </Button>
+          </div>
+        </template>
+      </DataTable>
     </div>
 
     <Pagination
@@ -101,34 +151,45 @@ const handleSearch = (query: string) => {
   gap: 16px;
 }
 
-.table-container {
-  overflow-x: auto;
-  flex: 1;
+.table-card-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.card-table {
-  width: 100%;
-  border-collapse: collapse;
+.table-card-details {
+  display: flex;
+  flex-direction: column;
 }
 
-.card-table th {
-  text-align: left;
-  padding: 12px 16px;
+.table-card-name {
+  font-weight: 500;
+}
+
+.table-card-type {
   font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   color: var(--text-secondary);
-  border-bottom: 1px solid var(--border);
-  font-weight: 600;
 }
 
-.card-table th:last-child,
-.card-table th.actions-col {
-  text-align: right;
+.count-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
-.card-table td.actions-col {
-  text-align: right;
-  width: 100px;
+.count-cell.has-foil {
+  color: var(--accent);
+}
+
+.count-icon {
+  font-size: 10px;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
 }
 </style>

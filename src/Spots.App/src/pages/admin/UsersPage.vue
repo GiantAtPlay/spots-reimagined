@@ -20,14 +20,17 @@
       
       <template #cell(actions)="{ row }">
         <div class="action-buttons">
-          <Button variant="icon" icon="edit" :sr-text="`Edit ${row.username}`" icon-only @click="openEditFlyout(row)" />
+          <Button variant="secondary" icon="edit" @click.stop="openEditFlyout(row)">
+            Edit
+          </Button>
           <Button 
-            variant="icon" 
+            variant="danger" 
             icon="trash"
-            :sr-text="`Delete ${row.username}`"
-            icon-only
             :disabled="row.role === 'admin'"
-          />
+            @click.stop
+          >
+            Delete
+          </Button>
         </div>
       </template>
     </DataTable>
