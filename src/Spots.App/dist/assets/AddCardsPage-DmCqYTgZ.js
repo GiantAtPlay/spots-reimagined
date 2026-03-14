@@ -1,0 +1,1 @@
+import{_ as s,o,c as a,a as t}from"./index-BVO_lF5w.js";const r={};function c(d,e){return o(),a("div",null,[...e[0]||(e[0]=[t("h2",{class:"text-xl font-semibold mb-4"},"Add Cards",-1),t("p",{class:"text-text-secondary"},"Add cards to your collection",-1)])])}const l=s(r,[["render",c]]);export{l as default};
