@@ -1,0 +1,227 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+
+const props = defineProps<{
+  viewMode: 'grid' | 'list';
+  gridSize: number;
+  totalResults: number;
+  filteredResults: number;
+}>();
+
+const emit = defineEmits<{
+  (e: 'update:viewMode', value: 'grid' | 'list'): void;
+  (e: 'update:gridSize', value: number): void;
+  (e: 'search', value: string): void;
+}>();
+
+const searchQuery = ref('');
+
+const handleSearch = () => {
+  emit('search', searchQuery.value);
+};
+
+const gridSizeLabel = computed(() => {
+  const labels = {
+    3: 'Small',
+    4: 'Medium',
+    5: 'Large',
+    6: 'XL',
+    7: 'XXL',
+    8: 'Max'
+  };
+  return labels[props.gridSize as keyof typeof labels] || 'Medium';
+});
+</script>
+
+<template>
+  <div class="toolbar">
+    <div class="search-container">
+      <div class="search-wrapper">
+        <font-awesome-icon icon="search" class="search-icon" />
+        <input
+          v-model="searchQuery"
+          type="text"
+          class="search-input"
+          placeholder="Search cards..."
+          @input="handleSearch"
+        />
+      </div>
+    </div>
+
+    <div class="toolbar-right">
+      <div class="filters">
+        <button class="filter-btn">
+          <font-awesome-icon icon="filter" />
+          Filters
+        </button>
+        <button class="filter-btn">
+          <font-awesome-icon icon="sort" />
+          Sort
+        </button>
+      </div>
+
+      <div v-if="viewMode === 'grid'" class="size-slider">
+        <font-awesome-icon icon="th" class="size-icon" />
+        <input
+          type="range"
+          min="3"
+          max="8"
+          :value="gridSize"
+          @input="emit('update:gridSize', parseInt(($event.target as HTMLInputElement).value))"
+        />
+        <span class="size-label">{{ gridSizeLabel }}</span>
+      </div>
+
+      <div class="view-toggle">
+        <button
+          class="view-btn"
+          :class="{ active: viewMode === 'grid' }"
+          @click="emit('update:viewMode', 'grid')"
+        >
+          <font-awesome-icon icon="th-large" />
+        </button>
+        <button
+          class="view-btn"
+          :class="{ active: viewMode === 'list' }"
+          @click="emit('update:viewMode', 'list')"
+        >
+          <font-awesome-icon icon="list" />
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  max-width: 500px;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 16px;
+  padding-left: 40px;
+  background: var(--tile-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 8px 14px;
+  background: var(--tile-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: var(--tile-hover);
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.size-slider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.size-icon {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.size-slider input[type="range"] {
+  width: 80px;
+  accent-color: var(--accent);
+}
+
+.size-label {
+  font-size: 13px;
+  color: var(--text-primary);
+  width: 45px;
+  text-align: center;
+}
+
+.view-toggle {
+  display: flex;
+  background: var(--tile-bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.view-btn {
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-btn.active {
+  background: var(--accent);
+  color: white;
+}
+
+.view-btn:hover:not(.active) {
+  color: var(--text-primary);
+}
+</style>

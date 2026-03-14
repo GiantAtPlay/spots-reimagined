@@ -1,0 +1,302 @@
+export interface Card {
+  id: string;
+  name: string;
+  setCode: string;
+  setName: string;
+  colour: 'white' | 'blue' | 'black' | 'red' | 'green' | 'colourless' | 'gold' | 'land';
+  rarity: 'common' | 'uncommon' | 'rare' | 'mythic';
+  type: string;
+  imageUrl?: string;
+  price?: number;
+  nonFoilCount: number;
+  foilCount: number;
+}
+
+export const mockCards: Card[] = [
+  {
+    id: '1',
+    name: 'Archangel Avacyn',
+    setCode: 'MID',
+    setName: 'Innistrad: Midnight Hunt',
+    colour: 'white',
+    rarity: 'mythic',
+    type: 'Creature — Angel',
+    imageUrl: 'https://picsum.photos/seed/card1/488/680',
+    price: 24.99,
+    nonFoilCount: 2,
+    foilCount: 1
+  },
+  {
+    id: '2',
+    name: 'Counterspell',
+    setCode: 'DMU',
+    setName: 'Dominaria United',
+    colour: 'blue',
+    rarity: 'common',
+    type: 'Instant',
+    price: 0.25,
+    nonFoilCount: 15,
+    foilCount: 3
+  },
+  {
+    id: '3',
+    name: 'Dark Ritual',
+    setCode: 'BRO',
+    setName: 'The Brothers\' War',
+    colour: 'black',
+    rarity: 'common',
+    type: 'Instant',
+    imageUrl: 'https://picsum.photos/seed/card3/488/680',
+    price: 0.50,
+    nonFoilCount: 20,
+    foilCount: 0
+  },
+  {
+    id: '4',
+    name: 'Lightning Bolt',
+    setCode: 'M19',
+    setName: 'Core Set 2019',
+    colour: 'red',
+    rarity: 'common',
+    type: 'Instant',
+    price: 1.25,
+    nonFoilCount: 8,
+    foilCount: 2
+  },
+  {
+    id: '5',
+    name: 'Llanowar Elves',
+    setCode: 'GRN',
+    setName: 'Guilds of Ravnica',
+    colour: 'green',
+    rarity: 'common',
+    type: 'Creature — Elf Druid',
+    imageUrl: 'https://picsum.photos/seed/card5/488/680',
+    price: 0.75,
+    nonFoilCount: 12,
+    foilCount: 4
+  },
+  {
+    id: '6',
+    name: 'Sol Ring',
+    setCode: 'COD',
+    setName: 'Commander Deck Build',
+    colour: 'colourless',
+    rarity: 'uncommon',
+    type: 'Artifact',
+    price: 3.50,
+    nonFoilCount: 5,
+    foilCount: 1
+  },
+  {
+    id: '7',
+    name: 'The Twelve',
+    setCode: 'WOE',
+    setName: 'Wilds of Eldraine',
+    colour: 'gold',
+    rarity: 'mythic',
+    type: 'Legendary Creature — Faerie',
+    imageUrl: 'https://picsum.photos/seed/card7/488/680',
+    price: 45.00,
+    nonFoilCount: 0,
+    foilCount: 1
+  },
+  {
+    id: '8',
+    name: 'Forest',
+    setCode: 'ZEN',
+    setName: 'Zendikar',
+    colour: 'land',
+    rarity: 'common',
+    type: 'Basic Land — Forest',
+    price: 0.10,
+    nonFoilCount: 30,
+    foilCount: 5
+  },
+  {
+    id: '9',
+    name: 'Teferi, Hero of Dominaria',
+    setCode: 'DOM',
+    setName: 'Dominaria',
+    colour: 'blue',
+    rarity: 'mythic',
+    type: 'Legendary Planeswalker — Teferi',
+    imageUrl: 'https://picsum.photos/seed/card9/488/680',
+    price: 18.50,
+    nonFoilCount: 1,
+    foilCount: 0
+  },
+  {
+    id: '10',
+    name: 'Blood Crypt',
+    setCode: 'RNA',
+    setName: 'Ravnica Allegiance',
+    colour: 'land',
+    rarity: 'rare',
+    type: 'Land — Swamp Mountain',
+    price: 12.00,
+    nonFoilCount: 2,
+    foilCount: 0
+  },
+  {
+    id: '11',
+    name: 'Wrath of God',
+    setCode: 'M21',
+    setName: 'Core Set 2021',
+    colour: 'white',
+    rarity: 'rare',
+    type: 'Sorcery',
+    price: 8.25,
+    nonFoilCount: 3,
+    foilCount: 1
+  },
+  {
+    id: '12',
+    name: 'Thoughtseize',
+    setCode: 'THS',
+    setName: 'Theros',
+    colour: 'black',
+    rarity: 'rare',
+    type: 'Sorcery',
+    imageUrl: 'https://picsum.photos/seed/card12/488/680',
+    price: 16.75,
+    nonFoilCount: 1,
+    foilCount: 0
+  },
+  {
+    id: '13',
+    name: 'Farseek',
+    setCode: 'RTR',
+    setName: 'Return to Ravnica',
+    colour: 'green',
+    rarity: 'common',
+    type: 'Sorcery',
+    price: 0.40,
+    nonFoilCount: 8,
+    foilCount: 0
+  },
+  {
+    id: '14',
+    name: 'Shock',
+    setCode: 'M19',
+    setName: 'Core Set 2019',
+    colour: 'red',
+    rarity: 'common',
+    type: 'Instant',
+    imageUrl: 'https://picsum.photos/seed/card14/488/680',
+    price: 0.30,
+    nonFoilCount: 25,
+    foilCount: 5
+  },
+  {
+    id: '15',
+    name: 'Snapcaster Mage',
+    setCode: 'ISD',
+    setName: 'Innistrad',
+    colour: 'blue',
+    rarity: 'mythic',
+    type: 'Creature — Human Wizard',
+    imageUrl: 'https://picsum.photos/seed/card15/488/680',
+    price: 52.00,
+    nonFoilCount: 1,
+    foilCount: 0
+  },
+  {
+    id: '16',
+    name: 'Swords to Plowshares',
+    setCode: 'ICE',
+    setName: 'Ice Age',
+    colour: 'white',
+    rarity: 'uncommon',
+    type: 'Instant',
+    price: 2.25,
+    nonFoilCount: 4,
+    foilCount: 0
+  },
+  {
+    id: '17',
+    name: 'Brainstorm',
+    setCode: 'ICE',
+    setName: 'Ice Age',
+    colour: 'blue',
+    rarity: 'common',
+    type: 'Instant',
+    price: 1.50,
+    nonFoilCount: 18,
+    foilCount: 2
+  },
+  {
+    id: '18',
+    name: 'Tarmogoyf',
+    setCode: 'MMA',
+    setName: 'Modern Masters',
+    colour: 'green',
+    rarity: 'mythic',
+    type: 'Creature — Lhurgoyf',
+    price: 38.00,
+    nonFoilCount: 0,
+    foilCount: 1
+  },
+  {
+    id: '19',
+    name: 'Island',
+    setCode: 'AKR',
+    setName: 'Kaladesh Remastered',
+    colour: 'land',
+    rarity: 'common',
+    type: 'Basic Land — Island',
+    price: 0.15,
+    nonFoilCount: 40,
+    foilCount: 8
+  },
+  {
+    id: '20',
+    name: 'Cyclonic Rift',
+    setCode: 'RTR',
+    setName: 'Return to Ravnica',
+    colour: 'blue',
+    rarity: 'rare',
+    type: 'Instant',
+    price: 22.50,
+    nonFoilCount: 2,
+    foilCount: 1
+  }
+];
+
+export const mockSets = [
+  { code: 'MID', name: 'Innistrad: Midnight Hunt' },
+  { code: 'DMU', name: 'Dominaria United' },
+  { code: 'BRO', name: 'The Brothers\' War' },
+  { code: 'M19', name: 'Core Set 2019' },
+  { code: 'GRN', name: 'Guilds of Ravnica' },
+  { code: 'WOE', name: 'Wilds of Eldraine' },
+  { code: 'ZEN', name: 'Zendikar' },
+  { code: 'DOM', name: 'Dominaria' },
+  { code: 'RNA', name: 'Ravnica Allegiance' },
+  { code: 'M21', name: 'Core Set 2021' },
+  { code: 'THS', name: 'Theros' },
+  { code: 'RTR', name: 'Return to Ravnica' },
+  { code: 'ISD', name: 'Innistrad' },
+  { code: 'ICE', name: 'Ice Age' },
+  { code: 'MMA', name: 'Modern Masters' },
+  { code: 'AKR', name: 'Kaladesh Remastered' },
+  { code: 'COD', name: 'Commander Deck Build' },
+];
+
+export const mockColours = [
+  { value: 'white', label: 'White', icon: 'sun' },
+  { value: 'blue', label: 'Blue', icon: 'tint' },
+  { value: 'black', label: 'Black', icon: 'skull' },
+  { value: 'red', label: 'Red', icon: 'fire' },
+  { value: 'green', label: 'Green', icon: 'leaf' },
+  { value: 'colourless', label: 'Colourless', icon: 'gavel' },
+  { value: 'gold', label: 'Gold', icon: 'bolt' },
+  { value: 'land', label: 'Land', icon: 'turn-down' },
+];
+
+export const mockRarities = [
+  { value: 'common', label: 'Common' },
+  { value: 'uncommon', label: 'Uncommon' },
+  { value: 'rare', label: 'Rare' },
+  { value: 'mythic', label: 'Mythic' },
+];
