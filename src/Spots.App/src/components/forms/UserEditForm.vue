@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import Button from '../Button.vue';
 import type { User } from '../../data/mockUsers';
 
 const props = defineProps<{
@@ -63,20 +64,19 @@ const handleSubmit = () => {
     </div>
 
     <div class="form-actions">
-      <button
-        type="button"
-        class="btn btn-secondary"
+      <Button
+        variant="secondary"
         @click="$emit('close')"
       >
         Cancel
-      </button>
-      <button
+      </Button>
+      <Button
         type="submit"
-        class="btn btn-primary"
+        variant="primary"
         :disabled="isSaving"
       >
         {{ isSaving ? 'Saving...' : 'Save Changes' }}
-      </button>
+      </Button>
     </div>
   </div>
 </template>
@@ -135,38 +135,7 @@ const handleSubmit = () => {
   background: var(--bg);
 }
 
-.btn {
+.form-actions .btn {
   flex: 1;
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-  color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-}
-
-.btn-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.btn-secondary {
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-}
-
-.btn-secondary:hover {
-  border-color: var(--accent);
 }
 </style>
