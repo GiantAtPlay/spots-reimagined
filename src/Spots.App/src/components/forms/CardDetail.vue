@@ -2,6 +2,9 @@
 import { ref, computed } from 'vue';
 import type { Card } from '../../data/mockCards';
 import { mockCards } from '../../data/mockCards';
+import { mockSpots } from '../../data/mockSpots';
+import { useCardHelpers } from '../../composables/useCardHelpers';
+import Button from '../Button.vue';
 
 const props = defineProps<{
   cardId?: string;
@@ -21,25 +24,8 @@ const card = computed(() => {
   return mockCards[0];
 });
 
-const colourIconMap: Record<string, string> = {
-  white: 'sun',
-  blue: 'tint',
-  black: 'skull',
-  red: 'fire',
-  green: 'leaf',
-  colourless: 'gavel',
-  gold: 'bolt',
-  land: 'turn-down',
-};
-
-const colourIcon = computed(() => colourIconMap[card.value.colour] || 'question');
-
-const mockSpots = [
-  { id: '1', name: 'Main Box' },
-  { id: '2', name: 'Trade Binder' },
-  { id: '3', name: 'Deck Box' },
-  { id: '4', name: 'Bulk' },
-];
+const { useColourIcon } = useCardHelpers();
+const colourIcon = useColourIcon(() => card.value.colour);
 
 interface CardEntry {
   id: string;
@@ -250,12 +236,12 @@ const handleSave = () => {
     </div>
 
     <div class="flyout-actions">
-      <button class="btn btn-secondary" @click="$emit('close')">
+      <Button variant="secondary" @click="$emit('close')">
         Cancel
-      </button>
-      <button class="btn btn-primary" @click="handleSave">
+      </Button>
+      <Button variant="primary" @click="handleSave">
         Save Changes
-      </button>
+      </Button>
     </div>
   </div>
 </template>
@@ -596,33 +582,7 @@ const handleSave = () => {
   background: var(--bg);
 }
 
-.btn {
+.flyout-actions .btn {
   flex: 1;
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-  color: white;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-}
-
-.btn-secondary:hover {
-  border-color: var(--accent);
 }
 </style>
