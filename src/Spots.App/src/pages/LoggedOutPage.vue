@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import GuestLayout from '../components/GuestLayout.vue';
+import Button from '../components/Button.vue';
 
 const router = useRouter();
 
@@ -20,12 +21,12 @@ const handleLogin = () => {
         <p class="auth-subtitle">Your session has ended. We hope to see you again soon!</p>
       </div>
 
-      <button
-        class="btn btn-primary"
+      <Button
+        variant="primary"
         @click="handleLogin"
       >
         Sign in again
-      </button>
+      </Button>
 
       <div class="dev-nav">
         <span>Dev: </span>
@@ -64,17 +65,8 @@ const handleLogin = () => {
   @apply text-text-secondary;
 }
 
-.btn {
-  @apply w-full py-3 rounded-sm font-medium transition-all duration-200;
-}
-
-.btn-primary {
-  @apply text-white;
-  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
+.auth-card .btn {
+  @apply w-full;
 }
 
 .dev-nav {

@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import GuestLayout from '../components/GuestLayout.vue';
+import Button from '../components/Button.vue';
 
 const router = useRouter();
 const email = ref('');
@@ -48,13 +49,13 @@ const handleLogin = () => {
           />
         </div>
 
-        <button
+        <Button
           type="submit"
-          class="btn btn-primary"
+          variant="primary"
           :disabled="isLoading"
         >
           {{ isLoading ? 'Signing in...' : 'Sign in' }}
-        </button>
+        </Button>
       </form>
 
       <div class="dev-nav">
@@ -105,21 +106,8 @@ const handleLogin = () => {
   @apply outline-none border-accent;
 }
 
-.btn {
-  @apply w-full py-3 rounded-sm font-medium transition-all duration-200;
-}
-
-.btn-primary {
-  @apply text-white;
-  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-}
-
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-}
-
-.btn-primary:disabled {
-  @apply opacity-50 cursor-not-allowed;
+.auth-form .btn {
+  @apply w-full;
 }
 
 .auth-footer {

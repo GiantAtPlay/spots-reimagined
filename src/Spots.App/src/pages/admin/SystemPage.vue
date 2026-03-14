@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="card-actions">
-          <button class="btn btn-secondary">Sync Now</button>
+          <Button variant="secondary">Sync Now</Button>
         </div>
       </div>
 
@@ -61,7 +61,7 @@
           </div>
         </div>
         <div class="card-actions">
-          <button class="btn btn-secondary">Update Prices</button>
+          <Button variant="secondary">Update Prices</Button>
         </div>
       </div>
 
@@ -90,8 +90,8 @@
           </div>
         </div>
         <div class="card-actions">
-          <button class="btn btn-secondary">Download Backup</button>
-          <button class="btn btn-secondary">Restore</button>
+          <Button variant="secondary">Download Backup</Button>
+          <Button variant="secondary">Restore</Button>
         </div>
       </div>
 
@@ -111,7 +111,7 @@
           </p>
         </div>
         <div class="card-actions">
-          <button class="btn btn-danger">Reset App</button>
+          <Button variant="danger">Reset App</Button>
         </div>
       </div>
     </div>
@@ -126,6 +126,7 @@
 </template>
 
 <script setup lang="ts">
+import Button from '../../components/Button.vue';
 </script>
 
 <style scoped>
@@ -210,24 +211,8 @@
   @apply flex gap-3;
 }
 
-.btn {
-  @apply flex-1 px-4 py-2 rounded-sm font-medium transition-all duration-200 text-sm;
-}
-
-.btn-secondary {
-  @apply bg-tile-bg border border-border text-text-primary;
-}
-
-.btn-secondary:hover {
-  @apply border-accent;
-}
-
-.btn-danger {
-  @apply text-white bg-danger;
-}
-
-.btn-danger:hover {
-  @apply opacity-90;
+.card-actions .btn {
+  @apply flex-1;
 }
 
 .warning-text {

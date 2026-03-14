@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import GuestLayout from '../components/GuestLayout.vue';
+import Button from '../components/Button.vue';
 
 const router = useRouter();
 const currentStep = ref(1);
@@ -178,30 +179,28 @@ const prevStep = () => {
         </div>
 
         <div class="form-actions">
-          <button
+          <Button
             v-if="currentStep > 1"
-            type="button"
-            class="btn btn-secondary"
+            variant="secondary"
             @click="prevStep"
           >
             Back
-          </button>
-          <button
+          </Button>
+          <Button
             v-if="currentStep < 4"
-            type="button"
-            class="btn btn-primary"
+            variant="primary"
             @click="nextStep"
           >
             Continue
-          </button>
-          <button
+          </Button>
+          <Button
             v-else
             type="submit"
-            class="btn btn-primary"
+            variant="primary"
             :disabled="isLoading"
           >
             {{ isLoading ? 'Creating account...' : 'Get Started' }}
-          </button>
+          </Button>
         </div>
       </form>
 
@@ -312,24 +311,7 @@ const prevStep = () => {
 }
 
 .form-actions .btn {
-  @apply flex-1 py-3 rounded-sm font-medium transition-all duration-200;
-}
-
-.btn-primary {
-  @apply text-white;
-  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-}
-
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  @apply bg-tile-bg border border-border text-text-primary;
-}
-
-.btn-secondary:hover {
-  @apply border-accent;
+  @apply flex-1;
 }
 
 .success-icon {
