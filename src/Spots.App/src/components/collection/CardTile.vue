@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFlyoutStore } from '../../stores/flyout';
-import { useCardHelpers } from '../../composables/useCardHelpers';
+import CardImage from '../CardImage.vue';
 import type { Card } from '../../data/mockCards';
 
 const props = defineProps<{
@@ -8,9 +8,6 @@ const props = defineProps<{
 }>();
 
 const flyoutStore = useFlyoutStore();
-const { useColourIcon } = useCardHelpers();
-
-const colourIcon = useColourIcon(() => props.card.colour);
 
 const handleCardClick = () => {
   flyoutStore.open({
@@ -36,13 +33,12 @@ const handleAddFoil = (e: Event) => {
 <template>
   <div class="card-tile" @click="handleCardClick">
     <div class="card-tile-image">
-      <img
-        v-if="card.imageUrl"
-        :src="card.imageUrl"
-        :alt="card.name"
-        class="card-image"
+      <CardImage
+        :image-url="card.imageUrl"
+        :card-name="card.name"
+        :colour="card.colour"
+        size="large"
       />
-      <font-awesome-icon v-else :icon="colourIcon" class="colour-icon" />
       <span class="set-badge">{{ card.setCode }}</span>
     </div>
     
@@ -89,25 +85,8 @@ const handleAddFoil = (e: Event) => {
 
 .card-tile-image {
   width: 100%;
-  aspect-ratio: 3/4;
-  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   overflow: hidden;
-}
-
-.card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.colour-icon {
-  font-size: 48px;
-  color: var(--accent);
-  opacity: 0.7;
 }
 
 .set-badge {
