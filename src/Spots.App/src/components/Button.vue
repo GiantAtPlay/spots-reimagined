@@ -3,6 +3,7 @@ import { computed } from 'vue';
 
 interface Props {
   variant?: 'primary' | 'secondary' | 'danger' | 'icon';
+  size?: 'default' | 'small';
   disabled?: boolean;
   icon?: string;
   iconOnly?: boolean;
@@ -12,6 +13,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
+  size: 'default',
   disabled: false,
   iconOnly: false,
   type: 'button'
@@ -26,6 +28,10 @@ const buttonClasses = computed(() => {
     classes.push('btn-icon-only');
   } else {
     classes.push(`btn-${props.variant}`);
+  }
+  
+  if (props.size === 'small') {
+    classes.push('btn-small');
   }
   
   return classes.join(' ');
@@ -63,6 +69,19 @@ const showSrText = computed(() => props.iconOnly && props.srText);
 .btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* Size variants */
+.btn-small {
+  padding: 6px 12px;
+  font-size: 12px;
+  gap: 4px;
+}
+
+.btn-small .btn-primary,
+.btn-small .btn-secondary,
+.btn-small .btn-danger {
+  padding: 6px 12px;
 }
 
 /* Primary variant */

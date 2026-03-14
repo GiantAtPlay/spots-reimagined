@@ -113,10 +113,10 @@ const handleCardClick = (card: Card) => {
 
         <template #cell(actions)>
           <div class="table-actions">
-            <Button variant="secondary" icon="plus" @click.stop>
+            <Button variant="secondary" size="small" icon="plus" @click.stop>
               Add
             </Button>
-            <Button variant="secondary" icon="gem" @click.stop>
+            <Button variant="secondary" size="small" icon="gem" @click.stop>
               Foil
             </Button>
           </div>

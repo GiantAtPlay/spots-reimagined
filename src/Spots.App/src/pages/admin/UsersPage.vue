@@ -20,11 +20,12 @@
       
       <template #cell(actions)="{ row }">
         <div class="action-buttons">
-          <Button variant="secondary" icon="edit" @click.stop="openEditFlyout(row)">
+          <Button variant="secondary" size="small" icon="edit" @click.stop="openEditFlyout(row)">
             Edit
           </Button>
           <Button 
-            variant="danger" 
+            variant="danger"
+            size="small"
             icon="trash"
             :disabled="row.role === 'admin'"
             @click.stop
