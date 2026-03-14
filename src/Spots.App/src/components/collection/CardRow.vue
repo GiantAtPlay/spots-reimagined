@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFlyoutStore } from '../../stores/flyout';
-import { useCardHelpers } from '../../composables/useCardHelpers';
+import CardImage from '../CardImage.vue';
 import type { Card } from '../../data/mockCards';
 
 const props = defineProps<{
@@ -8,9 +8,6 @@ const props = defineProps<{
 }>();
 
 const flyoutStore = useFlyoutStore();
-const { useColourIcon } = useCardHelpers();
-
-const colourIcon = useColourIcon(() => props.card.colour);
 
 const handleCardClick = () => {
   flyoutStore.open({
@@ -27,15 +24,12 @@ const handleCardClick = () => {
   <tr class="card-row" @click="handleCardClick">
     <td>
       <div class="table-card-info">
-        <div class="table-card-image">
-          <img
-            v-if="card.imageUrl"
-            :src="card.imageUrl"
-            :alt="card.name"
-            class="card-image"
-          />
-          <font-awesome-icon v-else :icon="colourIcon" class="colour-icon" />
-        </div>
+        <CardImage
+          :image-url="card.imageUrl"
+          :card-name="card.name"
+          :colour="card.colour"
+          size="small"
+        />
         <div class="table-card-details">
           <span class="table-card-name">{{ card.name }}</span>
           <span class="table-card-type">{{ card.type }}</span>
@@ -88,30 +82,6 @@ const handleCardClick = () => {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.table-card-image {
-  width: 40px;
-  height: 56px;
-  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.colour-icon {
-  font-size: 16px;
-  color: var(--accent);
-  opacity: 0.7;
 }
 
 .table-card-details {
