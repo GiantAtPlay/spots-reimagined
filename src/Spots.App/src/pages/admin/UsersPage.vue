@@ -2,10 +2,9 @@
   <div>
     <div class="page-header">
       <div class="header-actions">
-        <button class="btn btn-primary" @click="openAddFlyout">
-          <font-awesome-icon icon="plus" />
+        <Button variant="primary" icon="plus" @click="openAddFlyout">
           Add User
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -37,16 +36,14 @@
             <td>{{ user.lastLogin }}</td>
             <td class="actions-col">
               <div class="action-buttons">
-                <button class="action-btn" title="Edit" @click="openEditFlyout(user)">
-                  <font-awesome-icon icon="edit" />
-                </button>
-                <button 
-                  class="action-btn danger" 
-                  title="Delete"
+                <Button variant="icon" icon="edit" :sr-text="`Edit ${user.username}`" icon-only @click="openEditFlyout(user)" />
+                <Button 
+                  variant="icon" 
+                  icon="trash"
+                  :sr-text="`Delete ${user.username}`"
+                  icon-only
                   :disabled="user.role === 'admin'"
-                >
-                  <font-awesome-icon icon="trash" />
-                </button>
+                />
               </div>
             </td>
           </tr>
@@ -67,6 +64,7 @@
 import { ref } from 'vue';
 import { useFlyoutStore } from '../../stores/flyout';
 import Badge from '../../components/Badge.vue';
+import Button from '../../components/Button.vue';
 import { mockUsers, type User } from '../../data/mockUsers';
 
 const flyoutStore = useFlyoutStore();
@@ -103,19 +101,6 @@ const openEditFlyout = (user: User) => {
   @apply flex gap-3;
 }
 
-.btn {
-  @apply flex items-center gap-2 px-4 py-2 rounded-sm font-medium transition-all duration-200;
-}
-
-.btn-primary {
-  @apply text-white;
-  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-}
-
 .table-container {
   @apply overflow-x-auto;
 }
@@ -149,25 +134,6 @@ const openEditFlyout = (user: User) => {
 
 .action-buttons {
   @apply flex gap-2 justify-end;
-}
-
-.action-btn {
-  @apply w-8 h-8 rounded-sm flex items-center justify-center transition-all duration-200;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-}
-
-.action-btn:hover:not(:disabled) {
-  @apply border-accent text-accent;
-}
-
-.action-btn.danger:hover:not(:disabled) {
-  @apply border-danger text-danger;
-}
-
-.action-btn:disabled {
-  @apply opacity-50 cursor-not-allowed;
 }
 
 .dev-nav {
