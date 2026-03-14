@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import Button from '../Button.vue';
+import ButtonGroup from '../ButtonGroup.vue';
 
 const props = defineProps<{
   viewMode: 'grid' | 'list';
@@ -73,20 +75,26 @@ const gridSizeLabel = computed(() => {
       </div>
 
       <div class="view-toggle">
-        <button
-          class="view-btn"
-          :class="{ active: viewMode === 'grid' }"
-          @click="emit('update:viewMode', 'grid')"
-        >
-          <font-awesome-icon icon="th-large" />
-        </button>
-        <button
-          class="view-btn"
-          :class="{ active: viewMode === 'list' }"
-          @click="emit('update:viewMode', 'list')"
-        >
-          <font-awesome-icon icon="list" />
-        </button>
+        <ButtonGroup>
+          <Button
+            variant="secondary"
+            size="default"
+            icon="th-large"
+            icon-only
+            sr-text="Grid view"
+            :class="{ 'active-view': viewMode === 'grid' }"
+            @click="emit('update:viewMode', 'grid')"
+          />
+          <Button
+            variant="secondary"
+            size="default"
+            icon="list"
+            icon-only
+            sr-text="List view"
+            :class="{ 'active-view': viewMode === 'list' }"
+            @click="emit('update:viewMode', 'list')"
+          />
+        </ButtonGroup>
       </div>
     </div>
   </div>
@@ -199,29 +207,9 @@ const gridSizeLabel = computed(() => {
   text-align: center;
 }
 
-.view-toggle {
-  display: flex;
-  background: var(--tile-bg);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  overflow: hidden;
-}
-
-.view-btn {
-  padding: 8px 14px;
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.view-btn.active {
+.view-toggle :deep(.active-view) {
   background: var(--accent);
+  border-color: var(--accent);
   color: white;
-}
-
-.view-btn:hover:not(.active) {
-  color: var(--text-primary);
 }
 </style>

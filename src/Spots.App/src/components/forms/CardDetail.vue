@@ -125,27 +125,36 @@ const handleSave = () => {
         <div class="management-section">
           <div class="section-header">
             <span class="section-title">Standard Cards</span>
-            <button class="add-btn" @click="addStandardCard">
-              <font-awesome-icon icon="plus" />
+            <Button variant="secondary" size="tiny" icon="plus" @click="addStandardCard">
               Add
-            </button>
+            </Button>
           </div>
           
           <div v-for="entry in standardCards" :key="entry.id" class="card-entry">
             <div class="entry-row">
               <div class="qty-control">
-                <button class="qty-btn" @click="entry.quantity = Math.max(0, entry.quantity - 1)">
-                  <font-awesome-icon icon="minus" />
-                </button>
+                <Button 
+                  variant="secondary" 
+                  size="small" 
+                  icon="minus" 
+                  icon-only
+                  sr-text="Decrease quantity"
+                  @click="entry.quantity = Math.max(0, entry.quantity - 1)"
+                />
                 <input
                   v-model.number="entry.quantity"
                   type="number"
                   min="0"
                   class="qty-input"
                 />
-                <button class="qty-btn" @click="entry.quantity++">
-                  <font-awesome-icon icon="plus" />
-                </button>
+                <Button 
+                  variant="secondary" 
+                  size="small" 
+                  icon="plus" 
+                  icon-only
+                  sr-text="Increase quantity"
+                  @click="entry.quantity++"
+                />
               </div>
               
               <select v-model="entry.spotId" class="form-select">
@@ -163,9 +172,14 @@ const handleSave = () => {
                 <font-awesome-icon icon="exchange-alt" />
               </button>
               
-              <button class="remove-btn" @click="removeStandardCard(entry.id)">
-                <font-awesome-icon icon="trash" />
-              </button>
+              <Button 
+                variant="danger" 
+                size="small" 
+                icon="trash" 
+                icon-only
+                sr-text="Remove card"
+                @click="removeStandardCard(entry.id)"
+              />
             </div>
           </div>
           
@@ -177,27 +191,36 @@ const handleSave = () => {
         <div class="management-section">
           <div class="section-header">
             <span class="section-title">Foil Cards</span>
-            <button class="add-btn" @click="addFoilCard">
-              <font-awesome-icon icon="plus" />
+            <Button variant="secondary" size="tiny" icon="plus" @click="addFoilCard">
               Add
-            </button>
+            </Button>
           </div>
           
           <div v-for="entry in foilCards" :key="entry.id" class="card-entry">
             <div class="entry-row">
               <div class="qty-control">
-                <button class="qty-btn" @click="entry.quantity = Math.max(0, entry.quantity - 1)">
-                  <font-awesome-icon icon="minus" />
-                </button>
+                <Button 
+                  variant="secondary" 
+                  size="small" 
+                  icon="minus" 
+                  icon-only
+                  sr-text="Decrease quantity"
+                  @click="entry.quantity = Math.max(0, entry.quantity - 1)"
+                />
                 <input
                   v-model.number="entry.quantity"
                   type="number"
                   min="0"
                   class="qty-input"
                 />
-                <button class="qty-btn" @click="entry.quantity++">
-                  <font-awesome-icon icon="plus" />
-                </button>
+                <Button 
+                  variant="secondary" 
+                  size="small" 
+                  icon="plus" 
+                  icon-only
+                  sr-text="Increase quantity"
+                  @click="entry.quantity++"
+                />
               </div>
               
               <select v-model="entry.spotId" class="form-select">
@@ -215,9 +238,14 @@ const handleSave = () => {
                 <font-awesome-icon icon="exchange-alt" />
               </button>
               
-              <button class="remove-btn" @click="removeFoilCard(entry.id)">
-                <font-awesome-icon icon="trash" />
-              </button>
+              <Button 
+                variant="danger" 
+                size="small" 
+                icon="trash" 
+                icon-only
+                sr-text="Remove card"
+                @click="removeFoilCard(entry.id)"
+              />
             </div>
           </div>
           
@@ -375,25 +403,6 @@ const handleSave = () => {
   color: var(--text-secondary);
 }
 
-.add-btn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-secondary);
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.add-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
 .card-entry {
   margin-bottom: 8px;
 }
@@ -413,8 +422,8 @@ const handleSave = () => {
 }
 
 .trade-toggle {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: var(--radius-sm);
   background: var(--tile-bg);
   border: 1px solid var(--border);
@@ -432,27 +441,9 @@ const handleSave = () => {
 }
 
 .trade-toggle.active {
-  background: rgba(155, 77, 202, 0.15);
+  background: var(--accent);
   border-color: var(--accent);
-  color: var(--accent);
-}
-
-.remove-btn {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.remove-btn:hover {
-  color: var(--danger);
+  color: white;
 }
 
 .empty-state {
