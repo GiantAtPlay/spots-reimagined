@@ -3,8 +3,9 @@ import { ref, computed } from 'vue';
 import type { Card } from '../../data/mockCards';
 import { mockCards } from '../../data/mockCards';
 import { mockSpots } from '../../data/mockSpots';
-import { useCardHelpers } from '../../composables/useCardHelpers';
 import Button from '../Button.vue';
+import CardImage from '../CardImage.vue';
+import RarityBadge from '../RarityBadge.vue';
 
 const props = defineProps<{
   cardId?: string;
@@ -23,9 +24,6 @@ const card = computed(() => {
   }
   return mockCards[0];
 });
-
-const { useColourIcon } = useCardHelpers();
-const colourIcon = useColourIcon(() => card.value.colour);
 
 interface CardEntry {
   id: string;
@@ -84,15 +82,12 @@ const handleSave = () => {
 <template>
   <div class="card-detail-flyout">
     <div class="flyout-card-preview">
-      <div class="flyout-card-image">
-        <img
-          v-if="card.imageUrl"
-          :src="card.imageUrl"
-          :alt="card.name"
-          class="card-image"
-        />
-        <font-awesome-icon v-else :icon="colourIcon" class="colour-icon" />
-      </div>
+      <CardImage
+        :image-url="card.imageUrl"
+        :card-name="card.name"
+        :colour="card.colour"
+        size="medium"
+      />
         <div class="flyout-card-details">
         <h3>{{ card.name }}</h3>
         <div class="set-row">
@@ -101,9 +96,7 @@ const handleSave = () => {
         <div class="flyout-stats">
           <div class="flyout-stat">
             <div class="flyout-stat-label">Rarity</div>
-            <span class="rarity-badge" :class="`rarity-${card.rarity}`">
-              {{ card.rarity }}
-            </span>
+            <RarityBadge :rarity="card.rarity" />
           </div>
           <div class="flyout-stat">
             <div class="flyout-stat-label">Price</div>
@@ -155,7 +148,7 @@ const handleSave = () => {
                 </button>
               </div>
               
-              <select v-model="entry.spotId" class="spot-select">
+              <select v-model="entry.spotId" class="form-select">
                 <option v-for="spot in mockSpots" :key="spot.id" :value="spot.id">
                   {{ spot.name }}
                 </option>
@@ -207,7 +200,7 @@ const handleSave = () => {
                 </button>
               </div>
               
-              <select v-model="entry.spotId" class="spot-select">
+              <select v-model="entry.spotId" class="form-select">
                 <option v-for="spot in mockSpots" :key="spot.id" :value="spot.id">
                   {{ spot.name }}
                 </option>
@@ -264,30 +257,6 @@ const handleSave = () => {
   flex-shrink: 0;
 }
 
-.flyout-card-image {
-  width: 100px;
-  height: 140px;
-  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.flyout-card-image .card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.flyout-card-image .colour-icon {
-  font-size: 32px;
-  color: var(--accent);
-  opacity: 0.7;
-}
-
 .flyout-card-details {
   flex: 1;
   min-width: 0;
@@ -309,34 +278,6 @@ const handleSave = () => {
 .set-name {
   font-size: 13px;
   color: var(--text-secondary);
-}
-
-.rarity-badge {
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.rarity-common {
-  background: rgba(148, 163, 184, 0.15);
-  color: var(--text-secondary);
-}
-
-.rarity-uncommon {
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--success);
-}
-
-.rarity-rare {
-  background: rgba(59, 130, 246, 0.15);
-  color: #3b82f6;
-}
-
-.rarity-mythic {
-  background: rgba(155, 77, 202, 0.15);
-  color: var(--accent);
 }
 
 .flyout-stats {
@@ -467,57 +408,8 @@ const handleSave = () => {
   gap: 8px;
 }
 
-.qty-control {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.qty-btn {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-sm);
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  font-size: 10px;
-}
-
-.qty-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.qty-input {
-  width: 40px;
-  padding: 4px;
-  text-align: center;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  font-size: 13px;
-}
-
-.spot-select {
+.form-select {
   flex: 1;
-  padding: 6px 8px;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.spot-select:focus {
-  outline: none;
-  border-color: var(--accent);
 }
 
 .trade-toggle {

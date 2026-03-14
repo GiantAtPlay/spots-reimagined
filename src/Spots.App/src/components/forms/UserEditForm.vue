@@ -35,28 +35,30 @@ const handleSubmit = () => {
   <div class="flyout-form" @submit.prevent="handleSubmit">
     <div class="form-scroll-content">
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="username" class="form-label">Username</label>
         <input
           id="username"
           v-model="form.username"
           type="text"
+          class="form-input"
           required
         />
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email" class="form-label">Email</label>
         <input
           id="email"
           v-model="form.email"
           type="email"
+          class="form-input"
           required
         />
       </div>
 
       <div class="form-group">
-        <label for="role">Role</label>
-        <select id="role" v-model="form.role">
+        <label for="role" class="form-label">Role</label>
+        <select id="role" v-model="form.role" class="form-select">
           <option value="admin">Admin</option>
           <option value="user">User</option>
         </select>
@@ -91,48 +93,6 @@ const handleSubmit = () => {
 .form-scroll-content {
   flex: 1;
   overflow-y: auto;
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  color: var(--text-secondary);
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 10px 12px;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-.form-actions {
-  display: flex;
-  gap: 12px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  border-top: 1px solid var(--border);
-  flex-shrink: 0;
-  position: sticky;
-  bottom: 0;
-  background: var(--bg);
 }
 
 .form-actions .btn {
