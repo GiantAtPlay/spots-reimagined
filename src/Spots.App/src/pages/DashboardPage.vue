@@ -3,7 +3,7 @@
     <!-- Stat Cards Row -->
     <div class="stats-grid">
       <StatCard
-        icon="layer-group"
+        icon="cards"
         label="Total Cards"
         :value="formatNumber(stats.totalCards)"
       />
@@ -14,7 +14,7 @@
         variant="success"
       />
       <StatCard
-        icon="cards-blank"
+        icon="palette"
         label="Unique Cards"
         :value="formatNumber(stats.totalUniqueCards)"
       />
