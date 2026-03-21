@@ -4,12 +4,14 @@ import { useFlyoutStore } from '../stores/flyout';
 import Icon from './Icon.vue';
 import UserEditForm from './forms/UserEditForm.vue';
 import CardDetail from './forms/CardDetail.vue';
+import ScryfallSearchGuide from './forms/ScryfallSearchGuide.vue';
 
 const flyoutStore = useFlyoutStore();
 
 const componentMap: Record<string, any> = {
   UserEditForm,
   CardDetail,
+  ScryfallSearchGuide,
 };
 
 const flyoutComponent = computed(() => {
