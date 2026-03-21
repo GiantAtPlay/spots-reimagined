@@ -15,6 +15,7 @@ const emit = defineEmits<{
   (e: 'update:viewMode', value: 'grid' | 'list'): void;
   (e: 'update:gridSize', value: number): void;
   (e: 'search', value: string): void;
+  (e: 'open-filters'): void;
 }>();
 
 const searchQuery = ref('');
@@ -53,7 +54,7 @@ const gridSizeLabel = computed(() => {
 
     <div class="toolbar-right">
       <div class="filters">
-        <button class="filter-btn">
+        <button class="filter-btn" @click="emit('open-filters')">
           <Icon icon="filter" />
           Filters
         </button>

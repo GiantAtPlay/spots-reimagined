@@ -5,6 +5,7 @@ import Icon from './Icon.vue';
 import UserEditForm from './forms/UserEditForm.vue';
 import CardDetail from './forms/CardDetail.vue';
 import ScryfallSearchGuide from './forms/ScryfallSearchGuide.vue';
+import CollectionFiltersForm from './forms/CollectionFiltersForm.vue';
 
 const flyoutStore = useFlyoutStore();
 
@@ -12,6 +13,7 @@ const componentMap: Record<string, any> = {
   UserEditForm,
   CardDetail,
   ScryfallSearchGuide,
+  CollectionFiltersForm,
 };
 
 const flyoutComponent = computed(() => {
