@@ -1,0 +1,45 @@
+name: .NET Tests
+
+on:
+  pull_request:
+    paths:
+      - 'src/Spots.Api/**'
+      - 'src/Spots.Tests/**'
+      - '.github/workflows/ci-dotnet.yml'
+      - 'Spots.sln'
+
+concurrency:
+  group: dotnet-tests-${{ github.head_ref }}
+  cancel-in-progress: true
+
+permissions:
+  checks: write
+  pull-requests: write
+
+jobs:
+  test:
+    name: Run .NET Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Run tests
+        run: dotnet test --logger "trx;LogFileName=results.trx" --results-directory ./test-results
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-test-results
+          path: '**/*.trx'
+          retention-days: 14
