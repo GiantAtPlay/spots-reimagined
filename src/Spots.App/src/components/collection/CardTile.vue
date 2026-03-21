@@ -7,11 +7,18 @@ import type { Card } from '../../data/mockCards';
 
 const props = defineProps<{
   card: Card;
+  mode?: 'collection' | 'search';
+}>();
+
+const emit = defineEmits<{
+  (e: 'add-non-foil', card: Card): void;
+  (e: 'add-foil', card: Card): void;
 }>();
 
 const flyoutStore = useFlyoutStore();
 
 const handleCardClick = () => {
+  if (props.mode === 'search') return;
   flyoutStore.open({
     title: props.card.name,
     component: 'CardDetail',
@@ -23,17 +30,25 @@ const handleCardClick = () => {
 
 const handleAddNonFoil = (e: Event) => {
   e.stopPropagation();
-  console.log('Add non-foil', props.card.id);
+  if (props.mode === 'search') {
+    emit('add-non-foil', props.card);
+  } else {
+    console.log('Add non-foil', props.card.id);
+  }
 };
 
 const handleAddFoil = (e: Event) => {
   e.stopPropagation();
-  console.log('Add foil', props.card.id);
+  if (props.mode === 'search') {
+    emit('add-foil', props.card);
+  } else {
+    console.log('Add foil', props.card.id);
+  }
 };
 </script>
 
 <template>
-  <div class="card-tile" @click="handleCardClick">
+  <div class="card-tile" :class="{ 'card-tile--search': mode === 'search' }" @click="handleCardClick">
     <div class="card-tile-image">
       <CardImage
         :image-url="card.imageUrl"
@@ -67,7 +82,7 @@ const handleAddFoil = (e: Event) => {
     <div class="card-tile-info">
       <h3 class="card-tile-name">{{ card.name }}</h3>
       <p class="card-tile-set">{{ card.setName }}</p>
-      <div class="card-counts">
+      <div v-if="mode !== 'search'" class="card-counts">
         <span class="count-badge count-nonfoil">
           <Icon icon="box" class="count-icon" />
           {{ card.nonFoilCount }}
@@ -94,6 +109,10 @@ const handleAddFoil = (e: Event) => {
 .card-tile:hover {
   transform: translateY(-4px);
   border-color: var(--accent);
+}
+
+.card-tile--search {
+  cursor: default;
 }
 
 .card-tile-image {
