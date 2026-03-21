@@ -56,94 +56,96 @@ const handleClear = () => {
 
 <template>
   <div class="filters-form">
-    <div class="section">
-      <h3 class="section-title">Spot</h3>
-      <div class="options-grid">
-        <label
-          v-for="spot in mockSpots"
-          :key="spot.id"
-          class="option-chip"
-          :class="{ active: form.spotIds.includes(spot.id) }"
-        >
-          <input
-            type="checkbox"
-            :checked="form.spotIds.includes(spot.id)"
-            @change="toggleSelection(form.spotIds, spot.id)"
+    <div class="form-scroll-content">
+      <div class="section">
+        <h3 class="section-title">Spot</h3>
+        <div class="options-grid options-grid--stacked">
+          <label
+            v-for="spot in mockSpots"
+            :key="spot.id"
+            class="option-chip"
+            :class="{ active: form.spotIds.includes(spot.id) }"
           >
-          <span>{{ spot.name }}</span>
-        </label>
+            <input
+              type="checkbox"
+              :checked="form.spotIds.includes(spot.id)"
+              @change="toggleSelection(form.spotIds, spot.id)"
+            >
+            <span>{{ spot.name }}</span>
+          </label>
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h3 class="section-title">Tracker</h3>
-      <div class="options-grid options-grid--stacked">
-        <label
-          v-for="tracker in mockTrackers"
-          :key="tracker.id"
-          class="option-chip"
-          :class="{ active: form.trackerIds.includes(tracker.id) }"
-        >
-          <input
-            type="checkbox"
-            :checked="form.trackerIds.includes(tracker.id)"
-            @change="toggleSelection(form.trackerIds, tracker.id)"
+      <div class="section">
+        <h3 class="section-title">Tracker</h3>
+        <div class="options-grid options-grid--stacked">
+          <label
+            v-for="tracker in mockTrackers"
+            :key="tracker.id"
+            class="option-chip"
+            :class="{ active: form.trackerIds.includes(tracker.id) }"
           >
-          <span>{{ tracker.name }}</span>
-        </label>
+            <input
+              type="checkbox"
+              :checked="form.trackerIds.includes(tracker.id)"
+              @change="toggleSelection(form.trackerIds, tracker.id)"
+            >
+            <span>{{ tracker.name }}</span>
+          </label>
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h3 class="section-title">For Trade</h3>
-      <div class="for-trade-toggle">
-        <button
-          type="button"
-          class="toggle-btn"
-          :class="{ active: form.forTrade === null }"
-          @click="form.forTrade = null"
-        >
-          Any
-        </button>
-        <button
-          type="button"
-          class="toggle-btn"
-          :class="{ active: form.forTrade === true }"
-          @click="form.forTrade = true"
-        >
-          Yes
-        </button>
-        <button
-          type="button"
-          class="toggle-btn"
-          :class="{ active: form.forTrade === false }"
-          @click="form.forTrade = false"
-        >
-          No
-        </button>
-      </div>
-    </div>
-
-    <div class="section">
-      <h3 class="section-title">Rarity</h3>
-      <div class="options-grid">
-        <label
-          v-for="rarity in rarityOptions"
-          :key="rarity"
-          class="option-chip"
-          :class="{ active: form.rarities.includes(rarity) }"
-        >
-          <input
-            type="checkbox"
-            :checked="form.rarities.includes(rarity)"
-            @change="toggleSelection(form.rarities, rarity)"
+      <div class="section">
+        <h3 class="section-title">For Trade</h3>
+        <div class="for-trade-toggle">
+          <button
+            type="button"
+            class="toggle-btn"
+            :class="{ active: form.forTrade === null }"
+            @click="form.forTrade = null"
           >
-          <span class="capitalize">{{ rarity }}</span>
-        </label>
+            Any
+          </button>
+          <button
+            type="button"
+            class="toggle-btn"
+            :class="{ active: form.forTrade === true }"
+            @click="form.forTrade = true"
+          >
+            Yes
+          </button>
+          <button
+            type="button"
+            class="toggle-btn"
+            :class="{ active: form.forTrade === false }"
+            @click="form.forTrade = false"
+          >
+            No
+          </button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3 class="section-title">Rarity</h3>
+        <div class="options-grid">
+          <label
+            v-for="rarity in rarityOptions"
+            :key="rarity"
+            class="option-chip"
+            :class="{ active: form.rarities.includes(rarity) }"
+          >
+            <input
+              type="checkbox"
+              :checked="form.rarities.includes(rarity)"
+              @change="toggleSelection(form.rarities, rarity)"
+            >
+            <span class="capitalize">{{ rarity }}</span>
+          </label>
+        </div>
       </div>
     </div>
 
-    <div class="actions">
+    <div class="form-actions">
       <Button variant="secondary" @click="handleClear">
         Clear
       </Button>
@@ -156,6 +158,14 @@ const handleClear = () => {
 
 <style scoped>
 .filters-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form-scroll-content {
+  flex: 1;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -183,7 +193,7 @@ const handleClear = () => {
 
 .options-grid--stacked {
   grid-template-columns: 1fr;
-  max-height: 180px;
+  max-height: 140px;
   overflow-y: auto;
   padding-right: 4px;
 }
@@ -238,13 +248,7 @@ const handleClear = () => {
   color: var(--text-primary);
 }
 
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 6px;
-}
-
-.actions :deep(.btn) {
+.form-actions :deep(.btn) {
   flex: 1;
 }
 
