@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as o,a as t}from"./index-BVO_lF5w.js";const a={};function r(c,e){return n(),o("div",null,[...e[0]||(e[0]=[t("h2",{class:"text-xl font-semibold mb-4"},"Settings",-1),t("p",{class:"text-text-secondary"},"Configure your app settings",-1)])])}const i=s(a,[["render",r]]);export{i as default};

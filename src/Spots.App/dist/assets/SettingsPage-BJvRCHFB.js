@@ -1,0 +1,1 @@
+import{_ as s,o as n,c as o,b as t}from"./index-DMefFOlU.js";const r={};function a(c,e){return n(),o("div",null,[...e[0]||(e[0]=[t("h2",{class:"text-xl font-semibold mb-4"},"Settings",-1),t("p",{class:"text-text-secondary"},"Configure your app settings",-1)])])}const i=s(r,[["render",a]]);export{i as default};

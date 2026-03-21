@@ -1,1 +1,0 @@
-import{_ as t,o,c as s,a}from"./index-BVO_lF5w.js";const r={};function n(c,e){return o(),s("div",null,[...e[0]||(e[0]=[a("h2",{class:"text-xl font-semibold mb-4"},"Dashboard",-1),a("p",{class:"text-text-secondary"},"Select a page from the navigation",-1)])])}const d=t(r,[["render",n]]);export{d as default};

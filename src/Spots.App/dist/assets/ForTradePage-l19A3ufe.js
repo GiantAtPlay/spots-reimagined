@@ -1,0 +1,1 @@
+import{_ as r,o as t,c as o,b as a}from"./index-DMefFOlU.js";const s={};function c(n,e){return t(),o("div",null,[...e[0]||(e[0]=[a("h2",{class:"text-xl font-semibold mb-4"},"For Trade",-1),a("p",{class:"text-text-secondary"},"Cards available for trade",-1)])])}const d=r(s,[["render",c]]);export{d as default};

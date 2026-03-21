@@ -24,10 +24,6 @@ const emit = defineEmits<{
   rowClick: [row: T];
 }>();
 
-const getColumnAlign = (column: Column) => {
-  return column.align || 'left';
-};
-
 const getColumnClass = (column: Column) => {
   const classes = [];
   if (column.class) classes.push(column.class);
