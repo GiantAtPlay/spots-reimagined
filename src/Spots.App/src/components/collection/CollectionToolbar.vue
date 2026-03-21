@@ -77,21 +77,21 @@ const gridSizeLabel = computed(() => {
       <div class="view-toggle">
         <ButtonGroup>
           <Button
-            variant="secondary"
+            :variant="viewMode === 'grid' ? 'primary' : 'secondary'"
             size="default"
             icon="th-large"
             icon-only
+            :bounce="false"
             sr-text="Grid view"
-            :class="{ 'active-view': viewMode === 'grid' }"
             @click="emit('update:viewMode', 'grid')"
           />
           <Button
-            variant="secondary"
+            :variant="viewMode === 'list' ? 'primary' : 'secondary'"
             size="default"
             icon="list"
             icon-only
+            :bounce="false"
             sr-text="List view"
-            :class="{ 'active-view': viewMode === 'list' }"
             @click="emit('update:viewMode', 'list')"
           />
         </ButtonGroup>

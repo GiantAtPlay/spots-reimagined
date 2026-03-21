@@ -8,6 +8,7 @@ interface Props {
   icon?: string;
   iconOnly?: boolean;
   srText?: string;
+  bounce?: boolean;
   type?: 'button' | 'submit' | 'reset';
 }
 
@@ -16,6 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   size: 'default',
   disabled: false,
   iconOnly: false,
+  bounce: true,
   type: 'button'
 });
 
@@ -24,6 +26,12 @@ const buttonClasses = computed(() => {
   
   if (props.iconOnly) {
     classes.push('btn-icon-only');
+  }
+
+  console.log(props);
+
+  if(props.bounce && (props.variant === 'primary' || props.variant === 'danger')){
+    classes.push('btn-bounce');
   }
   
   return classes.join(' ');
@@ -112,16 +120,15 @@ const showSrText = computed(() => props.iconOnly && props.srText);
 
 /* Primary variant */
 .btn-primary {
+  --btn-box-shadow: 0 4px 12px rgba(155, 77, 202, 0.3);
   background: var(--accent);
   border-color: var(--accent);
   color: white;
 }
 
-.btn-primary:hover:not(:disabled) {
+.btn-primary:hover:not(:disabled) { 
   background: var(--accent-secondary);
   border-color: var(--accent-secondary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(155, 77, 202, 0.3);
 }
 
 .btn-primary:disabled {
@@ -148,6 +155,7 @@ const showSrText = computed(() => props.iconOnly && props.srText);
 
 /* Danger variant */
 .btn-danger {
+  --btn-box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
   background: var(--danger);
   border-color: var(--danger);
   color: white;
@@ -156,13 +164,17 @@ const showSrText = computed(() => props.iconOnly && props.srText);
 .btn-danger:hover:not(:disabled) {
   background: #dc2626;
   border-color: #dc2626;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .btn-danger:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+/* Bounce effect */
+.btn-bounce:hover:not(disabled){
+  transform: translateY(-2px);
+  box-shadow: var(--btn-box-shadow);
 }
 
 /* Icon-only variant removes text slot */
