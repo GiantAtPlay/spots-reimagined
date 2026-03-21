@@ -58,5 +58,4 @@ jobs:
           name: Vitest Tests
           path: src/Spots.App/test-results/results.xml
           reporter: java-junit
-          working-directory: src/Spots.App
           fail-on-error: true
