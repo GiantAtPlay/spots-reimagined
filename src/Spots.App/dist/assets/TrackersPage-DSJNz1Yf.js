@@ -1,1 +1,0 @@
-import{_ as s,o as t,c as o,b as r}from"./index-DMefFOlU.js";const c={};function a(n,e){return t(),o("div",null,[...e[0]||(e[0]=[r("h2",{class:"text-xl font-semibold mb-4"},"Trackers",-1),r("p",{class:"text-text-secondary"},"Track your collection progress",-1)])])}const d=s(c,[["render",a]]);export{d as default};

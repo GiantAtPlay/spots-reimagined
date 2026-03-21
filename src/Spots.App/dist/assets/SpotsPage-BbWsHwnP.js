@@ -1,1 +1,0 @@
-import{_ as o,o as s,c as a,b as t}from"./index-DMefFOlU.js";const n={};function r(c,e){return s(),a("div",null,[...e[0]||(e[0]=[t("h2",{class:"text-xl font-semibold mb-4"},"Spots",-1),t("p",{class:"text-text-secondary"},"Manage your storage locations",-1)])])}const d=o(n,[["render",r]]);export{d as default};

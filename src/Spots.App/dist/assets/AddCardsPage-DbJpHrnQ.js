@@ -1,1 +1,0 @@
-import{_ as s,o,c as r,b as t}from"./index-DMefFOlU.js";const a={};function c(d,e){return o(),r("div",null,[...e[0]||(e[0]=[t("h2",{class:"text-xl font-semibold mb-4"},"Add Cards",-1),t("p",{class:"text-text-secondary"},"Add cards to your collection",-1)])])}const l=s(a,[["render",c]]);export{l as default};

@@ -1,7 +1,7 @@
 <template>
   <div class="stat-card completion-card">
     <div class="stat-icon">
-      <i class="fas fa-trophy"></i>
+      <Icon icon="trophy" />
     </div>
     <div class="stat-label">Completion Progress</div>
     <div class="completion-stats">
@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import Icon from '@/components/Icon.vue';
 
 interface Props {
   setsComplete: number;

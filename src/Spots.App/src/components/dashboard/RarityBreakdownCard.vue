@@ -1,7 +1,7 @@
 <template>
   <div class="chart-card">
     <div class="chart-title">
-      <i class="fas fa-star"></i>
+      <Icon icon="star" />
       Rarity Breakdown
     </div>
     
@@ -9,7 +9,7 @@
       <!-- Top: Mythic -->
       <div class="rarity-item rarity-top">
         <div class="rarity-circle rarity-mythic">
-          <i class="fas fa-gem"></i>
+          <Icon icon="gem" />
           <span class="rarity-count">{{ formatRarityCount(getMythic.count) }}</span>
         </div>
         <div class="rarity-label">{{ getMythic.label }}</div>
@@ -19,7 +19,7 @@
       <div class="rarity-row-middle">
         <div class="rarity-item">
           <div class="rarity-circle rarity-rare">
-            <i class="fas fa-star"></i>
+            <Icon icon="star" />
             <span class="rarity-count">{{ formatRarityCount(getRare.count) }}</span>
           </div>
           <div class="rarity-label">{{ getRare.label }}</div>
@@ -27,7 +27,7 @@
         
         <div class="rarity-item">
           <div class="rarity-circle rarity-uncommon">
-            <i class="fas fa-certificate"></i>
+            <Icon icon="certificate" />
             <span class="rarity-count">{{ formatRarityCount(getUncommon.count) }}</span>
           </div>
           <div class="rarity-label">{{ getUncommon.label }}</div>
@@ -37,7 +37,7 @@
       <!-- Bottom: Common -->
       <div class="rarity-item rarity-bottom">
         <div class="rarity-circle rarity-common">
-          <i class="fas fa-circle"></i>
+          <Icon icon="circle" />
           <span class="rarity-count">{{ formatRarityCount(getCommon.count) }}</span>
         </div>
         <div class="rarity-label">{{ getCommon.label }}</div>
@@ -48,6 +48,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import Icon from '@/components/Icon.vue';
 import { formatLargeNumber } from '@/utils/formatters';
 import type { RarityStat } from '@/data/mockDashboardStats';
 
@@ -82,9 +83,6 @@ const getCommon = computed(() => props.rarities.find(r => r.rarity === 'common')
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.chart-title i {
   color: var(--accent);
 }
 
@@ -126,8 +124,11 @@ const getCommon = computed(() => props.rarities.find(r => r.rarity === 'common')
   transform: scale(1.1);
 }
 
-.rarity-circle i {
+/* Rarity circle icon sizing — targets svg rendered by Icon component */
+.rarity-circle :deep(svg) {
   font-size: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .rarity-count {
@@ -177,8 +178,9 @@ const getCommon = computed(() => props.rarities.find(r => r.rarity === 'common')
     height: 70px;
   }
   
-  .rarity-circle i {
-    font-size: 18px;
+  .rarity-circle :deep(svg) {
+    width: 18px;
+    height: 18px;
   }
   
   .rarity-count {

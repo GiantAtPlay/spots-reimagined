@@ -1,7 +1,7 @@
 <template>
   <div class="chart-card">
     <div class="chart-title">
-      <i class="fas fa-paint-brush"></i>
+      <Icon icon="paint-brush" />
       Color Distribution
     </div>
     
@@ -28,6 +28,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import Icon from '@/components/Icon.vue';
 import ProgressBar from './ProgressBar.vue';
 import Button from '../Button.vue';
 import type { ColorStat } from '@/data/mockDashboardStats';
@@ -63,9 +64,6 @@ const navigateToAddCards = () => {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.chart-title i {
   color: var(--accent);
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="chart-card">
     <div class="chart-title">
-      <i :class="`fas fa-${icon}`"></i>
+      <Icon :icon="icon" />
       {{ title }}
     </div>
     
@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import Icon from '@/components/Icon.vue';
 import ProgressBar from './ProgressBar.vue';
 import Button from '../Button.vue';
 import type { Tracker } from '@/data/mockTrackers';
@@ -79,9 +80,6 @@ const navigateToTrackers = () => {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.chart-title i {
   color: var(--accent);
 }
 
