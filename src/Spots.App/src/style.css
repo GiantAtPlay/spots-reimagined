@@ -58,6 +58,10 @@
   .nav-panel {
     @apply w-60 bg-nav-bg backdrop-blur-xl rounded-lg border border-border p-4 flex flex-col flex-shrink-0;
     animation: slideInLeft 0.5s ease-out;
+    position: sticky;
+    top: 16px;
+    height: calc(100vh - 32px);
+    overflow-y: auto;
   }
 
   .nav-logo {
