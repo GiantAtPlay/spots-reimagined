@@ -46,6 +46,15 @@ const totalPages = computed(() => {
   return Math.ceil(filteredCards.value.length / itemsPerPage);
 });
 
+const hasActiveFilters = computed(() => {
+  return (
+    filters.value.spotIds.length > 0 ||
+    filters.value.trackerIds.length > 0 ||
+    filters.value.forTrade !== null ||
+    filters.value.rarities.length > 0
+  );
+});
+
 const parseList = (value: unknown): string[] => {
   const raw = Array.isArray(value) ? value[0] : value;
   if (typeof raw !== 'string' || !raw.trim()) return [];
@@ -170,6 +179,7 @@ watch(currentPage, () => {
       v-model:grid-size="gridSize"
       :total-results="filteredCards.length"
       :filtered-results="paginatedCards.length"
+      :has-active-filters="hasActiveFilters"
       @search="handleSearch"
       @open-filters="openFilters"
     />
