@@ -3,7 +3,7 @@
     <!-- Stat Cards Row -->
     <div class="stats-grid">
       <StatCard
-        icon="cards"
+        icon="clone"
         label="Total Cards"
         :value="formatNumber(stats.totalCards)"
       />
@@ -32,31 +32,29 @@
       <RarityBreakdownCard :rarities="stats.rarityDistribution" />
     </div>
 
-    <!-- Charts Row 2: Top Valuable Cards & Trackers Near Completion -->
+    <!-- Charts Row 2: Top Valuable Cards & Tracker Progress -->
     <div class="charts-row-2">
       <TopValuableCardsCard :cards="stats.topValuableCards" />
-      <TrackerProgressCard
-        title="Trackers Near Completion"
-        icon="tasks"
-        :trackers="trackersNearCompletion"
-        :limit="5"
-        empty-message="No trackers in progress"
-        empty-cta-text="Create Tracker"
-        empty-cta-route="/trackers"
-      />
-    </div>
-
-    <!-- Charts Row 3: Complete Trackers -->
-    <div class="charts-row-3">
-      <TrackerProgressCard
-        title="Complete Trackers"
-        icon="check-circle"
-        :trackers="trackersComplete"
-        :limit="5"
-        empty-message="No completed trackers yet"
-        empty-cta-text="View All Trackers"
-        empty-cta-route="/trackers"
-      />
+      <div class="tracker-column">
+        <TrackerProgressCard
+          title="Trackers Near Completion"
+          icon="tasks"
+          :trackers="trackersNearCompletion"
+          :limit="5"
+          empty-message="No trackers in progress"
+          empty-cta-text="Create Tracker"
+          empty-cta-route="/trackers"
+        />
+        <TrackerProgressCard
+          title="Complete Trackers"
+          icon="check-circle"
+          :trackers="trackersComplete"
+          :limit="5"
+          empty-message="No completed trackers yet"
+          empty-cta-text="View All Trackers"
+          empty-cta-route="/trackers"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -130,12 +128,21 @@ const trackersComplete = computed(() => {
   gap: 20px;
 }
 
+.tracker-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .charts-row-2 > * {
   animation: fadeIn 0.5s ease-out backwards;
 }
 
 .charts-row-2 > *:nth-child(1) { animation-delay: 0.4s; }
 .charts-row-2 > *:nth-child(2) { animation-delay: 0.45s; }
+
+.tracker-column > *:nth-child(1) { animation-delay: 0.45s; }
+.tracker-column > *:nth-child(2) { animation-delay: 0.5s; }
 
 .charts-row-3 {
   display: grid;
@@ -166,8 +173,7 @@ const trackersComplete = computed(() => {
   }
   
   .charts-row-1,
-  .charts-row-2,
-  .charts-row-3 {
+  .charts-row-2 {
     grid-template-columns: 1fr;
   }
 }
