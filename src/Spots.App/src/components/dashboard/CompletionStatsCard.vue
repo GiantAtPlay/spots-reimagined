@@ -144,6 +144,6 @@ const trackersPercentage = computed(() => {
   height: 100%;
   background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
   border-radius: 3px;
-  transition: width 0.5s ease;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
