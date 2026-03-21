@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router';
 import GuestLayout from '../components/GuestLayout.vue';
 import Button from '../components/Button.vue';
+import Icon from '../components/Icon.vue';
 
 const router = useRouter();
 
@@ -15,7 +16,7 @@ const handleLogin = () => {
     <div class="auth-card">
       <div class="auth-header">
         <div class="logout-icon">
-          <font-awesome-icon icon="sign-out-alt" />
+          <Icon icon="sign-out-alt" />
         </div>
         <h1 class="auth-title">You've been logged out</h1>
         <p class="auth-subtitle">Your session has ended. We hope to see you again soon!</p>

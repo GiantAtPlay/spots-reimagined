@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Icon from './Icon.vue';
+
 defineProps<{
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
   icon?: string;
@@ -7,7 +9,7 @@ defineProps<{
 
 <template>
   <span class="badge" :class="[`badge-${variant || 'primary'}`]">
-    <font-awesome-icon v-if="icon" :icon="icon" class="badge-icon" />
+    <Icon v-if="icon" :icon="icon" class="badge-icon" />
     <slot />
   </span>
 </template>

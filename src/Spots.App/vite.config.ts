@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
@@ -16,6 +16,14 @@ export default defineConfig({
         target: 'http://localhost:5000',
         changeOrigin: true
       }
+    }
+  },
+  test: {
+    environment: 'happy-dom',
+    globals: true,
+    include: ['tests/**/*.{test,spec}.ts'],
+    alias: {
+      '@': resolve(__dirname, 'src')
     }
   }
 })

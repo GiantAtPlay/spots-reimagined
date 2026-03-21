@@ -1,7 +1,7 @@
 <template>
   <div class="chart-card">
     <div class="chart-title">
-      <i class="fas fa-dollar-sign"></i>
+      <Icon icon="dollar-sign" />
       Top 10 Most Valuable Cards
     </div>
     
@@ -17,7 +17,7 @@
           <span class="card-set-badge">{{ card.setCode }}</span>
         </div>
         <div class="card-meta">
-          <i v-if="card.isFoil" class="fas fa-gem foil-indicator" title="Foil"></i>
+          <Icon v-if="card.isFoil" icon="gem" class="foil-indicator" title="Foil" />
           <span class="card-price">{{ formatCurrency(card.price) }}</span>
         </div>
       </div>
@@ -36,6 +36,7 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import Button from '../Button.vue';
+import Icon from '../Icon.vue';
 import { formatCurrency } from '@/utils/formatters';
 import type { ValuableCard } from '@/data/mockDashboardStats';
 
@@ -68,9 +69,6 @@ const navigateToAddCards = () => {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.chart-title i {
   color: var(--accent);
 }
 
@@ -141,9 +139,10 @@ const navigateToAddCards = () => {
   flex-shrink: 0;
 }
 
-.foil-indicator {
+.foil-indicator :deep(svg) {
+  width: 12px;
+  height: 12px;
   color: var(--accent);
-  font-size: 12px;
 }
 
 .card-price {

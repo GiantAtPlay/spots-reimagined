@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Badge from './Badge.vue';
+import Icon from './Icon.vue';
 
 defineProps<{
   title: string;
@@ -28,14 +29,14 @@ defineEmits<{
         title="Add"
         @click="$emit('add')"
       >
-        <font-awesome-icon icon="plus" />
+        <Icon icon="plus" />
       </button>
       <button
         class="icon-btn"
         title="Toggle Theme"
         @click="$emit('toggle-theme')"
       >
-        <font-awesome-icon :icon="isDarkTheme ? 'moon' : 'sun'" />
+        <Icon :icon="isDarkTheme ? 'moon' : 'sun'" />
       </button>
     </div>
   </header>
