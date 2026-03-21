@@ -89,6 +89,8 @@ const navigateToTrackers = () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .empty-state {

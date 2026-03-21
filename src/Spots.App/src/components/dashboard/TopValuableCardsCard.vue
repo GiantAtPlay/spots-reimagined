@@ -78,6 +78,8 @@ const navigateToAddCards = () => {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  max-height: 480px;
+  overflow-y: auto;
 }
 
 .valuable-card-row {
