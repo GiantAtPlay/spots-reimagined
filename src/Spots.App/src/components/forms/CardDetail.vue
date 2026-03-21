@@ -135,7 +135,7 @@ const handleSave = () => {
               <div class="qty-control">
                 <Button 
                   variant="secondary" 
-                  size="small" 
+                  size="tiny" 
                   icon="minus" 
                   icon-only
                   sr-text="Decrease quantity"
@@ -149,7 +149,7 @@ const handleSave = () => {
                 />
                 <Button 
                   variant="secondary" 
-                  size="small" 
+                  size="tiny" 
                   icon="plus" 
                   icon-only
                   sr-text="Increase quantity"
@@ -163,20 +163,21 @@ const handleSave = () => {
                 </option>
               </select>
               
-              <button 
-                class="trade-toggle" 
-                :class="{ active: entry.forTrade }"
+              <Button
+                  :variant="entry.forTrade ? 'primary' : 'secondary'"
+                  icon="exchange-alt"
+                  size="small"
+                  icon-only
+                  sr-text="For trade"
                 @click="entry.forTrade = !entry.forTrade"
-                title="For Trade"
-              >
-                <font-awesome-icon icon="exchange-alt" />
-              </button>
+              />
               
               <Button 
                 variant="danger" 
                 size="small" 
                 icon="trash" 
                 icon-only
+                :bounce="false"
                 sr-text="Remove card"
                 @click="removeStandardCard(entry.id)"
               />
@@ -201,7 +202,7 @@ const handleSave = () => {
               <div class="qty-control">
                 <Button 
                   variant="secondary" 
-                  size="small" 
+                  size="tiny" 
                   icon="minus" 
                   icon-only
                   sr-text="Decrease quantity"
@@ -215,7 +216,7 @@ const handleSave = () => {
                 />
                 <Button 
                   variant="secondary" 
-                  size="small" 
+                  size="tiny" 
                   icon="plus" 
                   icon-only
                   sr-text="Increase quantity"
@@ -229,14 +230,15 @@ const handleSave = () => {
                 </option>
               </select>
               
-              <button 
-                class="trade-toggle" 
-                :class="{ active: entry.forTrade }"
+              <Button
+                  :variant="entry.forTrade ? 'primary' : 'secondary'"
+                  icon="exchange-alt"
+                  size="small"
+                  icon-only
+                  :bounce="false"
+                  sr-text="For trade"
                 @click="entry.forTrade = !entry.forTrade"
-                title="For Trade"
-              >
-                <font-awesome-icon icon="exchange-alt" />
-              </button>
+              />
               
               <Button 
                 variant="danger" 
