@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { useRoute, useRouter, type LocationQuery, type LocationQueryRaw } from 'vue-router';
 import { useFlyoutStore } from '../stores/flyout';
 import { mockCards, type Card } from '../data/mockCards';
 import CollectionToolbar from '../components/collection/CollectionToolbar.vue';
@@ -9,19 +10,26 @@ import DataTable from '../components/DataTable.vue';
 import CardImage from '../components/CardImage.vue';
 import Button from '../components/Button.vue';
 import Icon from '../components/Icon.vue';
+import { defaultCollectionFilters, type CollectionFilters } from '../types/collectionFilters';
 
+const route = useRoute();
+const router = useRouter();
 const flyoutStore = useFlyoutStore();
+
 const viewMode = ref<'grid' | 'list'>('grid');
 const gridSize = ref(5);
 const currentPage = ref(1);
 const itemsPerPage = 12;
+const searchQuery = ref('');
+
+const filters = ref<CollectionFilters>(defaultCollectionFilters());
 
 const columns = [
   { key: 'card', label: 'Card' },
   { key: 'setCode', label: 'Set' },
   { key: 'nonFoilCount', label: 'Non-Foil' },
   { key: 'foilCount', label: 'Foil' },
-  { key: 'actions', label: 'Actions', align: 'right' as const }
+  { key: 'actions', label: 'Actions', align: 'right' as const },
 ];
 
 const filteredCards = computed(() => {
@@ -38,9 +46,90 @@ const totalPages = computed(() => {
   return Math.ceil(filteredCards.value.length / itemsPerPage);
 });
 
+const hasActiveFilters = computed(() => {
+  return (
+    filters.value.spotIds.length > 0 ||
+    filters.value.trackerIds.length > 0 ||
+    filters.value.forTrade !== null ||
+    filters.value.rarities.length > 0
+  );
+});
+
+const parseList = (value: unknown): string[] => {
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (typeof raw !== 'string' || !raw.trim()) return [];
+  return raw
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+};
+
+const parseBool = (value: unknown): boolean | null => {
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (raw === 'true') return true;
+  if (raw === 'false') return false;
+  return null;
+};
+
+const isRarity = (value: string): value is Card['rarity'] => {
+  return ['common', 'uncommon', 'rare', 'mythic'].includes(value);
+};
+
+const parseFiltersFromQuery = (query: LocationQuery): CollectionFilters => {
+  const spotIds = parseList(query.spot);
+  const trackerIds = parseList(query.tracker);
+  const forTrade = parseBool(query.forTrade);
+  const rarities = parseList(query.rarity).filter(isRarity);
+
+  return {
+    spotIds,
+    trackerIds,
+    forTrade,
+    rarities,
+  };
+};
+
+const serializeFiltersToQuery = (nextFilters: CollectionFilters): LocationQueryRaw => {
+  const nextQuery: LocationQueryRaw = {
+    ...route.query,
+  };
+
+  delete nextQuery.spot;
+  delete nextQuery.tracker;
+  delete nextQuery.forTrade;
+  delete nextQuery.rarity;
+
+  if (nextFilters.spotIds.length > 0) {
+    nextQuery.spot = nextFilters.spotIds.join(',');
+  }
+
+  if (nextFilters.trackerIds.length > 0) {
+    nextQuery.tracker = nextFilters.trackerIds.join(',');
+  }
+
+  if (nextFilters.forTrade !== null) {
+    nextQuery.forTrade = String(nextFilters.forTrade);
+  }
+
+  if (nextFilters.rarities.length > 0) {
+    nextQuery.rarity = nextFilters.rarities.join(',');
+  }
+
+  return nextQuery;
+};
+
+const requestCollectionData = () => {
+  console.log('Request collection data', {
+    page: currentPage.value,
+    searchQuery: searchQuery.value,
+    filters: filters.value,
+  });
+};
+
 const handleSearch = (query: string) => {
-  console.log('Search:', query);
+  searchQuery.value = query;
   currentPage.value = 1;
+  requestCollectionData();
 };
 
 const handleCardClick = (card: Card) => {
@@ -48,10 +137,39 @@ const handleCardClick = (card: Card) => {
     title: card.name,
     component: 'CardDetail',
     props: {
-      card: card
-    }
+      card,
+    },
   });
 };
+
+const applyFilters = async (nextFilters: CollectionFilters) => {
+  currentPage.value = 1;
+  await router.replace({ query: serializeFiltersToQuery(nextFilters) });
+};
+
+const openFilters = () => {
+  flyoutStore.open({
+    title: 'Collection Filters',
+    component: 'CollectionFiltersForm',
+    props: {
+      initialFilters: filters.value,
+      onApply: applyFilters,
+    },
+  });
+};
+
+watch(
+  () => route.query,
+  (query) => {
+    filters.value = parseFiltersFromQuery(query);
+    requestCollectionData();
+  },
+  { immediate: true }
+);
+
+watch(currentPage, () => {
+  requestCollectionData();
+});
 </script>
 
 <template>
@@ -61,7 +179,9 @@ const handleCardClick = (card: Card) => {
       v-model:grid-size="gridSize"
       :total-results="filteredCards.length"
       :filtered-results="paginatedCards.length"
+      :has-active-filters="hasActiveFilters"
       @search="handleSearch"
+      @open-filters="openFilters"
     />
 
     <div class="results-info">
@@ -77,8 +197,8 @@ const handleCardClick = (card: Card) => {
     </div>
 
     <div v-else>
-      <DataTable 
-        :data="paginatedCards" 
+      <DataTable
+        :data="paginatedCards"
         :columns="columns"
         :row-clickable="true"
         @row-click="handleCardClick"

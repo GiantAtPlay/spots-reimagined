@@ -9,12 +9,14 @@ const props = defineProps<{
   gridSize: number;
   totalResults: number;
   filteredResults: number;
+  hasActiveFilters?: boolean;
 }>();
 
 const emit = defineEmits<{
   (e: 'update:viewMode', value: 'grid' | 'list'): void;
   (e: 'update:gridSize', value: number): void;
   (e: 'search', value: string): void;
+  (e: 'open-filters'): void;
 }>();
 
 const searchQuery = ref('');
@@ -53,7 +55,7 @@ const gridSizeLabel = computed(() => {
 
     <div class="toolbar-right">
       <div class="filters">
-        <button class="filter-btn">
+        <button class="filter-btn" :class="{ active: hasActiveFilters }" @click="emit('open-filters')">
           <Icon icon="filter" />
           Filters
         </button>
@@ -187,6 +189,18 @@ const gridSizeLabel = computed(() => {
   background: var(--tile-hover);
   color: var(--text-primary);
   border-color: var(--accent);
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.filter-btn.active:hover {
+  background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  color: white;
 }
 
 .size-slider {
