@@ -1,5 +1,5 @@
-import { mockCards, type Card, mockSets } from './mockCards';
-import { mockTrackers, type Tracker } from './mockTrackers';
+import { mockCards, mockSets } from './mockCards';
+import { mockTrackers } from './mockTrackers';
 
 export interface ColorStat {
   color: string;

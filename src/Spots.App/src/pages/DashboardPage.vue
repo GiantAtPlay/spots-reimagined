@@ -99,7 +99,17 @@ const trackersComplete = computed(() => {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  animation: fadeIn 0.5s ease-out;
 }
+
+.stats-grid > * {
+  animation: fadeIn 0.5s ease-out backwards;
+}
+
+.stats-grid > *:nth-child(1) { animation-delay: 0.1s; }
+.stats-grid > *:nth-child(2) { animation-delay: 0.15s; }
+.stats-grid > *:nth-child(3) { animation-delay: 0.2s; }
+.stats-grid > *:nth-child(4) { animation-delay: 0.25s; }
 
 .charts-row-1 {
   display: grid;
@@ -107,16 +117,46 @@ const trackersComplete = computed(() => {
   gap: 20px;
 }
 
+.charts-row-1 > * {
+  animation: fadeIn 0.5s ease-out backwards;
+}
+
+.charts-row-1 > *:nth-child(1) { animation-delay: 0.3s; }
+.charts-row-1 > *:nth-child(2) { animation-delay: 0.35s; }
+
 .charts-row-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
+.charts-row-2 > * {
+  animation: fadeIn 0.5s ease-out backwards;
+}
+
+.charts-row-2 > *:nth-child(1) { animation-delay: 0.4s; }
+.charts-row-2 > *:nth-child(2) { animation-delay: 0.45s; }
+
 .charts-row-3 {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
+}
+
+.charts-row-3 > * {
+  animation: fadeIn 0.5s ease-out backwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
 /* Tablet Responsive */
