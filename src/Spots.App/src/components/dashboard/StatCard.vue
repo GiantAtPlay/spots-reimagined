@@ -1,7 +1,7 @@
 <template>
   <div class="stat-card">
     <div class="stat-icon" :class="`stat-icon-${variant}`">
-      <i :class="`fas fa-${icon}`"></i>
+      <Icon :icon="icon" />
     </div>
     <div class="stat-label">{{ label }}</div>
     <div class="stat-value">{{ value }}</div>
@@ -9,6 +9,8 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '../Icon.vue';
+
 interface Props {
   icon: string;
   label: string;

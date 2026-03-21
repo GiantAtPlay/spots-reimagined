@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import Icon from './Icon.vue';
 
 defineProps<{
   pageTitle: string;
@@ -21,7 +22,7 @@ const toggleTheme = () => {
     <header class="guest-header">
       <div class="guest-logo">
         <div class="logo-icon">
-          <font-awesome-icon icon="cube" />
+          <Icon icon="cube" />
         </div>
         <span class="logo-text">Spots</span>
       </div>
@@ -30,7 +31,7 @@ const toggleTheme = () => {
         title="Toggle Theme"
         @click="toggleTheme"
       >
-        <font-awesome-icon :icon="isDarkTheme ? 'moon' : 'sun'" />
+        <Icon :icon="isDarkTheme ? 'moon' : 'sun'" />
       </button>
     </header>
 

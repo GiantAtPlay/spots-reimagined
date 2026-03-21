@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useCardHelpers } from '../composables/useCardHelpers';
+import Icon from './Icon.vue';
 
 interface Props {
   imageUrl?: string | null;
@@ -27,7 +28,7 @@ const sizeClass = computed(() => `card-image-${props.size}`);
       :alt="cardName"
       class="card-image"
     />
-    <font-awesome-icon v-else :icon="colourIcon" class="colour-icon" />
+    <Icon v-else :icon="colourIcon" class="colour-icon" />
   </div>
 </template>
 
@@ -59,8 +60,9 @@ const sizeClass = computed(() => `card-image-${props.size}`);
   height: 56px;
 }
 
-.card-image-small .colour-icon {
-  font-size: 16px;
+.card-image-small :deep(svg) {
+  width: 16px;
+  height: 16px;
 }
 
 /* Medium size - for card detail flyout */
@@ -69,8 +71,9 @@ const sizeClass = computed(() => `card-image-${props.size}`);
   height: 140px;
 }
 
-.card-image-medium .colour-icon {
-  font-size: 32px;
+.card-image-medium :deep(svg) {
+  width: 32px;
+  height: 32px;
 }
 
 /* Large size - for card tiles in grid view */
@@ -80,7 +83,8 @@ const sizeClass = computed(() => `card-image-${props.size}`);
   border-radius: 0;
 }
 
-.card-image-large .colour-icon {
-  font-size: 48px;
+.card-image-large :deep(svg) {
+  width: 48px;
+  height: 48px;
 }
 </style>

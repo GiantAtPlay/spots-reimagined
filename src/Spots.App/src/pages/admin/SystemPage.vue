@@ -4,7 +4,7 @@
       <div class="system-card">
         <div class="card-header">
           <div class="card-icon">
-            <font-awesome-icon icon="cloud-download" />
+            <Icon icon="cloud-download" />
           </div>
           <div class="card-title">
             <h3>Scryfall Data</h3>
@@ -36,7 +36,7 @@
       <div class="system-card">
         <div class="card-header">
           <div class="card-icon">
-            <font-awesome-icon icon="dollar-sign" />
+            <Icon icon="dollar-sign" />
           </div>
           <div class="card-title">
             <h3>Price Data</h3>
@@ -68,7 +68,7 @@
       <div class="system-card">
         <div class="card-header">
           <div class="card-icon">
-            <font-awesome-icon icon="database" />
+            <Icon icon="database" />
           </div>
           <div class="card-title">
             <h3>Database</h3>
@@ -98,7 +98,7 @@
       <div class="system-card danger-zone">
         <div class="card-header">
           <div class="card-icon danger">
-            <font-awesome-icon icon="exclamation-triangle" />
+            <Icon icon="exclamation-triangle" />
           </div>
           <div class="card-title">
             <h3>Reset Application</h3>
@@ -127,6 +127,7 @@
 
 <script setup lang="ts">
 import Button from '../../components/Button.vue';
+import Icon from '../../components/Icon.vue';
 </script>
 
 <style scoped>

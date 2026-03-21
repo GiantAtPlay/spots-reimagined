@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import GuestLayout from '../components/GuestLayout.vue';
 import Button from '../components/Button.vue';
+import Icon from '../components/Icon.vue';
 
 const router = useRouter();
 const currentStep = ref(1);
@@ -140,7 +141,7 @@ const prevStep = () => {
           <div class="import-options">
             <div class="import-option">
               <div class="import-icon">
-                <font-awesome-icon icon="file-import" />
+                <Icon icon="file-import" />
               </div>
               <div class="import-info">
                 <span class="import-title">Import from CSV</span>
@@ -150,7 +151,7 @@ const prevStep = () => {
             
             <div class="import-option">
               <div class="import-icon">
-                <font-awesome-icon icon="database" />
+                <Icon icon="database" />
               </div>
               <div class="import-info">
                 <span class="import-title">Import from Deckbox</span>
@@ -160,7 +161,7 @@ const prevStep = () => {
             
             <div class="import-option">
               <div class="import-icon">
-                <font-awesome-icon icon="snowflake" />
+                <Icon icon="snowflake" />
               </div>
               <div class="import-info">
                 <span class="import-title">Start Fresh</span>
@@ -172,7 +173,7 @@ const prevStep = () => {
 
         <div v-else-if="currentStep === 4" class="step-content">
           <div class="success-icon">
-            <font-awesome-icon icon="check" />
+            <Icon icon="check" />
           </div>
           <p class="success-text">You're all set!</p>
           <p class="success-subtext">Click below to start using Spots</p>
