@@ -24,6 +24,10 @@ export default defineConfig({
     include: ['tests/**/*.{test,spec}.ts'],
     alias: {
       '@': resolve(__dirname, 'src')
-    }
+    },
+    reporters: ['default', 'junit'],
+    outputFile: {
+      junit: 'test-results/results.xml',
+    },
   }
 })
