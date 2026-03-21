@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import { useFlyoutStore } from '../stores/flyout';
+import Icon from './Icon.vue';
 import UserEditForm from './forms/UserEditForm.vue';
 import CardDetail from './forms/CardDetail.vue';
 
@@ -72,7 +73,7 @@ const handleKeydown = (e: KeyboardEvent) => {
             class="flyout-close"
             @click="close"
           >
-            <font-awesome-icon icon="times" />
+            <Icon icon="times" />
           </button>
         </div>
 

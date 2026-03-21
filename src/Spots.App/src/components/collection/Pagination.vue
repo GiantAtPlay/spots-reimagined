@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import Icon from '../Icon.vue';
 
 const props = defineProps<{
   currentPage: number;
@@ -57,7 +58,7 @@ const goToPage = (page: number) => {
       :disabled="currentPage === 1"
       @click="goToPage(currentPage - 1)"
     >
-      <font-awesome-icon icon="chevron-left" />
+      <Icon icon="chevron-left" />
     </button>
 
     <template v-for="(page, index) in visiblePages" :key="index">
@@ -77,7 +78,7 @@ const goToPage = (page: number) => {
       :disabled="currentPage === totalPages"
       @click="goToPage(currentPage + 1)"
     >
-      <font-awesome-icon icon="chevron-right" />
+      <Icon icon="chevron-right" />
     </button>
   </div>
 </template>

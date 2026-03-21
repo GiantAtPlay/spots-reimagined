@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
+import Icon from './Icon.vue';
 
 interface NavItem {
   label: string;
@@ -39,7 +40,7 @@ const handleNavigate = (item: NavItem) => {
   <nav class="nav-panel">
     <div class="nav-logo">
       <div class="logo-icon">
-        <font-awesome-icon icon="cube" />
+        <Icon icon="cube" />
       </div>
       <span class="logo-text">Spots</span>
     </div>
@@ -63,7 +64,7 @@ const handleNavigate = (item: NavItem) => {
         :class="{ active: isActive(item.route) }"
         @click="handleNavigate(item)"
       >
-        <font-awesome-icon :icon="item.icon" />
+        <Icon :icon="item.icon" />
         <span>{{ item.label }}</span>
       </a>
     </div>
@@ -73,7 +74,7 @@ const handleNavigate = (item: NavItem) => {
         class="nav-item"
         @click="handleNavigate({ route: '/logged-out', label: 'Logout', icon: 'sign-out-alt' })"
       >
-        <font-awesome-icon icon="sign-out-alt" />
+        <Icon icon="sign-out-alt" />
         <span>Logout</span>
       </a>
     </div>
