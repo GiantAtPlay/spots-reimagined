@@ -45,9 +45,7 @@ const isGuestRoute = computed(() => {
 
 const pageTitle = computed(() => {
   const routeName = route.name as string;
-  if (routeName === 'Collection' && route.query.forTrade === 'true') {
-    return 'For Trade';
-  }
+  
   const titleMap: Record<string, string> = {
     'Dashboard': 'Dashboard',
     'Collection': 'Collection',
