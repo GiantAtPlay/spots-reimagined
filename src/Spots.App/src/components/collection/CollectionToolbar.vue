@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import Button from '../Button.vue';
 import ButtonGroup from '../ButtonGroup.vue';
+import Icon from '../Icon.vue';
 
 const props = defineProps<{
   viewMode: 'grid' | 'list';
@@ -39,7 +40,7 @@ const gridSizeLabel = computed(() => {
   <div class="toolbar">
     <div class="search-container">
       <div class="search-wrapper">
-        <font-awesome-icon icon="search" class="search-icon" />
+        <Icon icon="search" class="search-icon" />
         <input
           v-model="searchQuery"
           type="text"
@@ -53,17 +54,17 @@ const gridSizeLabel = computed(() => {
     <div class="toolbar-right">
       <div class="filters">
         <button class="filter-btn">
-          <font-awesome-icon icon="filter" />
+          <Icon icon="filter" />
           Filters
         </button>
         <button class="filter-btn">
-          <font-awesome-icon icon="sort" />
+          <Icon icon="sort" />
           Sort
         </button>
       </div>
 
       <div v-if="viewMode === 'grid'" class="size-slider">
-        <font-awesome-icon icon="th" class="size-icon" />
+        <Icon icon="th" class="size-icon" />
         <input
           type="range"
           min="3"
@@ -129,7 +130,11 @@ const gridSizeLabel = computed(() => {
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-secondary);
-  font-size: 14px;
+}
+
+.search-icon :deep(svg) {
+  width: 14px;
+  height: 14px;
 }
 
 .search-input {
@@ -192,7 +197,11 @@ const gridSizeLabel = computed(() => {
 
 .size-icon {
   color: var(--text-secondary);
-  font-size: 14px;
+}
+
+.size-icon :deep(svg) {
+  width: 14px;
+  height: 14px;
 }
 
 .size-slider input[type="range"] {

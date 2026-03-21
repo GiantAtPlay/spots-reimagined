@@ -2,6 +2,7 @@
 import { useFlyoutStore } from '../../stores/flyout';
 import CardImage from '../CardImage.vue';
 import Button from '../Button.vue';
+import Icon from '../Icon.vue';
 import type { Card } from '../../data/mockCards';
 
 const props = defineProps<{
@@ -68,11 +69,11 @@ const handleAddFoil = (e: Event) => {
       <p class="card-tile-set">{{ card.setName }}</p>
       <div class="card-counts">
         <span class="count-badge count-nonfoil">
-          <font-awesome-icon icon="box" class="count-icon" />
+          <Icon icon="box" class="count-icon" />
           {{ card.nonFoilCount }}
         </span>
         <span v-if="card.foilCount > 0" class="count-badge count-foil">
-          <font-awesome-icon icon="gem" class="count-icon" />
+          <Icon icon="gem" class="count-icon" />
           {{ card.foilCount }}
         </span>
       </div>
@@ -172,8 +173,9 @@ const handleAddFoil = (e: Event) => {
   gap: 4px;
 }
 
-.count-icon {
-  font-size: 10px;
+.count-icon :deep(svg) {
+  width: 10px;
+  height: 10px;
 }
 
 .count-nonfoil {

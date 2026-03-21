@@ -8,6 +8,7 @@ import Pagination from '../components/collection/Pagination.vue';
 import DataTable from '../components/DataTable.vue';
 import CardImage from '../components/CardImage.vue';
 import Button from '../components/Button.vue';
+import Icon from '../components/Icon.vue';
 
 const flyoutStore = useFlyoutStore();
 const viewMode = ref<'grid' | 'list'>('grid');
@@ -99,14 +100,14 @@ const handleCardClick = (card: Card) => {
 
         <template #cell(nonFoilCount)="{ value }">
           <span class="count-cell">
-            <font-awesome-icon icon="box" class="count-icon" />
+            <Icon icon="box" class="count-icon" />
             {{ value }}
           </span>
         </template>
 
         <template #cell(foilCount)="{ value }">
           <span class="count-cell" :class="{ 'has-foil': value > 0 }">
-            <font-awesome-icon icon="gem" class="count-icon" />
+            <Icon icon="gem" class="count-icon" />
             {{ value }}
           </span>
         </template>
@@ -183,8 +184,9 @@ const handleCardClick = (card: Card) => {
   color: var(--accent);
 }
 
-.count-icon {
-  font-size: 10px;
+.count-icon :deep(svg) {
+  width: 10px;
+  height: 10px;
 }
 
 .table-actions {

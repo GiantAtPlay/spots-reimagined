@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import Icon from './Icon.vue';
 
 interface Props {
   variant?: 'primary' | 'secondary' | 'danger';
@@ -46,7 +47,7 @@ const showSrText = computed(() => props.iconOnly && props.srText);
     :disabled="disabled" 
     :type="type"
   >
-    <font-awesome-icon v-if="icon" :icon="icon" />
+    <Icon v-if="icon" :icon="icon" />
     <span v-if="showSrText" class="sr-only">{{ srText }}</span>
     <slot v-if="!iconOnly"></slot>
   </button>
