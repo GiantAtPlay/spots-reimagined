@@ -43,12 +43,3 @@ jobs:
           name: dotnet-test-results
           path: '**/*.trx'
           retention-days: 14
-
-      - name: Publish test results
-        if: always()
-        uses: dorny/test-reporter@v1
-        with:
-          name: .NET Tests (xUnit)
-          path: '**/*.trx'
-          reporter: dotnet-trx
-          fail-on-error: true

@@ -50,12 +50,3 @@ jobs:
           name: ui-test-results
           path: src/Spots.App/test-results/results.xml
           retention-days: 14
-
-      - name: Publish test results
-        if: always()
-        uses: dorny/test-reporter@v1
-        with:
-          name: Vitest Tests
-          path: src/Spots.App/test-results/results.xml
-          reporter: java-junit
-          fail-on-error: true
