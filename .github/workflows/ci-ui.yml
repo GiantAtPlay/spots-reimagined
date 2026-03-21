@@ -10,6 +10,10 @@ concurrency:
   group: ui-tests-${{ github.head_ref }}
   cancel-in-progress: true
 
+permissions:
+  checks: write
+  pull-requests: write
+
 jobs:
   test:
     name: Run UI Tests
@@ -43,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ui-test-results
-          path: src/Spots.App/test-results/results.xml
+          path: test-results/results.xml
           retention-days: 14
 
       - name: Publish test results
@@ -51,6 +55,7 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
           name: Vitest Tests
-          path: src/Spots.App/test-results/results.xml
+          path: test-results/results.xml
           reporter: java-junit
-          fail-on: test_failures
+          working-directory: src/Spots.App
+          fail-on-error: true

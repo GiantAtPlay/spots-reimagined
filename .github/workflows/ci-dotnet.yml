@@ -12,6 +12,10 @@ concurrency:
   group: dotnet-tests-${{ github.head_ref }}
   cancel-in-progress: true
 
+permissions:
+  checks: write
+  pull-requests: write
+
 jobs:
   test:
     name: Run .NET Tests
@@ -37,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dotnet-test-results
-          path: '**/test-results/*.trx'
+          path: '**/*.trx'
           retention-days: 14
 
       - name: Publish test results
@@ -47,4 +51,4 @@ jobs:
           name: .NET Tests (xUnit)
           path: '**/*.trx'
           reporter: dotnet-trx
-          fail-on: test_failures
+          fail-on-error: true
