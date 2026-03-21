@@ -15,7 +15,7 @@ const navSections = [
     items: [
       { label: 'View', icon: 'layer-group', route: '/collection' },
       { label: 'Add Cards', icon: 'plus-circle', route: '/collection/add' },
-      { label: 'For Trade', icon: 'exchange-alt', route: '/collection/trade' },
+      { label: 'For Trade', icon: 'exchange-alt', route: '/collection?forTrade=true' },
     ],
   },
   {
@@ -45,11 +45,13 @@ const isGuestRoute = computed(() => {
 
 const pageTitle = computed(() => {
   const routeName = route.name as string;
+  if (routeName === 'Collection' && route.query.forTrade === 'true') {
+    return 'For Trade';
+  }
   const titleMap: Record<string, string> = {
     'Dashboard': 'Dashboard',
     'Collection': 'Collection',
     'AddCards': 'Add Cards',
-    'ForTrade': 'For Trade',
     'Trackers': 'Trackers',
     'Spots': 'Spots',
     'Settings': 'Settings',

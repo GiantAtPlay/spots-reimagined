@@ -19,7 +19,12 @@ const routes = [
   {
     path: '/collection/trade',
     name: 'ForTrade',
-    component: () => import('../pages/ForTradePage.vue'),
+    redirect: {
+      path: '/collection',
+      query: {
+        forTrade: 'true',
+      },
+    },
   },
   {
     path: '/trackers',

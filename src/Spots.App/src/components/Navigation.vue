@@ -26,7 +26,13 @@ const route = useRoute();
 
 const isActive = (itemRoute?: string): boolean => {
   if (!itemRoute) return false;
-  return route.path === itemRoute;
+
+  const [targetPath, queryString] = itemRoute.split('?');
+  if (route.path !== targetPath) return false;
+  if (!queryString) return true;
+
+  const params = new URLSearchParams(queryString);
+  return Array.from(params.entries()).every(([key, value]) => route.query[key] === value);
 };
 
 const handleNavigate = (item: NavItem) => {
