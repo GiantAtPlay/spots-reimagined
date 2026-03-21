@@ -13,6 +13,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'add-non-foil', card: Card): void;
   (e: 'add-foil', card: Card): void;
+  (e: 'search-prints', card: Card): void;
 }>();
 
 const flyoutStore = useFlyoutStore();
@@ -45,6 +46,11 @@ const handleAddFoil = (e: Event) => {
     console.log('Add foil', props.card.id);
   }
 };
+
+const handleSearchPrints = (e: Event) => {
+  e.stopPropagation();
+  emit('search-prints', props.card);
+};
 </script>
 
 <template>
@@ -76,6 +82,16 @@ const handleAddFoil = (e: Event) => {
         sr-text="Add Foil"
         class="foil-button"
         @click="handleAddFoil"
+      />
+      <Button
+        v-if="mode === 'search'"
+        variant="secondary"
+        size="small"
+        icon="search"
+        icon-only
+        sr-text="Search all prints"
+        class="search-prints-button"
+        @click="handleSearchPrints"
       />
     </div>
 

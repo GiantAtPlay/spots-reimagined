@@ -72,6 +72,15 @@ const handleAddFoil = (card: Card) => {
   console.log('Add foil to collection:', card.id, card.name);
 };
 
+// Search all unique prints of a specific card by exact name
+const handleSearchPrints = async (card: Card) => {
+  const query = `!"${card.name}"`;
+  searchInput.value = query;
+  currentPage.value = 1;
+  hasSearched.value = true;
+  await searchCards(query, 1);
+};
+
 const resultsStart = computed(() =>
   totalCards.value > 0 ? (currentPage.value - 1) * SCRYFALL_PAGE_SIZE + 1 : 0
 );
@@ -158,6 +167,7 @@ const resultsEnd = computed(() =>
         mode="search"
         @add-non-foil="handleAddNonFoil"
         @add-foil="handleAddFoil"
+        @search-prints="handleSearchPrints"
       />
     </div>
 
@@ -189,6 +199,9 @@ const resultsEnd = computed(() =>
 
         <template #cell(actions)="{ row }">
           <div class="table-actions">
+            <Button variant="secondary" size="small" icon="search" @click.stop="handleSearchPrints(row)">
+              Prints
+            </Button>
             <Button variant="secondary" size="small" icon="plus" @click.stop="handleAddNonFoil(row)">
               Add
             </Button>
