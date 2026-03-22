@@ -16,27 +16,29 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <Transition name="confirm-fade">
-    <div v-if="visible" class="confirm-overlay" @click.self="emit('cancel')">
-      <div class="confirm-dialog" role="alertdialog" aria-modal="true">
-        <div class="confirm-icon-wrap">
-          <Icon icon="triangle-exclamation" class="confirm-icon" />
-        </div>
-        <div class="confirm-body">
-          <p class="confirm-message">{{ message }}</p>
-          <p v-if="detail" class="confirm-detail">{{ detail }}</p>
-        </div>
-        <div class="confirm-actions">
-          <Button variant="secondary" size="small" @click="emit('cancel')">
-            Cancel
-          </Button>
-          <Button variant="danger" size="small" @click="emit('confirm')">
-            {{ confirmLabel ?? 'Delete' }}
-          </Button>
+  <Teleport to="body">
+    <Transition name="confirm-fade">
+      <div v-if="visible" class="confirm-overlay" @click.self="emit('cancel')">
+        <div class="confirm-dialog" role="alertdialog" aria-modal="true">
+          <div class="confirm-icon-wrap">
+            <Icon icon="triangle-exclamation" class="confirm-icon" />
+          </div>
+          <div class="confirm-body">
+            <p class="confirm-message">{{ message }}</p>
+            <p v-if="detail" class="confirm-detail">{{ detail }}</p>
+          </div>
+          <div class="confirm-actions">
+            <Button variant="secondary" size="small" @click="emit('cancel')">
+              Cancel
+            </Button>
+            <Button variant="danger" size="small" @click="emit('confirm')">
+              {{ confirmLabel ?? 'Delete' }}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
-  </Transition>
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped>
