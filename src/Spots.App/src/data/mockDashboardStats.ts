@@ -1,5 +1,5 @@
 import { mockCards, mockSets } from './mockCards';
-import { mockTrackers } from './mockTrackers';
+import { mockTrackers, getTrackerStats } from './mockTrackers';
 
 export interface ColorStat {
   color: string;
@@ -86,7 +86,7 @@ function calculateSetsComplete(): number {
   const completeSets = new Set<string>();
   
   mockTrackers.forEach(tracker => {
-    if (tracker.isComplete && tracker.setCode) {
+    if (getTrackerStats(tracker).isComplete && tracker.setCode) {
       completeSets.add(tracker.setCode);
     }
   });
@@ -186,7 +186,7 @@ export function calculateDashboardStats(): DashboardStats {
     collectionValue: calculateCollectionValue(),
     setsComplete: calculateSetsComplete(),
     totalSets: mockSets.length,
-    trackersComplete: mockTrackers.filter(t => t.isComplete).length,
+    trackersComplete: mockTrackers.filter(t => getTrackerStats(t).isComplete).length,
     totalTrackers: mockTrackers.length,
     colorDistribution: calculateColorDistribution(),
     rarityDistribution: calculateRarityDistribution(),

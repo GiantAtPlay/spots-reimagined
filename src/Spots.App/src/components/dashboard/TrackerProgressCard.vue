@@ -10,7 +10,7 @@
         v-for="tracker in displayedTrackers"
         :key="tracker.id"
         :label="tracker.name"
-        :percent="tracker.percentComplete"
+        :percent="getTrackerStats(tracker).percentComplete"
       />
     </div>
     
@@ -34,6 +34,7 @@ import ProgressBar from './ProgressBar.vue';
 import Button from '../Button.vue';
 import Icon from '../Icon.vue';
 import type { Tracker } from '@/data/mockTrackers';
+import { getTrackerStats } from '@/data/mockTrackers';
 
 interface Props {
   title: string;

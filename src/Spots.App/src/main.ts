@@ -1,14 +1,14 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCube, faSignOutAlt, faPlus, faMoon, faThLarge, faLayerGroup, faPlusCircle, faExchangeAlt, faTasks, faMapMarkerAlt, faCog, faSun, faCheck, faFileImport, faDatabase, faSnowflake, faUsers, faServer, faCloudDownload, faDollarSign, faEdit, faTrash, faExclamationTriangle, faTimes, faUserShield, faUser, faSearch, faFilter, faSort, faChevronLeft, faChevronRight, faBox, faGem, faSkull, faFire, faLeaf, faGavel, faBolt, faArrowDown, faTh, faTint, faList, faTurnDown, faMinus, faClone, faPalette, faStar, faCertificate, faCircle, faTrophy, faCheckCircle, faPaintBrush, faCircleInfo, faSpinner, faExclamationCircle, faInbox } from '@fortawesome/free-solid-svg-icons';
+import { faCube, faSignOutAlt, faPlus, faMoon, faThLarge, faLayerGroup, faPlusCircle, faExchangeAlt, faTasks, faMapMarkerAlt, faCog, faSun, faCheck, faFileImport, faDatabase, faSnowflake, faUsers, faServer, faCloudDownload, faDollarSign, faEdit, faTrash, faExclamationTriangle, faTimes, faUserShield, faUser, faSearch, faFilter, faSort, faChevronLeft, faChevronRight, faBox, faGem, faSkull, faFire, faLeaf, faGavel, faBolt, faArrowDown, faTh, faTint, faList, faTurnDown, faMinus, faClone, faPalette, faStar, faCertificate, faCircle, faTrophy, faCheckCircle, faPaintBrush, faCircleInfo, faSpinner, faExclamationCircle, faInbox, faArrowLeft, faArrowRight, faChartLine, faEye, faEyeSlash, faGrip, faMagnifyingGlass, faTriangleExclamation, faWandMagicSparkles, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import App from './App.vue';
 import router from './router';
 import './style.css';
 
-library.add(faCube, faSignOutAlt, faPlus, faMoon, faThLarge, faLayerGroup, faPlusCircle, faExchangeAlt, faTasks, faMapMarkerAlt, faCog, faSun, faCheck, faFileImport, faDatabase, faSnowflake, faUsers, faServer, faCloudDownload, faDollarSign, faEdit, faTrash, faExclamationTriangle, faTimes, faUserShield, faUser, faSearch, faFilter, faSort, faChevronLeft, faChevronRight, faBox, faGem, faSkull, faFire, faLeaf, faGavel, faBolt, faArrowDown, faTh, faTint, faList, faTurnDown, faMinus, faClone, faPalette, faStar, faCertificate, faCircle, faTrophy, faCheckCircle, faPaintBrush, faCircleInfo, faSpinner, faExclamationCircle, faInbox);
+library.add(faCube, faSignOutAlt, faPlus, faMoon, faThLarge, faLayerGroup, faPlusCircle, faExchangeAlt, faTasks, faMapMarkerAlt, faCog, faSun, faCheck, faFileImport, faDatabase, faSnowflake, faUsers, faServer, faCloudDownload, faDollarSign, faEdit, faTrash, faExclamationTriangle, faTimes, faUserShield, faUser, faSearch, faFilter, faSort, faChevronLeft, faChevronRight, faBox, faGem, faSkull, faFire, faLeaf, faGavel, faBolt, faArrowDown, faTh, faTint, faList, faTurnDown, faMinus, faClone, faPalette, faStar, faCertificate, faCircle, faTrophy, faCheckCircle, faPaintBrush, faCircleInfo, faSpinner, faExclamationCircle, faInbox, faArrowLeft, faArrowRight, faChartLine, faEye, faEyeSlash, faGrip, faMagnifyingGlass, faTriangleExclamation, faWandMagicSparkles, faXmark);
 
 const app = createApp(App);
 const pinia = createPinia();

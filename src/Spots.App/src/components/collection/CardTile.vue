@@ -4,22 +4,25 @@ import CardImage from '../CardImage.vue';
 import Button from '../Button.vue';
 import Icon from '../Icon.vue';
 import type { Card } from '../../data/mockCards';
+import type { TrackerCard } from '../../data/mockTrackers';
 
 const props = defineProps<{
   card: Card;
-  mode?: 'collection' | 'search';
+  mode?: 'collection' | 'search' | 'tracker';
+  trackerCard?: TrackerCard;
 }>();
 
 const emit = defineEmits<{
   (e: 'add-non-foil', card: Card): void;
   (e: 'add-foil', card: Card): void;
   (e: 'search-prints', card: Card): void;
+  (e: 'untrack', card: TrackerCard): void;
 }>();
 
 const flyoutStore = useFlyoutStore();
 
 const handleCardClick = () => {
-  if (props.mode === 'search') return;
+  if (props.mode === 'search' || props.mode === 'tracker') return;
   flyoutStore.open({
     title: props.card.name,
     component: 'CardDetail',
@@ -51,10 +54,24 @@ const handleSearchPrints = (e: Event) => {
   e.stopPropagation();
   emit('search-prints', props.card);
 };
+
+const handleUntrack = (e: Event) => {
+  e.stopPropagation();
+  if (props.trackerCard) emit('untrack', props.trackerCard);
+};
 </script>
 
 <template>
-  <div class="card-tile" :class="{ 'card-tile--search': mode === 'search' }" @click="handleCardClick">
+  <div
+    class="card-tile"
+    :class="{
+      'card-tile--search': mode === 'search',
+      'card-tile--tracker': mode === 'tracker',
+      'card-tile--collected': mode === 'tracker' && trackerCard?.isCollected,
+      'card-tile--missing': mode === 'tracker' && !trackerCard?.isCollected,
+    }"
+    @click="handleCardClick"
+  >
     <div class="card-tile-image">
       <CardImage
         :image-url="card.imageUrl"
@@ -63,22 +80,32 @@ const handleSearchPrints = (e: Event) => {
         size="large"
       />
       <span class="set-badge">{{ card.setCode }}</span>
+
+      <!-- Tracker status overlay -->
+      <span
+        v-if="mode === 'tracker'"
+        class="tracker-status-badge"
+        :class="trackerCard?.isCollected ? 'tracker-status-badge--collected' : 'tracker-status-badge--missing'"
+      >
+        <Icon :icon="trackerCard?.isCollected ? 'check' : 'xmark'" />
+      </span>
     </div>
-    
-    <div class="card-tile-actions">
-      <Button 
-        variant="secondary" 
-        size="small" 
-        icon="plus" 
-        icon-only 
+
+    <!-- Collection / search actions -->
+    <div v-if="mode !== 'tracker'" class="card-tile-actions">
+      <Button
+        variant="secondary"
+        size="small"
+        icon="plus"
+        icon-only
         sr-text="Add Non-Foil"
         @click="handleAddNonFoil"
       />
-      <Button 
-        variant="secondary" 
-        size="small" 
-        icon="gem" 
-        icon-only 
+      <Button
+        variant="secondary"
+        size="small"
+        icon="gem"
+        icon-only
         sr-text="Add Foil"
         class="foil-button"
         @click="handleAddFoil"
@@ -95,10 +122,22 @@ const handleSearchPrints = (e: Event) => {
       />
     </div>
 
+    <!-- Tracker actions -->
+    <div v-if="mode === 'tracker'" class="card-tile-actions card-tile-actions--tracker">
+      <Button
+        variant="danger"
+        size="small"
+        icon="eye-slash"
+        icon-only
+        sr-text="Untrack card"
+        @click="handleUntrack"
+      />
+    </div>
+
     <div class="card-tile-info">
       <h3 class="card-tile-name">{{ card.name }}</h3>
       <p class="card-tile-set">{{ card.setName }}</p>
-      <div v-if="mode !== 'search'" class="card-counts">
+      <div v-if="mode !== 'search' && mode !== 'tracker'" class="card-counts">
         <span class="count-badge count-nonfoil">
           <Icon icon="box" class="count-icon" />
           {{ card.nonFoilCount }}
@@ -131,6 +170,26 @@ const handleSearchPrints = (e: Event) => {
   cursor: default;
 }
 
+.card-tile--tracker {
+  cursor: default;
+}
+
+/* Collected cards — subtle green border */
+.card-tile--tracker.card-tile--collected {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* Missing cards — desaturated */
+.card-tile--tracker.card-tile--missing {
+  opacity: 0.55;
+}
+
+.card-tile--tracker:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  opacity: 1;
+}
+
 .card-tile-image {
   width: 100%;
   position: relative;
@@ -149,6 +208,31 @@ const handleSearchPrints = (e: Event) => {
   font-weight: 600;
 }
 
+/* Tracker status badge */
+.tracker-status-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tracker-status-badge--collected {
+  background: rgba(16, 185, 129, 0.85);
+  color: white;
+}
+
+.tracker-status-badge--missing {
+  background: rgba(100, 116, 139, 0.7);
+  color: white;
+}
+
 .card-tile-actions {
   position: absolute;
   top: 8px;
@@ -164,6 +248,10 @@ const handleSearchPrints = (e: Event) => {
 }
 
 .card-tile-actions :deep(.btn) {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.card-tile-actions--tracker :deep(.btn) {
   background: rgba(0, 0, 0, 0.8);
 }
 

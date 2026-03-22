@@ -32,6 +32,16 @@ const routes = [
     component: () => import('../pages/TrackersPage.vue'),
   },
   {
+    path: '/trackers/create',
+    name: 'CreateTracker',
+    component: () => import('../pages/trackers/CreateTrackerPage.vue'),
+  },
+  {
+    path: '/trackers/:id',
+    name: 'TrackerDetail',
+    component: () => import('../pages/trackers/TrackerDetailPage.vue'),
+  },
+  {
     path: '/spots',
     name: 'Spots',
     component: () => import('../pages/SpotsPage.vue'),
