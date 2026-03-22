@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import SearchInput from '../SearchInput.vue';
 import ViewControls from '../ViewControls.vue';
 
-const props = defineProps<{
+defineProps<{
   viewMode: 'grid' | 'list';
   gridSize: number;
   totalResults: number;

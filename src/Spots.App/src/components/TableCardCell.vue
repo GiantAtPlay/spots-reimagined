@@ -17,7 +17,7 @@
 import CardImage from './CardImage.vue';
 
 defineProps<{
-  imageUrl: string;
+  imageUrl?: string;
   name: string;
   colour: string;
   subtitle: string;

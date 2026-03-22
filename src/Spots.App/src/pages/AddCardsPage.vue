@@ -3,10 +3,11 @@ import { ref, computed, watch } from 'vue';
 import { useFlyoutStore } from '../stores/flyout';
 import { useScryfall } from '../composables/useScryfall';
 import CardTile from '../components/collection/CardTile.vue';
-import ViewControls from '../components/collection/ViewControls.vue';
+import ViewControls from '../components/ViewControls.vue';
 import Pagination from '../components/collection/Pagination.vue';
 import DataTable from '../components/DataTable.vue';
-import CardImage from '../components/CardImage.vue';
+import CardGrid from '../components/CardGrid.vue';
+import TableCardCell from '../components/TableCardCell.vue';
 import Button from '../components/Button.vue';
 import Icon from '../components/Icon.vue';
 import type { Card } from '../data/mockCards';
@@ -159,7 +160,7 @@ const resultsEnd = computed(() =>
     </div>
 
     <!-- Grid results -->
-    <div v-else-if="viewMode === 'grid'" class="card-grid" :style="{ '--card-grid-cols': gridSize }">
+    <CardGrid v-else-if="viewMode === 'grid'" :cols="gridSize">
       <CardTile
         v-for="card in cards"
         :key="card.id"
@@ -169,7 +170,7 @@ const resultsEnd = computed(() =>
         @add-foil="handleAddFoil"
         @search-prints="handleSearchPrints"
       />
-    </div>
+    </CardGrid>
 
     <!-- List results -->
     <div v-else>
@@ -179,18 +180,12 @@ const resultsEnd = computed(() =>
         :row-clickable="false"
       >
         <template #cell(card)="{ row }">
-          <div class="table-card-info">
-            <CardImage
-              :image-url="row.imageUrl"
-              :card-name="row.name"
-              :colour="row.colour"
-              size="small"
-            />
-            <div class="table-card-details">
-              <span class="table-card-name">{{ row.name }}</span>
-              <span class="table-card-type">{{ row.type }}</span>
-            </div>
-          </div>
+          <TableCardCell
+            :image-url="row.imageUrl"
+            :name="row.name"
+            :colour="row.colour"
+            :subtitle="row.type"
+          />
         </template>
 
         <template #cell(rarity)="{ value }">
@@ -380,34 +375,7 @@ const resultsEnd = computed(() =>
   text-decoration: underline;
 }
 
-/* Grid */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--card-grid-cols, 5), 1fr);
-  gap: 16px;
-}
-
 /* Table */
-.table-card-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.table-card-details {
-  display: flex;
-  flex-direction: column;
-}
-
-.table-card-name {
-  font-weight: 500;
-}
-
-.table-card-type {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
 .rarity-badge {
   font-size: 11px;
   font-weight: 600;
