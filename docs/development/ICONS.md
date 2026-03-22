@@ -167,6 +167,21 @@ These are used in `CardImage.vue` via `useCardHelpers.ts`.
 | `sun` | Light theme indicator |
 | `arrow-down` | Collapse / descending |
 | `clone` | Duplicate / stacked items |
+| `arrow-left` | Back navigation |
+| `arrow-right` | Forward / CTA navigation |
+| `grip` | Grid view toggle / grid size indicator |
+| `magnifying-glass` | Empty search state illustration |
+| `xmark` | Missing / not-collected status indicator |
+| `triangle-exclamation` | Confirmation dialog warning icon |
+| `eye` | Re-track action |
+| `eye-slash` | Untrack action |
+
+### Trackers
+
+| Name | Usage |
+|------|-------|
+| `chart-line` | Empty trackers state illustration |
+| `wand-magic-sparkles` | Custom tracker search idle state |
 
 ---
 

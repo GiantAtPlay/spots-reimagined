@@ -292,7 +292,7 @@ const confirmDeleteTracker = () => {
 
     <!-- Results info -->
     <div class="results-info">
-      <span>Showing {{ filteredTracked.length }} of {{ trackedCards.length }} tracked cards</span>
+      <span>Showing {{ paginatedCards.length }} of {{ filteredTracked.length }} tracked cards</span>
       <span v-if="untrackedCards.length > 0" class="untracked-info">
         · {{ untrackedCards.length }} untracked
       </span>

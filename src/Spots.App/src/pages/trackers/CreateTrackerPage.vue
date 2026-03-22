@@ -176,13 +176,25 @@ const createCustomTracker = () => {
 <template>
   <div class="create-tracker-view">
 
-    <!-- Step indicator + back -->
+    <!-- Back -->
     <div class="create-header">
       <button class="back-btn" type="button" @click="goBack">
         <Icon icon="arrow-left" />
         <span>{{ step === 1 ? 'Trackers' : 'Back' }}</span>
       </button>
-      <span v-if="step === 2" class="step-indicator">Step 2 of 2</span>
+    </div>
+
+    <!-- Step indicator -->
+    <div class="steps">
+      <div class="step" :class="{ active: step >= 1, completed: step > 1 }">
+        <div class="step-number">1</div>
+        <span>Type</span>
+      </div>
+      <div class="step-line" :class="{ active: step > 1 }"></div>
+      <div class="step" :class="{ active: step >= 2 }">
+        <div class="step-number">2</div>
+        <span>Configure</span>
+      </div>
     </div>
 
     <h1 class="create-title">
@@ -446,7 +458,6 @@ const createCustomTracker = () => {
 .create-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .back-btn {
@@ -466,9 +477,67 @@ const createCustomTracker = () => {
   color: var(--text-primary);
 }
 
-.step-indicator {
+/* Step indicator */
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--tile-bg);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.step.active .step-number {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.step.completed .step-number {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.step span {
   font-size: 12px;
   color: var(--text-secondary);
+}
+
+.step.active span {
+  color: var(--accent);
+}
+
+.step-line {
+  width: 48px;
+  height: 2px;
+  margin: 0 8px;
+  margin-bottom: 20px;
+  background: var(--border);
+  transition: background 0.2s ease;
+}
+
+.step-line.active {
+  background: var(--accent);
 }
 
 .create-title {
