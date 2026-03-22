@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { mockDashboardStats } from '@/data/mockDashboardStats';
-import { mockTrackers } from '@/data/mockTrackers';
+import { mockTrackers, getTrackerStats } from '@/data/mockTrackers';
 import { formatNumber, formatCurrency } from '@/utils/formatters';
 import StatCard from '@/components/dashboard/StatCard.vue';
 import CompletionStatsCard from '@/components/dashboard/CompletionStatsCard.vue';
@@ -75,13 +75,16 @@ const stats = computed(() => mockDashboardStats);
 
 const trackersNearCompletion = computed(() => {
   return mockTrackers
-    .filter(t => !t.isComplete && t.percentComplete >= 75)
-    .sort((a, b) => b.percentComplete - a.percentComplete);
+    .filter(t => {
+      const s = getTrackerStats(t);
+      return !s.isComplete && s.percentComplete >= 75;
+    })
+    .sort((a, b) => getTrackerStats(b).percentComplete - getTrackerStats(a).percentComplete);
 });
 
 const trackersComplete = computed(() => {
   return mockTrackers
-    .filter(t => t.isComplete)
+    .filter(t => getTrackerStats(t).isComplete)
     .sort((a, b) => a.name.localeCompare(b.name));
 });
 </script>
