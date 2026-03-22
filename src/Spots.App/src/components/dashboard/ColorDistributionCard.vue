@@ -16,12 +16,18 @@
       />
     </div>
     
-    <div v-else class="empty-state">
-      <p class="empty-message">No cards in your collection yet</p>
-      <Button variant="primary" size="small" @click="navigateToAddCards">
-        Add Cards
-      </Button>
-    </div>
+    <EmptyState
+      v-else
+      variant="compact"
+      icon="paint-brush"
+      message="No cards in your collection yet"
+    >
+      <template #action>
+        <Button variant="primary" size="small" @click="navigateToAddCards">
+          Add Cards
+        </Button>
+      </template>
+    </EmptyState>
   </div>
 </template>
 
@@ -31,6 +37,7 @@ import { useRouter } from 'vue-router';
 import ProgressBar from './ProgressBar.vue';
 import Button from '../Button.vue';
 import Icon from '../Icon.vue';
+import EmptyState from '../EmptyState.vue';
 import type { ColorStat } from '@/data/mockDashboardStats';
 
 interface Props {
@@ -71,16 +78,5 @@ const navigateToAddCards = () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 24px 0;
-}
-
-.empty-message {
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-  font-size: 14px;
 }
 </style>

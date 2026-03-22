@@ -14,16 +14,22 @@
       />
     </div>
     
-    <div v-else class="empty-state">
-      <p class="empty-message">{{ emptyMessage }}</p>
-      <Button 
-        variant="primary" 
-        size="small" 
-        @click="navigateToTrackers"
-      >
-        {{ emptyCtaText }}
-      </Button>
-    </div>
+    <EmptyState
+      v-else
+      variant="compact"
+      :icon="icon"
+      :message="emptyMessage"
+    >
+      <template #action>
+        <Button 
+          variant="primary" 
+          size="small" 
+          @click="navigateToTrackers"
+        >
+          {{ emptyCtaText }}
+        </Button>
+      </template>
+    </EmptyState>
   </div>
 </template>
 
@@ -33,6 +39,7 @@ import { useRouter } from 'vue-router';
 import ProgressBar from './ProgressBar.vue';
 import Button from '../Button.vue';
 import Icon from '../Icon.vue';
+import EmptyState from '../EmptyState.vue';
 import type { Tracker } from '@/data/mockTrackers';
 import { getTrackerStats } from '@/data/mockTrackers';
 
@@ -92,14 +99,4 @@ const navigateToTrackers = () => {
   overflow-y: auto;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 24px 0;
-}
-
-.empty-message {
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-  font-size: 14px;
-}
 </style>

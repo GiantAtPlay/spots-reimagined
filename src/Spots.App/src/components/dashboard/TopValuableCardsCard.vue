@@ -23,12 +23,18 @@
       </div>
     </div>
     
-    <div v-else class="empty-state">
-      <p class="empty-message">No cards with prices yet</p>
-      <Button variant="primary" size="small" @click="navigateToAddCards">
-        Add Cards
-      </Button>
-    </div>
+    <EmptyState
+      v-else
+      variant="compact"
+      icon="dollar-sign"
+      message="No cards with prices yet"
+    >
+      <template #action>
+        <Button variant="primary" size="small" @click="navigateToAddCards">
+          Add Cards
+        </Button>
+      </template>
+    </EmptyState>
   </div>
 </template>
 
@@ -37,6 +43,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import Button from '../Button.vue';
 import Icon from '../Icon.vue';
+import EmptyState from '../EmptyState.vue';
 import { formatCurrency } from '@/utils/formatters';
 import type { ValuableCard } from '@/data/mockDashboardStats';
 
@@ -153,14 +160,4 @@ const navigateToAddCards = () => {
   text-align: right;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 24px 0;
-}
-
-.empty-message {
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-  font-size: 14px;
-}
 </style>

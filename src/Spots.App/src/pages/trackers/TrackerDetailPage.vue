@@ -16,6 +16,7 @@ import ConfirmDialog from '../../components/ConfirmDialog.vue';
 import RarityBadge from '../../components/RarityBadge.vue';
 import ViewControls from '../../components/ViewControls.vue';
 import SearchInput from '../../components/SearchInput.vue';
+import EmptyState from '../../components/EmptyState.vue';
 import { type TrackerFilters, defaultTrackerFilters } from '../../types/trackerFilters';
 
 const route = useRoute();
@@ -264,13 +265,18 @@ const confirmDeleteTracker = () => {
     </div>
 
     <!-- Empty filtered state -->
-    <div v-if="filteredTracked.length === 0" class="empty-state">
-      <Icon icon="magnifying-glass" class="empty-icon" />
-      <p>No cards match your current filters.</p>
-      <Button variant="secondary" size="small" @click="() => { searchQuery = ''; filters = defaultTrackerFilters(); }">
-        Clear Filters
-      </Button>
-    </div>
+    <EmptyState
+      v-if="filteredTracked.length === 0"
+      variant="compact"
+      icon="magnifying-glass"
+      message="No cards match your current filters."
+    >
+      <template #action>
+        <Button variant="secondary" size="small" @click="() => { searchQuery = ''; filters = defaultTrackerFilters(); }">
+          Clear Filters
+        </Button>
+      </template>
+    </EmptyState>
 
     <!-- Grid view -->
     <div
@@ -544,22 +550,6 @@ const confirmDeleteTracker = () => {
 
 .untracked-info {
   color: var(--text-secondary);
-}
-
-/* Empty state */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 40px;
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.empty-icon {
-  font-size: 28px;
 }
 
 /* Card grid */
