@@ -15,6 +15,7 @@ import Icon from '../../components/Icon.vue';
 import ConfirmDialog from '../../components/ConfirmDialog.vue';
 import RarityBadge from '../../components/RarityBadge.vue';
 import ViewControls from '../../components/ViewControls.vue';
+import SearchInput from '../../components/SearchInput.vue';
 import { type TrackerFilters, defaultTrackerFilters } from '../../types/trackerFilters';
 
 const route = useRoute();
@@ -230,18 +231,10 @@ const confirmDeleteTracker = () => {
     <!-- Toolbar -->
     <div class="toolbar">
       <div class="toolbar-left">
-        <div class="search-wrap">
-          <Icon icon="search" class="search-icon" />
-          <input
-            v-model="searchQuery"
-            type="text"
-            class="search-input"
-            placeholder="Search cards..."
-          />
-          <button v-if="searchQuery" class="search-clear" type="button" @click="searchQuery = ''">
-            <Icon icon="times" />
-          </button>
-        </div>
+        <SearchInput
+          v-model="searchQuery"
+          placeholder="Search cards..."
+        />
       </div>
 
       <div class="toolbar-right">
@@ -536,51 +529,6 @@ const confirmDeleteTracker = () => {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.search-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0 12px;
-  height: 40px;
-  transition: border-color 0.2s ease;
-}
-
-.search-wrap:focus-within {
-  border-color: var(--accent);
-}
-
-.search-icon {
-  color: var(--text-secondary);
-  font-size: 13px;
-}
-
-.search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text-primary);
-  font-size: 14px;
-  min-width: 0;
-}
-
-.search-input::placeholder {
-  color: var(--text-secondary);
-}
-
-.search-clear {
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
 }
 
 .filter-active {

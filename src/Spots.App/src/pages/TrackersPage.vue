@@ -6,6 +6,7 @@ import TrackerCard from '../components/trackers/TrackerCard.vue';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
 import Button from '../components/Button.vue';
 import Icon from '../components/Icon.vue';
+import SearchInput from '../components/SearchInput.vue';
 
 const router = useRouter();
 
@@ -119,18 +120,10 @@ const cancelDelete = () => {
     </div>
 
     <!-- Search bar -->
-    <div class="search-wrap">
-      <Icon icon="search" class="search-icon" />
-      <input
-        v-model="searchQuery"
-        type="text"
-        class="search-input"
-        placeholder="Search trackers by name or set..."
-      />
-      <button v-if="searchQuery" class="search-clear" type="button" @click="searchQuery = ''">
-        <Icon icon="times" />
-      </button>
-    </div>
+    <SearchInput
+      v-model="searchQuery"
+      placeholder="Search trackers by name or set..."
+    />
 
     <!-- Empty state — no trackers at all -->
     <div v-if="trackers.length === 0" class="empty-state">
@@ -259,57 +252,6 @@ const cancelDelete = () => {
 
 .summary-divider {
   color: var(--text-secondary);
-}
-
-/* Search bar */
-.search-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0 14px;
-  height: 44px;
-  gap: 10px;
-  transition: border-color 0.2s ease;
-}
-
-.search-wrap:focus-within {
-  border-color: var(--accent);
-}
-
-.search-icon {
-  color: var(--text-secondary);
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text-primary);
-  font-size: 14px;
-}
-
-.search-input::placeholder {
-  color: var(--text-secondary);
-}
-
-.search-clear {
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.search-clear:hover {
-  color: var(--text-primary);
 }
 
 /* Empty states */

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Icon from '../Icon.vue';
+import SearchInput from '../SearchInput.vue';
 import ViewControls from '../ViewControls.vue';
 
 const props = defineProps<{
@@ -19,35 +19,27 @@ const emit = defineEmits<{
 }>();
 
 const searchQuery = ref('');
-
-const handleSearch = () => {
-  emit('search', searchQuery.value);
-};
 </script>
 
 <template>
   <div class="toolbar">
     <div class="search-container">
-      <div class="search-wrapper">
-        <Icon icon="search" class="search-icon" />
-        <input
-          v-model="searchQuery"
-          type="text"
-          class="search-input"
-          placeholder="Search cards..."
-          @input="handleSearch"
-        />
-      </div>
+      <SearchInput
+        v-model="searchQuery"
+        variant="inline"
+        placeholder="Search cards..."
+        @update:model-value="emit('search', $event)"
+      />
     </div>
 
     <div class="toolbar-right">
       <div class="filters">
         <button class="filter-btn" :class="{ active: hasActiveFilters }" @click="emit('open-filters')">
-          <Icon icon="filter" />
+          <font-awesome-icon icon="filter" />
           Filters
         </button>
         <button class="filter-btn">
-          <Icon icon="sort" />
+          <font-awesome-icon icon="sort" />
           Sort
         </button>
       </div>
@@ -73,50 +65,8 @@ const handleSearch = () => {
 }
 
 .search-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   flex: 1;
   max-width: 500px;
-}
-
-.search-wrapper {
-  position: relative;
-  flex: 1;
-}
-
-.search-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-secondary);
-}
-
-.search-icon :deep(svg) {
-  width: 14px;
-  height: 14px;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px 16px;
-  padding-left: 40px;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  font-size: 14px;
-  outline: none;
-  transition: all 0.2s ease;
-}
-
-.search-input:focus {
-  border-color: var(--accent);
-}
-
-.search-input::placeholder {
-  color: var(--text-secondary);
 }
 
 .toolbar-right {
@@ -161,5 +111,4 @@ const handleSearch = () => {
   border-color: var(--accent-secondary);
   color: white;
 }
-
 </style>
