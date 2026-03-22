@@ -14,7 +14,7 @@ import Button from '../../components/Button.vue';
 import Icon from '../../components/Icon.vue';
 import ConfirmDialog from '../../components/ConfirmDialog.vue';
 import RarityBadge from '../../components/RarityBadge.vue';
-import ViewControls from '../../components/collection/ViewControls.vue';
+import ViewControls from '../../components/ViewControls.vue';
 import { type TrackerFilters, defaultTrackerFilters } from '../../types/trackerFilters';
 
 const route = useRoute();

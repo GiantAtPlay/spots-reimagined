@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import Button from '../Button.vue';
-import ButtonGroup from '../ButtonGroup.vue';
+import { ref } from 'vue';
 import Icon from '../Icon.vue';
+import ViewControls from '../ViewControls.vue';
 
 const props = defineProps<{
   viewMode: 'grid' | 'list';
@@ -24,18 +23,6 @@ const searchQuery = ref('');
 const handleSearch = () => {
   emit('search', searchQuery.value);
 };
-
-const gridSizeLabel = computed(() => {
-  const labels = {
-    3: 'Small',
-    4: 'Medium',
-    5: 'Large',
-    6: 'XL',
-    7: 'XXL',
-    8: 'Max'
-  };
-  return labels[props.gridSize as keyof typeof labels] || 'Medium';
-});
 </script>
 
 <template>
@@ -65,40 +52,12 @@ const gridSizeLabel = computed(() => {
         </button>
       </div>
 
-      <div v-if="viewMode === 'grid'" class="size-slider">
-        <Icon icon="th" class="size-icon" />
-        <input
-          type="range"
-          min="3"
-          max="8"
-          :value="gridSize"
-          @input="emit('update:gridSize', parseInt(($event.target as HTMLInputElement).value))"
-        />
-        <span class="size-label">{{ gridSizeLabel }}</span>
-      </div>
-
-      <div class="view-toggle">
-        <ButtonGroup>
-          <Button
-            :variant="viewMode === 'grid' ? 'primary' : 'secondary'"
-            size="default"
-            icon="th-large"
-            icon-only
-            :bounce="false"
-            sr-text="Grid view"
-            @click="emit('update:viewMode', 'grid')"
-          />
-          <Button
-            :variant="viewMode === 'list' ? 'primary' : 'secondary'"
-            size="default"
-            icon="list"
-            icon-only
-            :bounce="false"
-            sr-text="List view"
-            @click="emit('update:viewMode', 'list')"
-          />
-        </ButtonGroup>
-      </div>
+      <ViewControls
+        :view-mode="viewMode"
+        :grid-size="gridSize"
+        @update:view-mode="emit('update:viewMode', $event)"
+        @update:grid-size="emit('update:gridSize', $event)"
+      />
     </div>
   </div>
 </template>
@@ -203,36 +162,4 @@ const gridSizeLabel = computed(() => {
   color: white;
 }
 
-.size-slider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.size-icon {
-  color: var(--text-secondary);
-}
-
-.size-icon :deep(svg) {
-  width: 14px;
-  height: 14px;
-}
-
-.size-slider input[type="range"] {
-  width: 80px;
-  accent-color: var(--accent);
-}
-
-.size-label {
-  font-size: 13px;
-  color: var(--text-primary);
-  width: 45px;
-  text-align: center;
-}
-
-.view-toggle :deep(.active-view) {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
 </style>
