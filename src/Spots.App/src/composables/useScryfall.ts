@@ -2,6 +2,21 @@ import { ref } from 'vue';
 import type { Card } from '../data/mockCards';
 
 const SCRYFALL_API = 'https://api.scryfall.com/cards/search';
+const SCRYFALL_SETS_API = 'https://api.scryfall.com/sets';
+
+// Set types that are noise for a collector (digital-only, tokens, promos without useful data)
+const EXCLUDED_SET_TYPES = new Set(['alchemy', 'token', 'memorabilia', 'minigame']);
+
+export interface ScryfallSet {
+  id: string;
+  code: string;
+  name: string;
+  released_at: string;
+  card_count: number;
+  set_type: string;
+  icon_svg_uri: string;
+  digital: boolean;
+}
 
 interface ScryfallCard {
   id: string;
@@ -157,4 +172,80 @@ export function useScryfall() {
     searchCards,
     reset,
   };
+}
+
+export function useScryfallSets() {
+  const sets = ref<ScryfallSet[]>([]);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
+
+  async function fetchSets(): Promise<void> {
+    if (sets.value.length > 0) return; // already loaded
+    loading.value = true;
+    error.value = null;
+    try {
+      const response = await fetch(SCRYFALL_SETS_API);
+      if (!response.ok) {
+        throw new Error(`Failed to load sets (${response.status})`);
+      }
+      const data: { data: ScryfallSet[] } = await response.json();
+      sets.value = data.data
+        .filter((s) => !s.digital && !EXCLUDED_SET_TYPES.has(s.set_type))
+        .sort((a, b) => b.released_at.localeCompare(a.released_at));
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : 'Failed to load sets.';
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  return { sets, loading, error, fetchSets };
+}
+
+export function useScryfallSetCards() {
+  const cards = ref<Card[]>([]);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
+
+  async function searchCardsBySet(setCode: string): Promise<void> {
+    loading.value = true;
+    error.value = null;
+    cards.value = [];
+
+    try {
+      let page = 1;
+      let hasMore = true;
+      const allCards: Card[] = [];
+
+      while (hasMore) {
+        const params = new URLSearchParams({
+          q: `set:${setCode}`,
+          unique: 'prints',
+          page: String(page),
+        });
+
+        const response = await fetch(`${SCRYFALL_API}?${params}`);
+
+        if (!response.ok) {
+          if (response.status === 404) break;
+          const body = await response.json().catch(() => ({}));
+          throw new Error(body?.details ?? `Request failed (${response.status})`);
+        }
+
+        const data = await response.json();
+        allCards.push(...data.data.map(mapScryfallCard));
+        hasMore = data.has_more;
+        page++;
+      }
+
+      cards.value = allCards;
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : 'Failed to load set cards.';
+      cards.value = [];
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  return { cards, loading, error, searchCardsBySet };
 }
