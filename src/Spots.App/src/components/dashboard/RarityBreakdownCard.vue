@@ -1,10 +1,5 @@
 <template>
-  <div class="chart-card">
-    <div class="chart-title">
-          <Icon icon="star" />
-      Rarity Breakdown
-    </div>
-    
+  <ChartCard title="Rarity Breakdown" icon="star">
     <div class="rarity-breakdown">
       <!-- Top: Mythic -->
       <div class="rarity-item rarity-top">
@@ -43,12 +38,13 @@
         <div class="rarity-label">{{ getCommon.label }}</div>
       </div>
     </div>
-  </div>
+  </ChartCard>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { formatLargeNumber } from '@/utils/formatters';
+import ChartCard from '../ChartCard.vue';
 import Icon from '../Icon.vue';
 import type { RarityStat } from '@/data/mockDashboardStats';
 
@@ -69,23 +65,6 @@ const getCommon = computed(() => props.rarities.find(r => r.rarity === 'common')
 </script>
 
 <style scoped>
-.chart-card {
-  background: var(--tile-bg);
-  border-radius: var(--radius);
-  padding: 24px;
-  border: 1px solid var(--border);
-}
-
-.chart-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--accent);
-}
-
 .rarity-breakdown {
   display: flex;
   flex-direction: column;

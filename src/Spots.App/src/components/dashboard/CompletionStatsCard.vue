@@ -8,22 +8,12 @@
       <div class="completion-row">
         <span class="completion-label">Sets Complete</span>
         <span class="completion-value">{{ setsComplete }} / {{ totalSets }}</span>
-        <div class="completion-bar">
-          <div 
-            class="completion-fill" 
-            :style="{ width: `${setsPercentage}%` }"
-          />
-        </div>
+        <ProgressBar :percent="setsPercentage" :showValue="false" class="completion-progress" />
       </div>
       <div class="completion-row">
         <span class="completion-label">Trackers Complete</span>
         <span class="completion-value">{{ trackersComplete }} / {{ totalTrackers }}</span>
-        <div class="completion-bar">
-          <div 
-            class="completion-fill" 
-            :style="{ width: `${trackersPercentage}%` }"
-          />
-        </div>
+        <ProgressBar :percent="trackersPercentage" :showValue="false" class="completion-progress" />
       </div>
     </div>
   </div>
@@ -32,6 +22,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Icon from '../Icon.vue';
+import ProgressBar from './ProgressBar.vue';
 
 interface Props {
   setsComplete: number;
@@ -132,19 +123,16 @@ const trackersPercentage = computed(() => {
   grid-row: 1;
 }
 
-.completion-bar {
+.completion-progress {
   grid-column: 1 / -1;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  overflow: hidden;
   margin-top: 4px;
 }
 
-.completion-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
-  border-radius: 3px;
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+.completion-progress :deep(.progress-bar-container) {
+  gap: 0;
+}
+
+.completion-progress :deep(.progress-track) {
+  height: 6px;
 }
 </style>

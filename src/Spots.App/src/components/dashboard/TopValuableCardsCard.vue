@@ -1,10 +1,5 @@
 <template>
-  <div class="chart-card">
-    <div class="chart-title">
-      <Icon icon="dollar-sign" />
-      Top 10 Most Valuable Cards
-    </div>
-    
+  <ChartCard title="Top 10 Most Valuable Cards" icon="dollar-sign">
     <div v-if="hasCards" class="valuable-cards-list">
       <div 
         v-for="(card, index) in cards" 
@@ -35,12 +30,13 @@
         </Button>
       </template>
     </EmptyState>
-  </div>
+  </ChartCard>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import ChartCard from '../ChartCard.vue';
 import Button from '../Button.vue';
 import Icon from '../Icon.vue';
 import EmptyState from '../EmptyState.vue';
@@ -62,23 +58,6 @@ const navigateToAddCards = () => {
 </script>
 
 <style scoped>
-.chart-card {
-  background: var(--tile-bg);
-  border-radius: var(--radius);
-  padding: 24px;
-  border: 1px solid var(--border);
-}
-
-.chart-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--accent);
-}
-
 .valuable-cards-list {
   display: flex;
   flex-direction: column;

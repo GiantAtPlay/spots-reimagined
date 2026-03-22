@@ -1,10 +1,5 @@
 <template>
-  <div class="chart-card">
-    <div class="chart-title">
-      <Icon :icon="icon" />
-      {{ title }}
-    </div>
-    
+  <ChartCard :title="title" :icon="icon">
     <div v-if="hasTrackers" class="tracker-list">
       <ProgressBar
         v-for="tracker in displayedTrackers"
@@ -30,15 +25,15 @@
         </Button>
       </template>
     </EmptyState>
-  </div>
+  </ChartCard>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import ChartCard from '../ChartCard.vue';
 import ProgressBar from './ProgressBar.vue';
 import Button from '../Button.vue';
-import Icon from '../Icon.vue';
 import EmptyState from '../EmptyState.vue';
 import type { Tracker } from '@/data/mockTrackers';
 import { getTrackerStats } from '@/data/mockTrackers';
@@ -74,23 +69,6 @@ const navigateToTrackers = () => {
 </script>
 
 <style scoped>
-.chart-card {
-  background: var(--tile-bg);
-  border-radius: var(--radius);
-  padding: 24px;
-  border: 1px solid var(--border);
-}
-
-.chart-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--accent);
-}
-
 .tracker-list {
   display: flex;
   flex-direction: column;
