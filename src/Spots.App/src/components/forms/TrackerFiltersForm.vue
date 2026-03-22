@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import Button from '../Button.vue';
+import OptionChip from '../OptionChip.vue';
 import { type TrackerFilters, defaultTrackerFilters } from '../../types/trackerFilters';
 
 const props = defineProps<{
@@ -48,19 +49,14 @@ const handleClear = () => {
       <div class="section">
         <h3 class="section-title">Rarity</h3>
         <div class="options-grid">
-          <label
+          <OptionChip
             v-for="rarity in rarityOptions"
             :key="rarity"
-            class="option-chip"
-            :class="{ active: form.rarities.includes(rarity) }"
+            :modelValue="form.rarities.includes(rarity)"
+            @update:modelValue="toggleRarity(rarity)"
           >
-            <input
-              type="checkbox"
-              :checked="form.rarities.includes(rarity)"
-              @change="toggleRarity(rarity)"
-            />
             <span class="capitalize">{{ rarity }}</span>
-          </label>
+          </OptionChip>
         </div>
       </div>
 
@@ -138,28 +134,6 @@ const handleClear = () => {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-}
-
-.option-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
-  font-size: 13px;
-  color: var(--text-primary);
-  background: var(--tile-bg);
-  cursor: pointer;
-}
-
-.option-chip input {
-  margin: 0;
-}
-
-.option-chip.active {
-  border-color: var(--accent);
-  background: rgba(155, 77, 202, 0.12);
 }
 
 .toggle-group {

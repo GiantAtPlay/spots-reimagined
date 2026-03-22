@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import Button from '../Button.vue';
+import OptionChip from '../OptionChip.vue';
 import { mockSpots } from '../../data/mockSpots';
 import { mockTrackers } from '../../data/mockTrackers';
 import { defaultCollectionFilters, type CollectionFilters } from '../../types/collectionFilters';
@@ -60,38 +61,28 @@ const handleClear = () => {
       <div class="section">
         <h3 class="section-title">Spot</h3>
         <div class="options-grid options-grid--stacked">
-          <label
+          <OptionChip
             v-for="spot in mockSpots"
             :key="spot.id"
-            class="option-chip"
-            :class="{ active: form.spotIds.includes(spot.id) }"
+            :modelValue="form.spotIds.includes(spot.id)"
+            @update:modelValue="toggleSelection(form.spotIds, spot.id)"
           >
-            <input
-              type="checkbox"
-              :checked="form.spotIds.includes(spot.id)"
-              @change="toggleSelection(form.spotIds, spot.id)"
-            >
             <span>{{ spot.name }}</span>
-          </label>
+          </OptionChip>
         </div>
       </div>
 
       <div class="section">
         <h3 class="section-title">Tracker</h3>
         <div class="options-grid options-grid--stacked">
-          <label
+          <OptionChip
             v-for="tracker in mockTrackers"
             :key="tracker.id"
-            class="option-chip"
-            :class="{ active: form.trackerIds.includes(tracker.id) }"
+            :modelValue="form.trackerIds.includes(tracker.id)"
+            @update:modelValue="toggleSelection(form.trackerIds, tracker.id)"
           >
-            <input
-              type="checkbox"
-              :checked="form.trackerIds.includes(tracker.id)"
-              @change="toggleSelection(form.trackerIds, tracker.id)"
-            >
             <span>{{ tracker.name }}</span>
-          </label>
+          </OptionChip>
         </div>
       </div>
 
@@ -128,19 +119,14 @@ const handleClear = () => {
       <div class="section">
         <h3 class="section-title">Rarity</h3>
         <div class="options-grid">
-          <label
+          <OptionChip
             v-for="rarity in rarityOptions"
             :key="rarity"
-            class="option-chip"
-            :class="{ active: form.rarities.includes(rarity) }"
+            :modelValue="form.rarities.includes(rarity)"
+            @update:modelValue="toggleSelection(form.rarities, rarity)"
           >
-            <input
-              type="checkbox"
-              :checked="form.rarities.includes(rarity)"
-              @change="toggleSelection(form.rarities, rarity)"
-            >
             <span class="capitalize">{{ rarity }}</span>
-          </label>
+          </OptionChip>
         </div>
       </div>
     </div>
@@ -196,28 +182,6 @@ const handleClear = () => {
   max-height: 140px;
   overflow-y: auto;
   padding-right: 4px;
-}
-
-.option-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
-  font-size: 13px;
-  color: var(--text-primary);
-  background: var(--tile-bg);
-  cursor: pointer;
-}
-
-.option-chip input {
-  margin: 0;
-}
-
-.option-chip.active {
-  border-color: var(--accent);
-  background: rgba(155, 77, 202, 0.12);
 }
 
 .for-trade-toggle {
