@@ -6,7 +6,8 @@ import { mockTrackers, getTrackerStats, type Tracker, type TrackerCard } from '.
 import type { Card } from '../../data/mockCards';
 import CardTile from '../../components/collection/CardTile.vue';
 import DataTable from '../../components/DataTable.vue';
-import CardImage from '../../components/CardImage.vue';
+import CardGrid from '../../components/CardGrid.vue';
+import TableCardCell from '../../components/TableCardCell.vue';
 import Pagination from '../../components/collection/Pagination.vue';
 import ProgressBar from '../../components/dashboard/ProgressBar.vue';
 import Badge from '../../components/Badge.vue';
@@ -279,10 +280,9 @@ const confirmDeleteTracker = () => {
     </EmptyState>
 
     <!-- Grid view -->
-    <div
+    <CardGrid
       v-else-if="viewMode === 'grid'"
-      class="card-grid"
-      :style="{ '--card-grid-cols': gridSize }"
+      :cols="gridSize"
     >
       <CardTile
         v-for="tc in paginatedCards"
@@ -292,7 +292,7 @@ const confirmDeleteTracker = () => {
         mode="tracker"
         @untrack="requestUntrack"
       />
-    </div>
+    </CardGrid>
 
     <!-- List view -->
     <div v-else>
@@ -301,18 +301,12 @@ const confirmDeleteTracker = () => {
         :columns="columns"
       >
         <template #cell(card)="{ row }">
-          <div class="table-card-info">
-            <CardImage
-              :image-url="row.imageUrl"
-              :card-name="row.name"
-              :colour="row.colour"
-              size="small"
-            />
-            <div class="table-card-details">
-              <span class="table-card-name">{{ row.name }}</span>
-              <span class="table-card-set">{{ row.setCode }} · #{{ row.collectorNumber }}</span>
-            </div>
-          </div>
+          <TableCardCell
+            :image-url="row.imageUrl"
+            :name="row.name"
+            :colour="row.colour"
+            :subtitle="`${row.setCode} · #${row.collectorNumber}`"
+          />
         </template>
 
         <template #cell(rarity)="{ row }">
@@ -366,7 +360,7 @@ const confirmDeleteTracker = () => {
       </button>
 
       <Transition name="section-collapse">
-        <div v-if="showUntracked" class="untracked-grid" :style="{ '--card-grid-cols': gridSize }">
+        <CardGrid v-if="showUntracked" :cols="gridSize" class="untracked-grid">
           <div
             v-for="tc in untrackedCards"
             :key="tc.scryfallId"
@@ -377,7 +371,7 @@ const confirmDeleteTracker = () => {
               <Icon icon="eye" /> Re-track
             </button>
           </div>
-        </div>
+        </CardGrid>
       </Transition>
     </div>
 
@@ -552,40 +546,7 @@ const confirmDeleteTracker = () => {
   color: var(--text-secondary);
 }
 
-/* Card grid */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--card-grid-cols, 5), 1fr);
-  gap: 16px;
-}
-
-.card-grid > :deep(*) {
-  min-width: 0;
-}
-
 /* Table */
-.table-card-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.table-card-details {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.table-card-name {
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.table-card-set {
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
 .table-actions {
   display: flex;
   gap: 8px;
@@ -626,12 +587,6 @@ const confirmDeleteTracker = () => {
 
 .section-chevron--open {
   transform: rotate(90deg);
-}
-
-.untracked-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--card-grid-cols, 5), 1fr);
-  gap: 16px;
 }
 
 .untracked-card-wrap {

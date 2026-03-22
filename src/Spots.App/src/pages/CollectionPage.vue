@@ -7,7 +7,8 @@ import CollectionToolbar from '../components/collection/CollectionToolbar.vue';
 import CardTile from '../components/collection/CardTile.vue';
 import Pagination from '../components/collection/Pagination.vue';
 import DataTable from '../components/DataTable.vue';
-import CardImage from '../components/CardImage.vue';
+import CardGrid from '../components/CardGrid.vue';
+import TableCardCell from '../components/TableCardCell.vue';
 import Button from '../components/Button.vue';
 import Icon from '../components/Icon.vue';
 import { defaultCollectionFilters, type CollectionFilters } from '../types/collectionFilters';
@@ -188,13 +189,13 @@ watch(currentPage, () => {
       Showing {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ Math.min(currentPage * itemsPerPage, filteredCards.length) }} of {{ filteredCards.length }} cards
     </div>
 
-    <div v-if="viewMode === 'grid'" class="card-grid" :style="{ '--card-grid-cols': gridSize }">
+    <CardGrid v-if="viewMode === 'grid'" :cols="gridSize">
       <CardTile
         v-for="card in paginatedCards"
         :key="card.id"
         :card="card"
       />
-    </div>
+    </CardGrid>
 
     <div v-else>
       <DataTable
@@ -204,18 +205,12 @@ watch(currentPage, () => {
         @row-click="handleCardClick"
       >
         <template #cell(card)="{ row }">
-          <div class="table-card-info">
-            <CardImage
-              :image-url="row.imageUrl"
-              :card-name="row.name"
-              :colour="row.colour"
-              size="small"
-            />
-            <div class="table-card-details">
-              <span class="table-card-name">{{ row.name }}</span>
-              <span class="table-card-type">{{ row.type }}</span>
-            </div>
-          </div>
+          <TableCardCell
+            :image-url="row.imageUrl"
+            :name="row.name"
+            :colour="row.colour"
+            :subtitle="row.type"
+          />
         </template>
 
         <template #cell(nonFoilCount)="{ value }">
@@ -264,32 +259,6 @@ watch(currentPage, () => {
   font-size: 13px;
   color: var(--text-secondary);
   margin-bottom: 16px;
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--card-grid-cols, 5), 1fr);
-  gap: 16px;
-}
-
-.table-card-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.table-card-details {
-  display: flex;
-  flex-direction: column;
-}
-
-.table-card-name {
-  font-weight: 500;
-}
-
-.table-card-type {
-  font-size: 12px;
-  color: var(--text-secondary);
 }
 
 .count-cell {
