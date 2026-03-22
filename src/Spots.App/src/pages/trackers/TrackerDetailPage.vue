@@ -14,6 +14,7 @@ import Button from '../../components/Button.vue';
 import Icon from '../../components/Icon.vue';
 import ConfirmDialog from '../../components/ConfirmDialog.vue';
 import RarityBadge from '../../components/RarityBadge.vue';
+import ViewControls from '../../components/collection/ViewControls.vue';
 import { type TrackerFilters, defaultTrackerFilters } from '../../types/trackerFilters';
 
 const route = useRoute();
@@ -254,39 +255,10 @@ const confirmDeleteTracker = () => {
           Filters
         </Button>
 
-        <!-- Grid size slider (grid mode only) -->
-        <div v-if="viewMode === 'grid'" class="grid-size-wrap">
-          <Icon icon="grip" class="grid-size-icon" />
-          <input
-            v-model.number="gridSize"
-            type="range"
-            min="3"
-            max="8"
-            class="grid-size-slider"
-          />
-        </div>
-
-        <!-- View mode toggle -->
-        <div class="view-toggle">
-          <button
-            type="button"
-            class="view-btn"
-            :class="{ active: viewMode === 'grid' }"
-            @click="viewMode = 'grid'"
-            title="Grid view"
-          >
-            <Icon icon="grip" />
-          </button>
-          <button
-            type="button"
-            class="view-btn"
-            :class="{ active: viewMode === 'list' }"
-            @click="viewMode = 'list'"
-            title="List view"
-          >
-            <Icon icon="list" />
-          </button>
-        </div>
+        <ViewControls
+          v-model:view-mode="viewMode"
+          v-model:grid-size="gridSize"
+        />
       </div>
     </div>
 
@@ -616,58 +588,6 @@ const confirmDeleteTracker = () => {
   color: var(--accent) !important;
 }
 
-.grid-size-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text-secondary);
-}
-
-.grid-size-icon {
-  font-size: 12px;
-}
-
-.grid-size-slider {
-  width: 80px;
-  accent-color: var(--accent);
-}
-
-.view-toggle {
-  display: flex;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-
-.view-btn {
-  width: 36px;
-  height: 36px;
-  background: var(--tile-bg);
-  border: none;
-  border-right: 1px solid var(--border);
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  transition: all 0.2s ease;
-}
-
-.view-btn:last-child {
-  border-right: none;
-}
-
-.view-btn.active {
-  background: rgba(155, 77, 202, 0.15);
-  color: var(--accent);
-}
-
-.view-btn:hover:not(.active) {
-  background: rgba(155, 77, 202, 0.07);
-  color: var(--text-primary);
-}
-
 /* Results info */
 .results-info {
   font-size: 13px;
@@ -699,6 +619,10 @@ const confirmDeleteTracker = () => {
   display: grid;
   grid-template-columns: repeat(var(--card-grid-cols, 5), 1fr);
   gap: 16px;
+}
+
+.card-grid > :deep(*) {
+  min-width: 0;
 }
 
 /* Table */
@@ -777,6 +701,7 @@ const confirmDeleteTracker = () => {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .retrack-btn {
