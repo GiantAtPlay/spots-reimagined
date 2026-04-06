@@ -219,7 +219,7 @@ watch(currentPage, () => {
         </template>
 
         <template #cell(foilCount)="{ value }">
-          <span class="count-cell" :class="{ 'has-foil': value > 0 }">
+          <span class="count-cell" :class="{ 'has-foil': (value as number) > 0 }">
             <Icon icon="gem" class="count-icon" />
             {{ value }}
           </span>
