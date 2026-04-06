@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter, type LocationQuery, type LocationQueryRaw } from 'vue-router';
 import { useFlyoutStore } from '../stores/flyout';
+import { useSettingsStore } from '../stores/settings';
 import { mockCards, type Card } from '../data/mockCards';
 import CollectionToolbar from '../components/collection/CollectionToolbar.vue';
 import CardTile from '../components/collection/CardTile.vue';
@@ -16,8 +17,9 @@ import { defaultCollectionFilters, type CollectionFilters } from '../types/colle
 const route = useRoute();
 const router = useRouter();
 const flyoutStore = useFlyoutStore();
+const settingsStore = useSettingsStore();
 
-const viewMode = ref<'grid' | 'list'>('grid');
+const viewMode = ref<'grid' | 'list'>(settingsStore.defaultViewMode);
 const gridSize = ref(5);
 const currentPage = ref(1);
 const itemsPerPage = 12;
