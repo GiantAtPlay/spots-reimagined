@@ -122,11 +122,7 @@ const serializeFiltersToQuery = (nextFilters: CollectionFilters): LocationQueryR
 };
 
 const requestCollectionData = () => {
-  console.log('Request collection data', {
-    page: currentPage.value,
-    searchQuery: searchQuery.value,
-    filters: filters.value,
-  });
+  // TODO: GET /api/collection?page=...&search=...&filters=...
 };
 
 const handleSearch = (query: string) => {

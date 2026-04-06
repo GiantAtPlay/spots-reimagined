@@ -63,7 +63,7 @@ const pageTitle = computed(() => {
 });
 
 const handleAdd = () => {
-  console.log('Add clicked');
+  // TODO: open add-card flyout
 };
 </script>
 

@@ -29,8 +29,6 @@ const buttonClasses = computed(() => {
     classes.push('btn-icon-only');
   }
 
-  console.log(props);
-
   if(props.bounce && (props.variant === 'primary' || props.variant === 'danger')){
     classes.push('btn-bounce');
   }
