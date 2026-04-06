@@ -1,37 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { defaultSettings, type UserSettings } from '../data/mockSettings';
+import { useSettingsStore } from '../stores/settings';
+import type { UserSettings } from '../data/mockSettings';
 import Button from '../components/Button.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
 
-const settings = ref<UserSettings>({ ...defaultSettings });
+const settings = useSettingsStore();
 
-// Sync theme with document on mount
-const applyTheme = (theme: UserSettings['theme']) => {
-  document.documentElement.setAttribute('data-theme', theme);
-};
-applyTheme(settings.value.theme);
-
-const setTheme = (theme: UserSettings['theme']) => {
-  settings.value.theme = theme;
-  applyTheme(theme);
-};
-
-const setViewMode = (mode: UserSettings['defaultViewMode']) => {
-  settings.value.defaultViewMode = mode;
-};
-
-const setDateFormat = (fmt: UserSettings['dateFormat']) => {
-  settings.value.dateFormat = fmt;
-};
-
-const setCurrency = (e: Event) => {
-  settings.value.currency = (e.target as HTMLSelectElement).value as UserSettings['currency'];
-};
-
-const setCardsPerPage = (n: UserSettings['cardsPerPage']) => {
-  settings.value.cardsPerPage = n;
+// Currency select emits a DOM Event, so we extract the value here before
+// passing it to the typed store action.
+const handleCurrencyChange = (e: Event) => {
+  settings.setCurrency((e.target as HTMLSelectElement).value as UserSettings['currency']);
 };
 
 // Export
@@ -75,13 +55,13 @@ const cancelReset = () => {
             :variant="settings.theme === 'dark' ? 'primary' : 'secondary'"
             size="small"
             :bounce="false"
-            @click="setTheme('dark')"
+            @click="settings.setTheme('dark')"
           >Dark</Button>
           <Button
             :variant="settings.theme === 'light' ? 'primary' : 'secondary'"
             size="small"
             :bounce="false"
-            @click="setTheme('light')"
+            @click="settings.setTheme('light')"
           >Light</Button>
         </ButtonGroup>
       </div>
@@ -98,7 +78,7 @@ const cancelReset = () => {
             icon-only
             :bounce="false"
             sr-text="Grid view"
-            @click="setViewMode('grid')"
+            @click="settings.setDefaultViewMode('grid')"
           />
           <Button
             :variant="settings.defaultViewMode === 'list' ? 'primary' : 'secondary'"
@@ -107,7 +87,7 @@ const cancelReset = () => {
             icon-only
             :bounce="false"
             sr-text="List view"
-            @click="setViewMode('list')"
+            @click="settings.setDefaultViewMode('list')"
           />
         </ButtonGroup>
       </div>
@@ -121,13 +101,13 @@ const cancelReset = () => {
             :variant="settings.dateFormat === 'DD/MM/YYYY' ? 'primary' : 'secondary'"
             size="small"
             :bounce="false"
-            @click="setDateFormat('DD/MM/YYYY')"
+            @click="settings.setDateFormat('DD/MM/YYYY')"
           >DD/MM/YYYY</Button>
           <Button
             :variant="settings.dateFormat === 'MM/DD/YYYY' ? 'primary' : 'secondary'"
             size="small"
             :bounce="false"
-            @click="setDateFormat('MM/DD/YYYY')"
+            @click="settings.setDateFormat('MM/DD/YYYY')"
           >MM/DD/YYYY</Button>
         </ButtonGroup>
       </div>
@@ -144,7 +124,7 @@ const cancelReset = () => {
         <select
           class="form-select settings-select"
           :value="settings.currency"
-          @change="setCurrency"
+          @change="handleCurrencyChange"
         >
           <option value="USD">USD — US Dollar</option>
           <option value="GBP">GBP — British Pound</option>
@@ -164,7 +144,8 @@ const cancelReset = () => {
             type="range"
             min="50"
             max="99"
-            v-model.number="settings.nearCompletionThreshold"
+            :value="settings.nearCompletionThreshold"
+            @input="settings.setNearCompletionThreshold(parseInt(($event.target as HTMLInputElement).value))"
             class="threshold-slider"
           />
           <span class="threshold-value">{{ settings.nearCompletionThreshold }}%</span>
@@ -180,19 +161,19 @@ const cancelReset = () => {
             :variant="settings.cardsPerPage === 25 ? 'primary' : 'secondary'"
             size="small"
             :bounce="false"
-            @click="setCardsPerPage(25)"
+            @click="settings.setCardsPerPage(25)"
           >25</Button>
           <Button
             :variant="settings.cardsPerPage === 50 ? 'primary' : 'secondary'"
             size="small"
             :bounce="false"
-            @click="setCardsPerPage(50)"
+            @click="settings.setCardsPerPage(50)"
           >50</Button>
           <Button
             :variant="settings.cardsPerPage === 100 ? 'primary' : 'secondary'"
             size="small"
             :bounce="false"
-            @click="setCardsPerPage(100)"
+            @click="settings.setCardsPerPage(100)"
           >100</Button>
         </ButtonGroup>
       </div>
@@ -207,7 +188,7 @@ const cancelReset = () => {
           :class="{ 'pill-toggle--on': settings.showCardPrices }"
           role="switch"
           :aria-checked="settings.showCardPrices"
-          @click="settings.showCardPrices = !settings.showCardPrices"
+          @click="settings.setShowCardPrices(!settings.showCardPrices)"
         >
           <span class="pill-toggle-thumb" />
           <span class="sr-only">{{ settings.showCardPrices ? 'On' : 'Off' }}</span>
