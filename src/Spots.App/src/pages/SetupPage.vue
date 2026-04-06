@@ -11,6 +11,7 @@ const router = useRouter();
 const settingsStore = useSettingsStore();
 const currentStep = ref(1);
 const isLoading = ref(false);
+const isDev = import.meta.env.DEV;
 
 const form = ref({
   username: '',
@@ -220,7 +221,7 @@ const prevStep = () => {
         </div>
       </form>
 
-      <div class="dev-nav">
+      <div v-if="isDev" class="dev-nav">
         <span>Dev: </span>
         <router-link to="/login">Login</router-link> |
         <router-link to="/logged-out">Logged Out</router-link> |

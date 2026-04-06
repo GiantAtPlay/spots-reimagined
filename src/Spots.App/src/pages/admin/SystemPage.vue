@@ -116,7 +116,7 @@
       </div>
     </div>
 
-    <div class="dev-nav">
+    <div v-if="isDev" class="dev-nav">
       <span>Dev: </span>
       <router-link to="/">Dashboard</router-link> |
       <router-link to="/admin/users">Users</router-link> |
@@ -128,6 +128,8 @@
 <script setup lang="ts">
 import Button from '../../components/Button.vue';
 import Icon from '../../components/Icon.vue';
+
+const isDev = import.meta.env.DEV;
 </script>
 
 <style scoped>

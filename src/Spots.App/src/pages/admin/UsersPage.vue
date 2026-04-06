@@ -36,7 +36,7 @@
       </template>
     </DataTable>
 
-    <div class="dev-nav">
+    <div v-if="isDev" class="dev-nav">
       <span>Dev: </span>
       <router-link to="/">Dashboard</router-link> |
       <router-link to="/admin/users">Users</router-link> |
@@ -54,6 +54,7 @@ import DataTable from '../../components/DataTable.vue';
 import { mockUsers, type User } from '../../data/mockUsers';
 
 const flyoutStore = useFlyoutStore();
+const isDev = import.meta.env.DEV;
 const users = ref<User[]>(mockUsers);
 
 const columns = [
