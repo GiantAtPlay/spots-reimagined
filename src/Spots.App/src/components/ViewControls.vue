@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import Button from '../Button.vue';
-import ButtonGroup from '../ButtonGroup.vue';
-import Icon from '../Icon.vue';
+import Button from './Button.vue';
+import ButtonGroup from './ButtonGroup.vue';
+import Icon from './Icon.vue';
 
 const props = defineProps<{
   viewMode: 'grid' | 'list';

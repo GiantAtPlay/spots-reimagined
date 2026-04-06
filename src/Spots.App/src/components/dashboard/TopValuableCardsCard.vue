@@ -1,10 +1,5 @@
 <template>
-  <div class="chart-card">
-    <div class="chart-title">
-      <Icon icon="dollar-sign" />
-      Top 10 Most Valuable Cards
-    </div>
-    
+  <ChartCard title="Top 10 Most Valuable Cards" icon="dollar-sign">
     <div v-if="hasCards" class="valuable-cards-list">
       <div 
         v-for="(card, index) in cards" 
@@ -23,20 +18,28 @@
       </div>
     </div>
     
-    <div v-else class="empty-state">
-      <p class="empty-message">No cards with prices yet</p>
-      <Button variant="primary" size="small" @click="navigateToAddCards">
-        Add Cards
-      </Button>
-    </div>
-  </div>
+    <EmptyState
+      v-else
+      variant="compact"
+      icon="dollar-sign"
+      message="No cards with prices yet"
+    >
+      <template #action>
+        <Button variant="primary" size="small" @click="navigateToAddCards">
+          Add Cards
+        </Button>
+      </template>
+    </EmptyState>
+  </ChartCard>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import ChartCard from '../ChartCard.vue';
 import Button from '../Button.vue';
 import Icon from '../Icon.vue';
+import EmptyState from '../EmptyState.vue';
 import { formatCurrency } from '@/utils/formatters';
 import type { ValuableCard } from '@/data/mockDashboardStats';
 
@@ -55,23 +58,6 @@ const navigateToAddCards = () => {
 </script>
 
 <style scoped>
-.chart-card {
-  background: var(--tile-bg);
-  border-radius: var(--radius);
-  padding: 24px;
-  border: 1px solid var(--border);
-}
-
-.chart-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--accent);
-}
-
 .valuable-cards-list {
   display: flex;
   flex-direction: column;
@@ -153,14 +139,4 @@ const navigateToAddCards = () => {
   text-align: right;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 24px 0;
-}
-
-.empty-message {
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-  font-size: 14px;
-}
 </style>

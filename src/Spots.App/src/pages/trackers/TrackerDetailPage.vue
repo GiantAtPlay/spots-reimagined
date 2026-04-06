@@ -6,7 +6,8 @@ import { mockTrackers, getTrackerStats, type Tracker, type TrackerCard } from '.
 import type { Card } from '../../data/mockCards';
 import CardTile from '../../components/collection/CardTile.vue';
 import DataTable from '../../components/DataTable.vue';
-import CardImage from '../../components/CardImage.vue';
+import CardGrid from '../../components/CardGrid.vue';
+import TableCardCell from '../../components/TableCardCell.vue';
 import Pagination from '../../components/collection/Pagination.vue';
 import ProgressBar from '../../components/dashboard/ProgressBar.vue';
 import Badge from '../../components/Badge.vue';
@@ -14,7 +15,9 @@ import Button from '../../components/Button.vue';
 import Icon from '../../components/Icon.vue';
 import ConfirmDialog from '../../components/ConfirmDialog.vue';
 import RarityBadge from '../../components/RarityBadge.vue';
-import ViewControls from '../../components/collection/ViewControls.vue';
+import ViewControls from '../../components/ViewControls.vue';
+import SearchInput from '../../components/SearchInput.vue';
+import EmptyState from '../../components/EmptyState.vue';
 import { type TrackerFilters, defaultTrackerFilters } from '../../types/trackerFilters';
 
 const route = useRoute();
@@ -230,18 +233,10 @@ const confirmDeleteTracker = () => {
     <!-- Toolbar -->
     <div class="toolbar">
       <div class="toolbar-left">
-        <div class="search-wrap">
-          <Icon icon="search" class="search-icon" />
-          <input
-            v-model="searchQuery"
-            type="text"
-            class="search-input"
-            placeholder="Search cards..."
-          />
-          <button v-if="searchQuery" class="search-clear" type="button" @click="searchQuery = ''">
-            <Icon icon="times" />
-          </button>
-        </div>
+        <SearchInput
+          v-model="searchQuery"
+          placeholder="Search cards..."
+        />
       </div>
 
       <div class="toolbar-right">
@@ -271,19 +266,23 @@ const confirmDeleteTracker = () => {
     </div>
 
     <!-- Empty filtered state -->
-    <div v-if="filteredTracked.length === 0" class="empty-state">
-      <Icon icon="magnifying-glass" class="empty-icon" />
-      <p>No cards match your current filters.</p>
-      <Button variant="secondary" size="small" @click="() => { searchQuery = ''; filters = defaultTrackerFilters(); }">
-        Clear Filters
-      </Button>
-    </div>
+    <EmptyState
+      v-if="filteredTracked.length === 0"
+      variant="compact"
+      icon="magnifying-glass"
+      message="No cards match your current filters."
+    >
+      <template #action>
+        <Button variant="secondary" size="small" @click="() => { searchQuery = ''; filters = defaultTrackerFilters(); }">
+          Clear Filters
+        </Button>
+      </template>
+    </EmptyState>
 
     <!-- Grid view -->
-    <div
+    <CardGrid
       v-else-if="viewMode === 'grid'"
-      class="card-grid"
-      :style="{ '--card-grid-cols': gridSize }"
+      :cols="gridSize"
     >
       <CardTile
         v-for="tc in paginatedCards"
@@ -293,7 +292,7 @@ const confirmDeleteTracker = () => {
         mode="tracker"
         @untrack="requestUntrack"
       />
-    </div>
+    </CardGrid>
 
     <!-- List view -->
     <div v-else>
@@ -302,18 +301,12 @@ const confirmDeleteTracker = () => {
         :columns="columns"
       >
         <template #cell(card)="{ row }">
-          <div class="table-card-info">
-            <CardImage
-              :image-url="row.imageUrl"
-              :card-name="row.name"
-              :colour="row.colour"
-              size="small"
-            />
-            <div class="table-card-details">
-              <span class="table-card-name">{{ row.name }}</span>
-              <span class="table-card-set">{{ row.setCode }} · #{{ row.collectorNumber }}</span>
-            </div>
-          </div>
+          <TableCardCell
+            :image-url="row.imageUrl"
+            :name="row.name"
+            :colour="row.colour"
+            :subtitle="`${row.setCode} · #${row.collectorNumber}`"
+          />
         </template>
 
         <template #cell(rarity)="{ row }">
@@ -367,7 +360,7 @@ const confirmDeleteTracker = () => {
       </button>
 
       <Transition name="section-collapse">
-        <div v-if="showUntracked" class="untracked-grid" :style="{ '--card-grid-cols': gridSize }">
+        <CardGrid v-if="showUntracked" :cols="gridSize" class="untracked-grid">
           <div
             v-for="tc in untrackedCards"
             :key="tc.scryfallId"
@@ -378,7 +371,7 @@ const confirmDeleteTracker = () => {
               <Icon icon="eye" /> Re-track
             </button>
           </div>
-        </div>
+        </CardGrid>
       </Transition>
     </div>
 
@@ -538,51 +531,6 @@ const confirmDeleteTracker = () => {
   gap: 10px;
 }
 
-.search-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0 12px;
-  height: 40px;
-  transition: border-color 0.2s ease;
-}
-
-.search-wrap:focus-within {
-  border-color: var(--accent);
-}
-
-.search-icon {
-  color: var(--text-secondary);
-  font-size: 13px;
-}
-
-.search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text-primary);
-  font-size: 14px;
-  min-width: 0;
-}
-
-.search-input::placeholder {
-  color: var(--text-secondary);
-}
-
-.search-clear {
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
 .filter-active {
   border-color: var(--accent) !important;
   color: var(--accent) !important;
@@ -598,56 +546,7 @@ const confirmDeleteTracker = () => {
   color: var(--text-secondary);
 }
 
-/* Empty state */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 40px;
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.empty-icon {
-  font-size: 28px;
-}
-
-/* Card grid */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--card-grid-cols, 5), 1fr);
-  gap: 16px;
-}
-
-.card-grid > :deep(*) {
-  min-width: 0;
-}
-
 /* Table */
-.table-card-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.table-card-details {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.table-card-name {
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.table-card-set {
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
 .table-actions {
   display: flex;
   gap: 8px;
@@ -688,12 +587,6 @@ const confirmDeleteTracker = () => {
 
 .section-chevron--open {
   transform: rotate(90deg);
-}
-
-.untracked-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--card-grid-cols, 5), 1fr);
-  gap: 16px;
 }
 
 .untracked-card-wrap {

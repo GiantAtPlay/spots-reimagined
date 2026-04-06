@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import Button from '../Button.vue';
-import ButtonGroup from '../ButtonGroup.vue';
-import Icon from '../Icon.vue';
+import { ref } from 'vue';
+import SearchInput from '../SearchInput.vue';
+import ViewControls from '../ViewControls.vue';
 
-const props = defineProps<{
+defineProps<{
   viewMode: 'grid' | 'list';
   gridSize: number;
   totalResults: number;
@@ -20,85 +19,37 @@ const emit = defineEmits<{
 }>();
 
 const searchQuery = ref('');
-
-const handleSearch = () => {
-  emit('search', searchQuery.value);
-};
-
-const gridSizeLabel = computed(() => {
-  const labels = {
-    3: 'Small',
-    4: 'Medium',
-    5: 'Large',
-    6: 'XL',
-    7: 'XXL',
-    8: 'Max'
-  };
-  return labels[props.gridSize as keyof typeof labels] || 'Medium';
-});
 </script>
 
 <template>
   <div class="toolbar">
     <div class="search-container">
-      <div class="search-wrapper">
-        <Icon icon="search" class="search-icon" />
-        <input
-          v-model="searchQuery"
-          type="text"
-          class="search-input"
-          placeholder="Search cards..."
-          @input="handleSearch"
-        />
-      </div>
+      <SearchInput
+        v-model="searchQuery"
+        variant="inline"
+        placeholder="Search cards..."
+        @update:model-value="emit('search', $event)"
+      />
     </div>
 
     <div class="toolbar-right">
       <div class="filters">
         <button class="filter-btn" :class="{ active: hasActiveFilters }" @click="emit('open-filters')">
-          <Icon icon="filter" />
+          <font-awesome-icon icon="filter" />
           Filters
         </button>
         <button class="filter-btn">
-          <Icon icon="sort" />
+          <font-awesome-icon icon="sort" />
           Sort
         </button>
       </div>
 
-      <div v-if="viewMode === 'grid'" class="size-slider">
-        <Icon icon="th" class="size-icon" />
-        <input
-          type="range"
-          min="3"
-          max="8"
-          :value="gridSize"
-          @input="emit('update:gridSize', parseInt(($event.target as HTMLInputElement).value))"
-        />
-        <span class="size-label">{{ gridSizeLabel }}</span>
-      </div>
-
-      <div class="view-toggle">
-        <ButtonGroup>
-          <Button
-            :variant="viewMode === 'grid' ? 'primary' : 'secondary'"
-            size="default"
-            icon="th-large"
-            icon-only
-            :bounce="false"
-            sr-text="Grid view"
-            @click="emit('update:viewMode', 'grid')"
-          />
-          <Button
-            :variant="viewMode === 'list' ? 'primary' : 'secondary'"
-            size="default"
-            icon="list"
-            icon-only
-            :bounce="false"
-            sr-text="List view"
-            @click="emit('update:viewMode', 'list')"
-          />
-        </ButtonGroup>
-      </div>
+      <ViewControls
+        :view-mode="viewMode"
+        :grid-size="gridSize"
+        @update:view-mode="emit('update:viewMode', $event)"
+        @update:grid-size="emit('update:gridSize', $event)"
+      />
     </div>
   </div>
 </template>
@@ -114,50 +65,8 @@ const gridSizeLabel = computed(() => {
 }
 
 .search-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   flex: 1;
   max-width: 500px;
-}
-
-.search-wrapper {
-  position: relative;
-  flex: 1;
-}
-
-.search-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-secondary);
-}
-
-.search-icon :deep(svg) {
-  width: 14px;
-  height: 14px;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px 16px;
-  padding-left: 40px;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  font-size: 14px;
-  outline: none;
-  transition: all 0.2s ease;
-}
-
-.search-input:focus {
-  border-color: var(--accent);
-}
-
-.search-input::placeholder {
-  color: var(--text-secondary);
 }
 
 .toolbar-right {
@@ -200,39 +109,6 @@ const gridSizeLabel = computed(() => {
 .filter-btn.active:hover {
   background: var(--accent-secondary);
   border-color: var(--accent-secondary);
-  color: white;
-}
-
-.size-slider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.size-icon {
-  color: var(--text-secondary);
-}
-
-.size-icon :deep(svg) {
-  width: 14px;
-  height: 14px;
-}
-
-.size-slider input[type="range"] {
-  width: 80px;
-  accent-color: var(--accent);
-}
-
-.size-label {
-  font-size: 13px;
-  color: var(--text-primary);
-  width: 45px;
-  text-align: center;
-}
-
-.view-toggle :deep(.active-view) {
-  background: var(--accent);
-  border-color: var(--accent);
   color: white;
 }
 </style>

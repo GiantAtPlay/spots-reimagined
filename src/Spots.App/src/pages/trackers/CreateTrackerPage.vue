@@ -9,6 +9,7 @@ import CardTile from '../../components/collection/CardTile.vue';
 import Pagination from '../../components/collection/Pagination.vue';
 import Button from '../../components/Button.vue';
 import Icon from '../../components/Icon.vue';
+import SearchInput from '../../components/SearchInput.vue';
 
 const router = useRouter();
 
@@ -315,24 +316,20 @@ const createCustomTracker = () => {
         </div>
       </div>
 
-      <!-- Card search -->
-      <div class="card-search-section">
-        <label class="form-label">Search &amp; Add Cards</label>
-        <div class="search-row">
-          <div class="search-input-wrap">
-            <Icon icon="search" class="search-icon" />
-            <input
+        <!-- Card search -->
+        <div class="card-search-section">
+          <label class="form-label">Search &amp; Add Cards</label>
+          <div class="search-row">
+            <SearchInput
               v-model="searchInput"
-              type="text"
-              class="search-input"
               placeholder="Search Scryfall..."
-              @keydown.enter="handleSearch"
+              class="search-input-wrap"
+              @submit="handleSearch"
             />
+            <Button size="small" variant="secondary" icon="search" @click="handleSearch">
+              Search
+            </Button>
           </div>
-          <Button size="small" variant="secondary" icon="search" @click="handleSearch">
-            Search
-          </Button>
-        </div>
 
         <!-- Search states -->
         <div v-if="searchLoading" class="search-state">
@@ -733,38 +730,6 @@ const createCustomTracker = () => {
 
 .search-input-wrap {
   flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0 12px;
-  height: 44px;
-  transition: border-color 0.2s ease;
-}
-
-.search-input-wrap:focus-within {
-  border-color: var(--accent);
-}
-
-.search-icon {
-  color: var(--text-secondary);
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text-primary);
-  font-size: 14px;
-}
-
-.search-input::placeholder {
-  color: var(--text-secondary);
 }
 
 .search-state {

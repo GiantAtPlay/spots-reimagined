@@ -6,6 +6,8 @@ import TrackerCard from '../components/trackers/TrackerCard.vue';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
 import Button from '../components/Button.vue';
 import Icon from '../components/Icon.vue';
+import SearchInput from '../components/SearchInput.vue';
+import EmptyState from '../components/EmptyState.vue';
 
 const router = useRouter();
 
@@ -119,37 +121,36 @@ const cancelDelete = () => {
     </div>
 
     <!-- Search bar -->
-    <div class="search-wrap">
-      <Icon icon="search" class="search-icon" />
-      <input
-        v-model="searchQuery"
-        type="text"
-        class="search-input"
-        placeholder="Search trackers by name or set..."
-      />
-      <button v-if="searchQuery" class="search-clear" type="button" @click="searchQuery = ''">
-        <Icon icon="times" />
-      </button>
-    </div>
+    <SearchInput
+      v-model="searchQuery"
+      placeholder="Search trackers by name or set..."
+    />
 
     <!-- Empty state — no trackers at all -->
-    <div v-if="trackers.length === 0" class="empty-state">
-      <div class="empty-icon-wrap">
-        <Icon icon="chart-line" class="empty-icon" />
-      </div>
-      <h3 class="empty-title">No trackers yet</h3>
-      <p class="empty-body">Create your first tracker to start monitoring your collection progress.</p>
-      <Button icon="plus" @click="router.push({ name: 'CreateTracker' })">
-        Create Tracker
-      </Button>
-    </div>
+    <EmptyState
+      v-if="trackers.length === 0"
+      icon="chart-line"
+      title="No trackers yet"
+      message="Create your first tracker to start monitoring your collection progress."
+    >
+      <template #action>
+        <Button icon="plus" @click="router.push({ name: 'CreateTracker' })">
+          Create Tracker
+        </Button>
+      </template>
+    </EmptyState>
 
     <!-- Empty search state -->
-    <div v-else-if="filtered.length === 0" class="empty-state empty-state--search">
-      <Icon icon="magnifying-glass" class="empty-icon empty-icon--muted" />
-      <p class="empty-body">No trackers match "{{ searchQuery }}"</p>
-      <Button variant="secondary" size="small" @click="searchQuery = ''">Clear Search</Button>
-    </div>
+    <EmptyState
+      v-else-if="filtered.length === 0"
+      variant="compact"
+      icon="magnifying-glass"
+      :message="`No trackers match &quot;${searchQuery}&quot;`"
+    >
+      <template #action>
+        <Button variant="secondary" size="small" @click="searchQuery = ''">Clear Search</Button>
+      </template>
+    </EmptyState>
 
     <!-- Tracker list -->
     <div v-else class="trackers-content">
@@ -259,105 +260,6 @@ const cancelDelete = () => {
 
 .summary-divider {
   color: var(--text-secondary);
-}
-
-/* Search bar */
-.search-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0 14px;
-  height: 44px;
-  gap: 10px;
-  transition: border-color 0.2s ease;
-}
-
-.search-wrap:focus-within {
-  border-color: var(--accent);
-}
-
-.search-icon {
-  color: var(--text-secondary);
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text-primary);
-  font-size: 14px;
-}
-
-.search-input::placeholder {
-  color: var(--text-secondary);
-}
-
-.search-clear {
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.search-clear:hover {
-  color: var(--text-primary);
-}
-
-/* Empty states */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  text-align: center;
-  padding: 64px 24px;
-}
-
-.empty-state--search {
-  padding: 40px 24px;
-}
-
-.empty-icon-wrap {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(155, 77, 202, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.empty-icon {
-  font-size: 28px;
-  color: var(--accent);
-}
-
-.empty-icon--muted {
-  font-size: 28px;
-  color: var(--text-secondary);
-}
-
-.empty-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.empty-body {
-  font-size: 14px;
-  color: var(--text-secondary);
-  max-width: 340px;
-  line-height: 1.6;
 }
 
 /* Content layout */
