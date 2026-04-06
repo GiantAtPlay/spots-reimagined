@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useFlyoutStore } from '../../stores/flyout';
+import { useSettingsStore } from '../../stores/settings';
 import { mockTrackers, getTrackerStats, type Tracker, type TrackerCard } from '../../data/mockTrackers';
 import type { Card } from '../../data/mockCards';
 import CardTile from '../../components/collection/CardTile.vue';
@@ -23,6 +24,7 @@ import { type TrackerFilters, defaultTrackerFilters } from '../../types/trackerF
 const route = useRoute();
 const router = useRouter();
 const flyoutStore = useFlyoutStore();
+const settingsStore = useSettingsStore();
 
 // ─── Load tracker ─────────────────────────────────────────────────────────────
 
@@ -33,7 +35,7 @@ const tracker = ref<Tracker | null>(
 // ─── State ────────────────────────────────────────────────────────────────────
 
 const searchQuery = ref('');
-const viewMode = ref<'grid' | 'list'>('grid');
+const viewMode = ref<'grid' | 'list'>(settingsStore.defaultViewMode);
 const gridSize = ref(5);
 const currentPage = ref(1);
 const itemsPerPage = 20;

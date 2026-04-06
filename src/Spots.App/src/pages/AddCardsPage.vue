@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useFlyoutStore } from '../stores/flyout';
+import { useSettingsStore } from '../stores/settings';
 import { useScryfall } from '../composables/useScryfall';
 import CardTile from '../components/collection/CardTile.vue';
 import ViewControls from '../components/ViewControls.vue';
@@ -13,9 +14,10 @@ import Icon from '../components/Icon.vue';
 import type { Card } from '../data/mockCards';
 
 const flyoutStore = useFlyoutStore();
+const settingsStore = useSettingsStore();
 const { cards, loading, error, totalCards, searchCards } = useScryfall();
 
-const viewMode = ref<'grid' | 'list'>('grid');
+const viewMode = ref<'grid' | 'list'>(settingsStore.defaultViewMode);
 const gridSize = ref(5);
 const currentPage = ref(1);
 const searchInput = ref('');
