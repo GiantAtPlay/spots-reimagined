@@ -22,7 +22,7 @@ const settingsStore = useSettingsStore();
 const viewMode = ref<'grid' | 'list'>(settingsStore.defaultViewMode);
 const gridSize = ref(5);
 const currentPage = ref(1);
-const itemsPerPage = 12;
+const itemsPerPage = settingsStore.cardsPerPage;
 const searchQuery = ref('');
 
 const filters = ref<CollectionFilters>(defaultCollectionFilters());
@@ -122,11 +122,7 @@ const serializeFiltersToQuery = (nextFilters: CollectionFilters): LocationQueryR
 };
 
 const requestCollectionData = () => {
-  console.log('Request collection data', {
-    page: currentPage.value,
-    searchQuery: searchQuery.value,
-    filters: filters.value,
-  });
+  // TODO: GET /api/collection?page=...&search=...&filters=...
 };
 
 const handleSearch = (query: string) => {
@@ -223,7 +219,7 @@ watch(currentPage, () => {
         </template>
 
         <template #cell(foilCount)="{ value }">
-          <span class="count-cell" :class="{ 'has-foil': value > 0 }">
+          <span class="count-cell" :class="{ 'has-foil': (value as number) > 0 }">
             <Icon icon="gem" class="count-icon" />
             {{ value }}
           </span>

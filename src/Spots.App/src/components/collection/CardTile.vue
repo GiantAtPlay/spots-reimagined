@@ -36,8 +36,6 @@ const handleAddNonFoil = (e: Event) => {
   e.stopPropagation();
   if (props.mode === 'search') {
     emit('add-non-foil', props.card);
-  } else {
-    console.log('Add non-foil', props.card.id);
   }
 };
 
@@ -45,8 +43,6 @@ const handleAddFoil = (e: Event) => {
   e.stopPropagation();
   if (props.mode === 'search') {
     emit('add-foil', props.card);
-  } else {
-    console.log('Add foil', props.card.id);
   }
 };
 

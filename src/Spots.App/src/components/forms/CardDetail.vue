@@ -3,6 +3,8 @@ import { ref, computed } from 'vue';
 import type { Card } from '../../data/mockCards';
 import { mockCards } from '../../data/mockCards';
 import { mockSpots } from '../../data/mockSpots';
+import { formatCurrency } from '../../utils/formatters';
+import { useSettingsStore } from '../../stores/settings';
 import Button from '../Button.vue';
 import CardImage from '../CardImage.vue';
 import RarityBadge from '../RarityBadge.vue';
@@ -16,6 +18,8 @@ const emit = defineEmits<{
   (e: 'close'): void;
   (e: 'save', data: any): void;
 }>();
+
+const settingsStore = useSettingsStore();
 
 const card = computed(() => {
   if (props.card) return props.card;
@@ -98,9 +102,9 @@ const handleSave = () => {
             <div class="flyout-stat-label">Rarity</div>
             <RarityBadge :rarity="card.rarity" />
           </div>
-          <div class="flyout-stat">
+          <div v-if="settingsStore.showCardPrices" class="flyout-stat">
             <div class="flyout-stat-label">Price</div>
-            <div class="flyout-stat-value">${{ card.price?.toFixed(2) || '0.00' }}</div>
+            <div class="flyout-stat-value">{{ formatCurrency(card.price ?? 0, settingsStore.currency) }}</div>
           </div>
           <div class="flyout-stat full-width">
             <div class="flyout-stat-label">Inventory</div>
@@ -421,31 +425,6 @@ const handleSave = () => {
 
 .form-select {
   flex: 1;
-}
-
-.trade-toggle {
-  width: 30px;
-  height: 30px;
-  border-radius: var(--radius-sm);
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.trade-toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.trade-toggle.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
 }
 
 .empty-state {

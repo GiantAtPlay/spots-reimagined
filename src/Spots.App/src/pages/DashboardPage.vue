@@ -10,7 +10,7 @@
       <StatCard
         icon="dollar-sign"
         label="Collection Value"
-        :value="formatCurrency(stats.collectionValue)"
+        :value="formatCurrency(stats.collectionValue, settingsStore.currency)"
         variant="success"
       />
       <StatCard
@@ -64,6 +64,7 @@ import { computed } from 'vue';
 import { mockDashboardStats } from '@/data/mockDashboardStats';
 import { mockTrackers, getTrackerStats } from '@/data/mockTrackers';
 import { formatNumber, formatCurrency } from '@/utils/formatters';
+import { useSettingsStore } from '@/stores/settings';
 import StatCard from '@/components/dashboard/StatCard.vue';
 import CompletionStatsCard from '@/components/dashboard/CompletionStatsCard.vue';
 import ColorDistributionCard from '@/components/dashboard/ColorDistributionCard.vue';
@@ -72,6 +73,8 @@ import TopValuableCardsCard from '@/components/dashboard/TopValuableCardsCard.vu
 import TrackerProgressCard from '@/components/dashboard/TrackerProgressCard.vue';
 
 const stats = computed(() => mockDashboardStats);
+
+const settingsStore = useSettingsStore();
 
 const trackersNearCompletion = computed(() => {
   return mockTrackers

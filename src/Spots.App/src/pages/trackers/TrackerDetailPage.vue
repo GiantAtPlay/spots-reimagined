@@ -38,7 +38,7 @@ const searchQuery = ref('');
 const viewMode = ref<'grid' | 'list'>(settingsStore.defaultViewMode);
 const gridSize = ref(5);
 const currentPage = ref(1);
-const itemsPerPage = 20;
+const itemsPerPage = settingsStore.cardsPerPage;
 const showUntracked = ref(false);
 const filters = ref<TrackerFilters>(defaultTrackerFilters());
 
