@@ -427,31 +427,6 @@ const handleSave = () => {
   flex: 1;
 }
 
-.trade-toggle {
-  width: 30px;
-  height: 30px;
-  border-radius: var(--radius-sm);
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.trade-toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.trade-toggle.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
 .empty-state {
   text-align: center;
   padding: 16px;

@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T">
+<script setup lang="ts" generic="T extends Record<string, unknown>">
 interface Column {
   key: string;
   label: string;
@@ -56,7 +56,7 @@ const handleRowClick = (row: T) => {
       <tbody>
         <tr
           v-for="(row, index) in data"
-          :key="(row as any)[keyField] || index"
+          :key="(row[keyField] as string) || index"
           :class="{ 'row-hoverable': hoverable, 'row-clickable': rowClickable }"
           @click="handleRowClick(row)"
         >
@@ -72,10 +72,10 @@ const handleRowClick = (row: T) => {
             <slot
               :name="`cell(${column.key})`"
               :row="row"
-              :value="(row as any)[column.key]"
+              :value="row[column.key]"
             >
               <!-- Default: Display the value as-is -->
-              {{ (row as any)[column.key] }}
+              {{ row[column.key] }}
             </slot>
           </td>
         </tr>
