@@ -22,7 +22,7 @@ const settingsStore = useSettingsStore();
 const viewMode = ref<'grid' | 'list'>(settingsStore.defaultViewMode);
 const gridSize = ref(5);
 const currentPage = ref(1);
-const itemsPerPage = 12;
+const itemsPerPage = settingsStore.cardsPerPage;
 const searchQuery = ref('');
 
 const filters = ref<CollectionFilters>(defaultCollectionFilters());
