@@ -67,12 +67,12 @@ watch(currentPage, async (page) => {
   }
 });
 
-const handleAddNonFoil = (card: Card) => {
-  console.log('Add non-foil to collection:', card.id, card.name);
+const handleAddNonFoil = (_card: Card) => {
+  // TODO: POST /api/collection { cardId: card.id, foil: false }
 };
 
-const handleAddFoil = (card: Card) => {
-  console.log('Add foil to collection:', card.id, card.name);
+const handleAddFoil = (_card: Card) => {
+  // TODO: POST /api/collection { cardId: card.id, foil: true }
 };
 
 // Search all unique prints of a specific card by exact name

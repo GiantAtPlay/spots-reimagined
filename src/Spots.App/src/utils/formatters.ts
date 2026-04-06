@@ -13,11 +13,13 @@ export function formatLargeNumber(num: number): string {
 
 /**
  * Format currency values (e.g., 24.99 -> "$24.99")
+ * @param amount - The numeric amount to format
+ * @param currency - ISO 4217 currency code (defaults to 'USD'). Pass settingsStore.currency when available.
  */
-export function formatCurrency(amount: number): string {
+export function formatCurrency(amount: number, currency: string = 'USD'): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(amount);

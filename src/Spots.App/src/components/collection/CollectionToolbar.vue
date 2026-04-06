@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import SearchInput from '../SearchInput.vue';
 import ViewControls from '../ViewControls.vue';
+import Icon from '../Icon.vue';
 
 defineProps<{
   viewMode: 'grid' | 'list';
@@ -35,11 +36,11 @@ const searchQuery = ref('');
     <div class="toolbar-right">
       <div class="filters">
         <button class="filter-btn" :class="{ active: hasActiveFilters }" @click="emit('open-filters')">
-          <font-awesome-icon icon="filter" />
+          <Icon icon="filter" />
           Filters
         </button>
         <button class="filter-btn">
-          <font-awesome-icon icon="sort" />
+          <Icon icon="sort" />
           Sort
         </button>
       </div>

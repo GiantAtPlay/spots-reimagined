@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useCardHelpers } from '../composables/useCardHelpers';
 import Icon from './Icon.vue';
 
 interface Props {
@@ -10,12 +9,22 @@ interface Props {
   size?: 'small' | 'medium' | 'large';
 }
 
+const COLOUR_ICON_MAP: Record<string, string> = {
+  white: 'sun',
+  blue: 'tint',
+  black: 'skull',
+  red: 'fire',
+  green: 'leaf',
+  colourless: 'gavel',
+  gold: 'bolt',
+  land: 'turn-down',
+};
+
 const props = withDefaults(defineProps<Props>(), {
   size: 'medium'
 });
 
-const { useColourIcon } = useCardHelpers();
-const colourIcon = useColourIcon(() => props.colour);
+const colourIcon = computed(() => COLOUR_ICON_MAP[props.colour] ?? 'question');
 
 const sizeClass = computed(() => `card-image-${props.size}`);
 </script>
