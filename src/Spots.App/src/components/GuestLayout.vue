@@ -1,20 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
 import Icon from './Icon.vue';
+import { useSettingsStore } from '../stores/settings';
 
 defineProps<{
   pageTitle: string;
 }>();
 
-const isDarkTheme = ref(true);
+const settingsStore = useSettingsStore();
 
-const toggleTheme = () => {
-  isDarkTheme.value = !isDarkTheme.value;
-  document.documentElement.setAttribute(
-    'data-theme',
-    isDarkTheme.value ? 'dark' : 'light'
-  );
-};
+const isDarkTheme = computed(() => settingsStore.theme === 'dark');
 </script>
 
 <template>
@@ -29,7 +24,8 @@ const toggleTheme = () => {
       <button
         class="icon-btn"
         title="Toggle Theme"
-        @click="toggleTheme"
+        aria-label="Toggle Theme"
+        @click="settingsStore.toggleTheme"
       >
         <Icon :icon="isDarkTheme ? 'moon' : 'sun'" />
       </button>
