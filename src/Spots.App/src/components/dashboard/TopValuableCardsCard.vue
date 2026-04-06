@@ -13,7 +13,7 @@
         </div>
         <div class="card-meta">
           <Icon v-if="card.isFoil" icon="gem" class="foil-indicator" title="Foil" />
-          <span class="card-price">{{ formatCurrency(card.price) }}</span>
+          <span class="card-price">{{ formatCurrency(card.price, settingsStore.currency) }}</span>
         </div>
       </div>
     </div>
@@ -41,6 +41,7 @@ import Button from '../Button.vue';
 import Icon from '../Icon.vue';
 import EmptyState from '../EmptyState.vue';
 import { formatCurrency } from '@/utils/formatters';
+import { useSettingsStore } from '@/stores/settings';
 import type { ValuableCard } from '@/data/mockDashboardStats';
 
 interface Props {
@@ -49,6 +50,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const router = useRouter();
+const settingsStore = useSettingsStore();
 
 const hasCards = computed(() => props.cards.length > 0);
 
