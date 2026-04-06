@@ -4,8 +4,11 @@ import { useRouter } from 'vue-router';
 import GuestLayout from '../components/GuestLayout.vue';
 import Button from '../components/Button.vue';
 import Icon from '../components/Icon.vue';
+import { useSettingsStore } from '../stores/settings';
+import type { ViewMode, Currency } from '../data/mockSettings';
 
 const router = useRouter();
+const settingsStore = useSettingsStore();
 const currentStep = ref(1);
 const isLoading = ref(false);
 
@@ -118,19 +121,31 @@ const prevStep = () => {
           <p class="step-description">Configure your default preferences</p>
           
           <div class="form-group">
-            <label>Default View</label>
-            <select class="form-select">
+            <label for="setup-default-view">Default View</label>
+            <select
+              id="setup-default-view"
+              class="form-select"
+              :value="settingsStore.defaultViewMode"
+              @change="settingsStore.setDefaultViewMode(($event.target as HTMLSelectElement).value as ViewMode)"
+            >
               <option value="grid">Grid View</option>
               <option value="list">List View</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Currency</label>
-            <select class="form-select">
-              <option value="usd">USD ($)</option>
-              <option value="eur">EUR (€)</option>
-              <option value="gbp">GBP (£)</option>
+            <label for="setup-currency">Currency</label>
+            <select
+              id="setup-currency"
+              class="form-select"
+              :value="settingsStore.currency"
+              @change="settingsStore.setCurrency(($event.target as HTMLSelectElement).value as Currency)"
+            >
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="CAD">CAD (C$)</option>
+              <option value="AUD">AUD (A$)</option>
             </select>
           </div>
         </div>
