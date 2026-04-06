@@ -6,7 +6,7 @@ import type { Spot, SpotType } from '../../data/mockSpots';
 import { mockTrackers } from '../../data/mockTrackers';
 
 const SPOT_TYPE_ICONS: Record<SpotType, string> = {
-  place: 'map-marker',
+  place: 'map-marker-alt',
   person: 'user',
   binder: 'book',
   deck: 'layer-group',
@@ -95,7 +95,7 @@ const handleDelete = (e: MouseEvent) => {
       <Button
         variant="secondary"
         size="tiny"
-        icon="pencil"
+        icon="edit"
         icon-only
         sr-text="Edit spot"
         class="spot-action-btn"

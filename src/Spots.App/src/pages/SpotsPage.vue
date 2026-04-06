@@ -19,10 +19,36 @@ const spotToDelete = ref<Spot | null>(null);
 const filtered = computed(() => {
   const q = searchQuery.value.trim().toLowerCase();
   if (!q) return spots.value;
-  return spots.value.filter((s) =>
+  
+  const matchingSpots = spots.value.filter((s) =>
     s.name.toLowerCase().includes(q) ||
     s.description?.toLowerCase().includes(q)
   );
+  
+  const matchingIds = new Set(matchingSpots.map(s => s.id));
+  
+  const allDescendantIds = new Set<string>();
+  const findDescendants = (parentId: string) => {
+    for (const s of spots.value) {
+      if (s.parentId === parentId && !matchingIds.has(s.id)) {
+        allDescendantIds.add(s.id);
+        findDescendants(s.id);
+      }
+    }
+  };
+  for (const s of matchingSpots) {
+    if (s.parentId && !matchingIds.has(s.parentId)) {
+      let current = spots.value.find(x => x.id === s.parentId);
+      while (current) {
+        if (matchingIds.has(current.id)) break;
+        allDescendantIds.add(current.id);
+        current = current.parentId ? spots.value.find(x => x.id === current!.parentId) : undefined;
+      }
+    }
+    findDescendants(s.id);
+  }
+  
+  return spots.value.filter(s => matchingIds.has(s.id) || allDescendantIds.has(s.id));
 });
 
 interface SpotWithChildren extends Spot {
