@@ -51,6 +51,8 @@ const pageTitle = computed(() => {
     'Collection': 'Collection',
     'AddCards': 'Add Cards',
     'Trackers': 'Trackers',
+    'TrackerDetail': 'Tracker',
+    'CreateTracker': 'Create Tracker',
     'Spots': 'Spots',
     'Settings': 'Settings',
     'Users': 'User Management',
@@ -59,7 +61,7 @@ const pageTitle = computed(() => {
     'LoggedOut': 'Logged Out',
     'Setup': 'Setup',
   };
-  return titleMap[routeName] || 'Spots';
+  return titleMap[routeName] ?? 'Spots';
 });
 
 const handleAdd = () => {
